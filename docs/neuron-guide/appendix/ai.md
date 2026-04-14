@@ -684,7 +684,7 @@ $ ./add.py
 12
 ```
 
-![(Submit multiple jobs in parallel, resource scan (ngpus, ntasks, etc) and capture output for postprocessing)](../.gitbook/assets/H746lt00AV5yGsv.png)
+![(Submit multiple jobs in parallel, resource scan (ngpus, ntasks, etc) and capture output for postprocessing)](../../gitbook/assets/H746lt00AV5yGsv.png)
 
 ### **3. Submit: Multitask Job 예제**
 
@@ -1101,7 +1101,7 @@ gpu36 rank:0 gpu3 0 0 0 0 0 0 0 0
 [MPI Rank 0] Success
 ```
 
-![](../.gitbook/assets/3iL4KlEig5blzQ9.png)
+![](../../gitbook/assets/3iL4KlEig5blzQ9.png)
 
 ## **바. Tensorflow Distribute**
 
