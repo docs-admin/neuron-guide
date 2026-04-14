@@ -1,0 +1,7 @@
+title: 시스템 구성    # 사이드바에 'system' 대신 '시스템 구성'으로 표시
+nav:
+  - neuron-system-overview-and-configuration.md
+  - user-environment.md
+  - user-support.md
+  - running-jobs-through-scheduler-slurm.md
+  - user-programming-environment.md
