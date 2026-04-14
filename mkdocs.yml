@@ -20,6 +20,5 @@ plugins:
   - awesome-pages
 
 nav:
-  - '메인': README.md 
-#  - 'Neuron 가이드':
-#    - '메인' : 'neuron-guide/SUMMARY.md'
+  - 'Neuron 가이드':
+    - '메인' : 'neuron-guide/SUMMARY.md'
