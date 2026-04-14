@@ -68,7 +68,7 @@ $ ssh -l <사용자ID> neuron01.ksc.re.kr -P 22
 
 ※ 프로그램은 인터넷을 통해 무료로 다운로드 가능합니다.
 
-![](<../../gitbook/assets/Host Name neuron.png)
+![](../../gitbook/assets/Host Name neuron.png)
 
 * ssh -> X11 tap -> check “Enable X11 forwarding”
 * X display location : localhost:0.0
@@ -185,7 +185,7 @@ $ passwd
 
 * 홈 디렉터리 및 스크래치 디렉터리에 대한 정보는 아래와 같습니다.
 
-![](../gitbook/assets/neuron-02-01-table06.png)
+![](../../gitbook/assets/neuron-02-01-table06.png)
 
 **\* NEURON시스템은 백업을 지원하지 않습니다.**
 
