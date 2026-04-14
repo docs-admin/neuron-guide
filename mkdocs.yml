@@ -1,0 +1,14 @@
+site_name: 슈퍼컴퓨팅 기술지원 문서
+theme:
+  name: material
+
+watch:
+  - mkdocs.yml
+  - docs
+  - docs/neuron-guide
+extra:
+  use_directory_urls: true
+
+plugins:
+  - search
+  - awesome-pages
