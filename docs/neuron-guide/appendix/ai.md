@@ -313,7 +313,7 @@ $ source activate my_ray
 
 ### **2. Ray Cluster 설치 및 멀티 노드 실행 예제**
 
-Ray는 멀티노드 실행 시 하나의 head 노드와 다수의 worker 노드로 실행되며, 테스크를 할당된 자원에 효율적으로 스케줄링 해 줍니다.
+Ray는 멀티노드 실행 시 하나의 head 노드와 다수의 worker 노드로 실행되며, 테스크를 할당된 자원에 효율적으로 스케줄링 해 줍니다. 0
 
 ![https://docs.ray.io/en/latest/cluster/index.html](.gitbook/assets/Zc4DVCsuWDTjPfS.png)
 
