@@ -1,5 +1,6 @@
 site_name: 슈퍼컴퓨팅 기술지원 문서
 site_url: https://docs-admin.github.io/neuron-guide/
+use_directory_urls: true
 theme:
   name: material
 
