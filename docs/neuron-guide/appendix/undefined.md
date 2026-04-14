@@ -347,23 +347,25 @@ myhub는 KISTI가 자체 구축한 컨테이너 이미지 레지스트리입니�
 
 "+ NEW PROJECT" 버튼을 눌러서 사용자가 원하는 프로젝트 이름을 지정하고 공개(Public) 여부를 설정합니다.  Private으로 설정하면 컨테이너에서 이미지 업로드 및 다운로드 시 사용자 인증(로그인)이 필요합니다.&#x20;
 
-<figure><img src="../../gitbook/assets/image (4).png" alt=""><figcaption><p>프로젝트 리스트</p></figcaption></figure>
+![프로젝트 리스트](../../gitbook/assets/image (4).png)
+*프로젝트 리스트*
 
-<figure><img src="../../gitbook/assets/image (5).png" alt=""><figcaption><p>프로젝트 생성</p></figcaption></figure>
+![프로젝트 생성](../../gitbook/assets/image (5).png)
 
 
 
 사용자가 생성한 프로젝트 설정의 Members에서 로그인 시 사용한 ID(Name)가 추가 되었는 지 확인하고 없다면 추가합니다.&#x20;
 
-<figure><img src="../../gitbook/assets/image (6).png" alt=""><figcaption><p>프로젝트 멤버 설정</p></figcaption></figure>
-
+![프로젝트 멤버 설정](../../gitbook/assets/image (6).png)
+*프로젝트 멤버 설정*
 
 
 **3)  로그인 인증 정보 확인 및 등록**
 
 프로젝트가 private으로 지정된 경우, 컨테이너  이미지를  업로드  및 다운로드하기 위해서는 Podaman 및 Singularity에서 Username 및 Password를 입력하여 인증 정보를 등록(로그인) 해 주어야 합니다. 오른쪽 상단 사용자 메뉴(Username)의 User Profile에서 Username과 Password를 확인할 수 있으며,  Username은 동일하며 CLI secret이 Password에  해당합니다. &#x20;
 
-<figure><img src="../../gitbook/assets/image (10).png" alt=""><figcaption><p>User Profile</p></figcaption></figure>
+![User Profile](../../gitbook/assets/image (10).png)
+*User Profile*
 
 Podman 및 Singularity, Enroot에서 아래 터미널 화면과 같이 myhub에 대한 로그인 인증 정보를 등록할 수 있습니다.&#x20;
 
@@ -398,4 +400,4 @@ INFO:    Token stored in /tmp/singularity_wjnadia/config/docker-config.json#> mk
 
 프로젝트 선택하면 오른쪽 상단에서 프로젝트 별 이미지 저장 공간의 할당량 및 사용량을 확인할 수 있으며, 할당량을 초과하여 이미지를 저장할 수 없습니다.&#x20;
 
-<figure><img src="../../gitbook/assets/image (11).png" alt=""><figcaption></figcaption></figure>
+![](../../gitbook/assets/image (11).png)
