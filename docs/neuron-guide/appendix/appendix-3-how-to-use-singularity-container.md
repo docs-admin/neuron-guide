@@ -554,13 +554,13 @@ mpirun_wrapper python pytorch_imagenet_resnet50.py
 
 [**\[Sylabs Cloud 바로가기\]**](https://cloud.sylabs.io/)
 
-![](../../gitbook/assets/Sylabs Cloud 계정 등록 및 로그인 하기.png)
+![](<../../gitbook/assets/Sylabs Cloud 계정 등록 및 로그인 하기.png>)
 
-![](../../gitbook/assets/새로운 토큰 생성하기.png)
+![](<../../gitbook/assets/새로운 토큰 생성하기.png>)
 
-![](../../gitbook/assets/클립보드로 토큰 복사하기.png)
+![](<../../gitbook/assets/클립보드로 토큰 복사하기.png>)
 
-![](../../gitbook/assets/토큰 입력하기.png)
+![](<../../gitbook/assets/토큰 입력하기.png>)
 
 ### \[참조2] 웹 브라우저에서 리모트 빌더에 의한 싱귤레러티 컨테이너 빌드하기 <a href="#h_6582700487751647407356239" id="h_6582700487751647407356239"></a>
 
@@ -614,7 +614,7 @@ mpirun_wrapper python pytorch_imagenet_resnet50.py
 [a1234b5@glogin01]$ sinfo
 ```
 
-![](../.gitbook/assets/MsH42Y1SsRiobwT.png)
+![](../../gitbook/assets/MsH42Y1SsRiobwT.png)
 
 ***
 
@@ -673,7 +673,7 @@ Submitted batch job 99982
 [a1234b5@glogin01]$ tail –f pytorch_99982.err  
 ```
 
-![](../.gitbook/assets/NYgTM0g5oP6nCvM.png)
+![](../../gitbook/assets/NYgTM0g5oP6nCvM.png)
 
 ***
 
@@ -685,7 +685,7 @@ Submitted batch job 99982
 [a1234b5@gpu41]$ nvtop
 ```
 
-![](../.gitbook/assets/0AuZDKKItzLxPGz.png)
+![](../../gitbook/assets/0AuZDKKItzLxPGz.png)
 
 ***
 
