@@ -110,7 +110,7 @@ g16 test.com
 * GaussView는  GUI 기반 프로그램이기  때문에,  MyKSC(웹 서비스 포털)의 VNC(원격 데스크톱)에서  실행할 수 있습니다. ([**MyKSC VNC 사용법 참조**](https://docs-ksc.gitbook.io/myksc/app/vnc)**,** GPU 지원하지 않습니다.)&#x20;
 * MyKSC VNC에서 GaussView는 할당된 계산 자원의 한계로 입력  데이터 생성 및 결과 분석 용도로  사용할 것을 권장하며,  본격적인 계산 작업은 배치 작업 스케줄러를 통해 실행해야 합니다.
 
-<figure><img src="../.gitbook/assets/gassview-1.png" alt=""><figcaption><p>MyKSC VNC에서 GaussView 실행화면</p></figcaption></figure>
+![MyKSC VNC에서 GaussView 실행화면](../../gitbook/assets/gassview-1.png)
 
 ## **라. 참고자료**
 
