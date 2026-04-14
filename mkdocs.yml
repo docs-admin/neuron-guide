@@ -3,7 +3,10 @@ site_url: https://docs-admin.github.io/neuron-guide/
 use_directory_urls: true
 theme:
   name: material
-
+  font:
+    text: Noto Sans KR  # 본문: 구글 본고딕 (가장 깔끔함)
+    code: Nanum Gothic Coding
+    
 watch:
   - mkdocs.yml
   - docs
