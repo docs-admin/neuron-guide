@@ -8,8 +8,13 @@ watch:
   - mkdocs.yml
   - docs
   - docs/neuron-guide
+  - docs/.gitbook
+  
 extra:
   use_directory_urls: true
+
+extra_javascript: []
+extra_css: []
 
 plugins:
   - search
