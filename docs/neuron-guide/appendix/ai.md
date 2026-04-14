@@ -315,7 +315,7 @@ $ source activate my_ray
 
 Ray는 멀티노드 실행 시 하나의 head 노드와 다수의 worker 노드로 실행되며, 테스크를 할당된 자원에 효율적으로 스케줄링 해 줍니다. 0
 
-![https://docs.ray.io/en/latest/cluster/index.html](../.gitbook/assets/Zc4DVCsuWDTjPfS.png)
+![https://docs.ray.io/en/latest/cluster/index.html](../neuron-guide/.gitbook/assets/Zc4DVCsuWDTjPfS.png)
 ![https://docs.ray.io/en/latest/cluster/index.html](../../.gitbook/assets/Zc4DVCsuWDTjPfS.png)
 
 NERSC에서 작성한 예제는 GITHUB(https://github.com/NERSC/slurm-ray-cluster.git)를 통해 다운로드 할 수 있고, 다음과 같이 실행할 수 있습니다.
