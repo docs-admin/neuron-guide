@@ -339,8 +339,8 @@ myhub는 KISTI가 자체 구축한 컨테이너 이미지 레지스트리입니�
 
 {% embed url="https://myhub.ksc.re.kr" %}
 
-<figure><img src="../../../gitbook/assets/image.png" alt=""><figcaption><p>myhub 로그인 화면</p></figcaption></figure>
-
+![myhub 로그인 화면](../../gitbook/assets/image.png)
+*myhub 로그인 화면*
 
 
 **2) 사용자 프로젝트 생성**
