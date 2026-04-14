@@ -53,7 +53,7 @@ $ ssh -l <사용자ID> neuron01.ksc.re.kr -P 22
 
 ※ 프로그램은 인터넷을 통해 무료로 다운로드 후 설치하실 수 있습니다.
 
-![](<../gitbook/assets/프로그램은 인터넷을 통해 무료로 다운로드 후.png>)
+![](../../gitbook/assets/프로그램은 인터넷을 통해 무료로 다운로드 후.png)
 
 ### 2. 윈도우 환경
 
@@ -61,19 +61,19 @@ $ ssh -l <사용자ID> neuron01.ksc.re.kr -P 22
 
 ※ 프로그램은 인터넷을 통해 무료로 다운로드 후 설치하실 수 있습니다.
 
-![](<../gitbook/assets/프로그램은 인터넷을 통해 무료로 다운로드 후(1).png>)
+![](../../gitbook/assets/프로그램은 인터넷을 통해 무료로 다운로드 후(1).png)
 
 * putty, Mobaxterm, 또는 SSH Secure Shell Client 등의 ssh 접속 프로그램을 이용합니다.
   * Host Name : neuron.ksc.re.kr, Port : 22, Connection type : SSH
 
 ※ 프로그램은 인터넷을 통해 무료로 다운로드 가능합니다.
 
-![](<../gitbook/assets/Host Name neuron.png>)
+![](<../../gitbook/assets/Host Name neuron.png)
 
 * ssh -> X11 tap -> check “Enable X11 forwarding”
 * X display location : localhost:0.0
 
-![](<../gitbook/assets/x display location 0.0.png>)
+![](../../gitbook/assets/x display location 0.0.png)
 
 ※ 만약, DNS 캐싱 문제로 접속이 안 될 경우에는 캐시를 정리 (명령 프롬프트에서 ipconfig /flushdns 명령어 수행)하고 재접속 합니다.
 
@@ -93,7 +93,7 @@ $ sftp [사용자ID@]neuron-dm.ksc.re.kr [-P 22]
 
 * 윈도우 환경에서는 WinSCP와 같이 무료로 배포되고 있는 FTP/SFTP 클라이언트 프로그램을 이용하여 접속합니다.
 
-![](<../gitbook/assets/윈도우 환경에서는 WinSCP와 같이.png>)
+![](../../gitbook/assets/윈도우 환경에서는 WinSCP와 같이.png)
 
 * FTP (File Tranfer Protocal)을 이용하며, OTP를 입력하지 않고 파일 전송 가능합니다.
 * SFTP(Secure-FTP) 을 이용하며, 파일 전송시 OTP를 입력해야 합니다.(FTP보다 안전한 전송방식)
