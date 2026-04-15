@@ -10,8 +10,7 @@ theme:
 watch:
   - mkdocs.yml
   - docs
-  - docs/neuron-guide  
-
+  
 extra:
   use_directory_urls: true
 

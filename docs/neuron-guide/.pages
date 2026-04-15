@@ -1,6 +1,0 @@
-title: Neuron 가이드
-nav:
-  - SUMMARY.md        # 개요를 맨 위로
-  - system            # docs/neuron-guide/system 폴더
-  - software          # docs/neuron-guide/software 폴더
-  - appendix          # docs/neuron-guide/appendix 폴더
