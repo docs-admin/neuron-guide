@@ -1,5 +1,9 @@
 # Table of contents
 
+<style>
+  li a { font-size: 0.85rem; }
+</style>
+
 <div class="custom-toc">
 
 ### 1️⃣ 시스템 <a href="#system" id="system"></a>
