@@ -1,5 +1,5 @@
 .md-logo img {
-    width: 68px !important;
+    width: 24px !important;
     height: 24px !important;
 }
 
@@ -60,6 +60,6 @@
     text-decoration:underline;
 }
 
-.custom-toc li a {
-  font-size: 0.8rem !important;
+.md-typeset ul {
+  font-size: medium;
 }
