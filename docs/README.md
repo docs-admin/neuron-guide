@@ -4,8 +4,6 @@
   li a { font-size: 0.85rem; }
 </style>
 
-<div class="custom-toc">
-
 ### 1️⃣ 시스템 <a href="#system" id="system"></a>
 
 * [시스템 개요 및 구성](system/neuron-system-overview-and-configuration.md)
@@ -14,7 +12,6 @@
 * [스케줄러(SLURM)를 통한 작업 실행](system/running-jobs-through-scheduler-slurm.md)
 * [사용자 지원](system/user-support.md)
 
-</div>
 ### 2️⃣ 소프트웨어 <a href="#software" id="software"></a>
 
 * [가우시안16(Gaussian16) on GPU](software/gaussian16-gpu-sw-userguide.md)
