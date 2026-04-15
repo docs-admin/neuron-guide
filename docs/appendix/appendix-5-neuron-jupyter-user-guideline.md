@@ -24,7 +24,7 @@
 * JupyterLab은 Jupyter Notebook 인터페이스에 사용자 편의를 위한 기능들을 추가하여 확장 가능한 모듈로 구성됩니다.
 * Jupyter Notebook과 달리 하나의 작업 화면에 Tabs 와 Splitters를 사용하여 여러 개의 도큐먼트 또는 다른 기능을 제공합니다.
 
-![](../../assets/JupyterLab.png)
+![](../../assets/jupyterlab.png)
 
 ## 나. 스크립트를 통한 Jupyter 실행
 
