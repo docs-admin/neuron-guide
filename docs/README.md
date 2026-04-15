@@ -1,8 +1,5 @@
-# Table of contents
 
-<style>
-  li a { font-size: 0.85rem; }
-</style>
+# Table of contents
 
 ### 1️⃣ 시스템 <a href="#system" id="system"></a>
 
@@ -32,6 +29,5 @@
 * [컨테이너 활용 가이드(작성 중 초안)](appendix/undefined.md)
 
 ### External Link
-
 * [Nurion Guide(Eng)](https://docs-ksc.gitbook.io/nurion-user-guide-eng/)
 * [Neuron Guide(Eng)](https://docs-ksc.gitbook.io/neuron-user-guide-eng/)
