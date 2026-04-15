@@ -21,5 +21,6 @@ old/
 *.back
 *.bak
 *.old
-yggsg.html
+
 git_push.sh
+nersc.md
