@@ -17,14 +17,14 @@
 * 프로그래밍 언어로 작성한 코드는 HTML, 이미지, 동영상 파일, LaTeX 등 다양한 타입으로 변환 가능합니다.
 * Apache Spark, Pandas, Scikit-learn, ggplot2, Tensorflow 등 다양한 툴/라이브러리들과 연동 가능합니다.
 
-![](<../.gitbook/assets/Jupyter Notebook.png>)
+![](<../../assets/Jupyter Notebook.png>)
 
 ### **3. JupyterLab**
 
 * JupyterLab은 Jupyter Notebook 인터페이스에 사용자 편의를 위한 기능들을 추가하여 확장 가능한 모듈로 구성됩니다.
 * Jupyter Notebook과 달리 하나의 작업 화면에 Tabs 와 Splitters를 사용하여 여러 개의 도큐먼트 또는 다른 기능을 제공합니다.
 
-![](../.gitbook/assets/JupyterLab.png)
+![](../../assets/JupyterLab.png)
 
 ## 나. 스크립트를 통한 Jupyter 실행
 
@@ -119,11 +119,11 @@ done
 
 * <mark style="color:red;">https://jupyter.ksc.re.kr</mark> 에 접속하여 신청 받은 뉴론 계정, OTP, 비밀번호를 입력합니다.
 
-![](<../.gitbook/assets/JupyterHub 웹 페이지 접속.png>)
+![](<../../assets/JupyterHub 웹 페이지 접속.png>)
 
 * 메인 화면에서 자원 사용현황 확인 및 Refresh 버튼을 클릭하여 자원 사용 현황을 업데이트 할 수 있습니다.
 
-<figure><img src="../.gitbook/assets/jupyter_queue_selection.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../assets/jupyter_queue_selection.png" alt=""><figcaption></figcaption></figure>
 
 ### **4. 큐 (Queue) 선택 및 Jupyter 실행**
 
@@ -149,15 +149,15 @@ done
 
 * Job queue 에서 해당 queue를 선택하고 Submit버튼을 클릭하여 Jupyter Notebook 실행 (other queues로도 실행 가능하나, 다만 과금 발생함, 과금 정보는 KSC 홈페이지 Neuron 과금 정보 참고 바랍니다.)
 
-<figure><img src="../.gitbook/assets/jupyter_queue_selection_v2.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../assets/jupyter_queue_selection_v2.png" alt=""><figcaption></figcaption></figure>
 
 * 다음과 같은 화면이 몇 초간 진행 되면서 자원 할당이 진행됩니다.
 
-<figure><img src="../.gitbook/assets/processing (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../assets/processing (1).png" alt=""><figcaption></figcaption></figure>
 
 * Default로 https://jupyter.ksc.re.kr/user/a1113a01/lab JupyterLab 화면이 실행됩니다.
 
-<figure><img src="../.gitbook/assets/jupyterlab.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../assets/jupyterlab.png" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://youtu.be/HN-Uw3NYmmA" %}
 
@@ -180,15 +180,15 @@ done
 * Terminal 실행, Launcher 탭에서 Terminal 아이콘을 클릭합니다.
   * Launcher 탭이 보이지 않을 경우 Menu Bars에서 + 아이콘을 클릭합니다.
 
-![](../.gitbook/assets/eDtreex0IDwyL3d.png)
+![](../../assets/eDtreex0IDwyL3d.png)
 
-![](../.gitbook/assets/1pQTEGKnXpoCpqm.png)
+![](../../assets/1pQTEGKnXpoCpqm.png)
 
 * Tensorboard 실행, Menu Bars->+아이콘->Launcher->Tensorboard를 클릭합니다.
 
-![](../.gitbook/assets/zoYS0S9gCXUvx4R.png)
+![](../../assets/zoYS0S9gCXUvx4R.png)
 
-![](../.gitbook/assets/t8EJplkhAqtCUtR.png)
+![](../../assets/t8EJplkhAqtCUtR.png)
 
 #### **2) 실행중인 세션 종료**
 
@@ -196,15 +196,15 @@ done
 
 ※ 세션을 종료시키지 않고 JupyterHub 웹페이지를 종료하는 경우, 다음 Jupyter 실행 시에도 그대로 남아있게 됩니다. (과금은 진행되지 않습니다)
 
-<figure><img src="../.gitbook/assets/shutdown.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../assets/shutdown.png" alt=""><figcaption></figcaption></figure>
 
 #### **3) Jupyter 종료**
 
 File -> Hub Control Panel -> Stop My Server
 
-<figure><img src="../.gitbook/assets/stopserver.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../assets/stopserver.png" alt=""><figcaption></figcaption></figure>
 
-<figure><img src="../.gitbook/assets/stop.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../assets/stop.png" alt=""><figcaption></figcaption></figure>
 
 <mark style="color:red;">**※ 홈페이지 Logout 시 실행중인 Jupyter 및 세션들은 모두 자동으로 종료됩니다.**</mark>
 
@@ -216,13 +216,13 @@ File -> Hub Control Panel -> Stop My Server
 
 * Launcher에서 Terminal 클릭하여 머신러닝/딥러닝에 필요한 라이브러리 설치합니다.
 
-<figure><img src="../.gitbook/assets/1.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../assets/1.png" alt=""><figcaption></figcaption></figure>
 
 * 터미널 환경에서 conda activate notebook 명령어로 notebook 환경을 활성화하고 notebook 환경에 필요한 라이브러리를 설치합니다.
 
 ※ 반드시 notebook conda 환경에 설치해야 Jupyter 웹 화면에 적용됩니다.
 
-<figure><img src="../.gitbook/assets/2.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../assets/2.png" alt=""><figcaption></figcaption></figure>
 
 * notebook 환경에 사용자가 원하는 머신러닝/딥러닝 관련 라이브러리 설치 예시
 
@@ -238,52 +238,52 @@ File -> Hub Control Panel -> Stop My Server
 
 ※ 실행 과정에 나오는 warning 들은 무시 가능하며, 동일 코드 재실행 시 warning 메시지 출력되지 않습니다. (warning 내용은 코딩 시 버전에 따른 문법적 제시 안내)
 
-<figure><img src="../.gitbook/assets/3.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../assets/3.png" alt=""><figcaption></figcaption></figure>
 
 * matplotlib 라이브러리를 사용한 그래프 출력
 
-![](../.gitbook/assets/SX6ZxYNxMoZSub3.png)
+![](../../assets/SX6ZxYNxMoZSub3.png)
 
-![](../.gitbook/assets/g1MZ0fOQKvwUBWy.png)
+![](../../assets/g1MZ0fOQKvwUBWy.png)
 
 ### **3. Tensorboard 실행**
 
 * Menu Bar -> Files 에서 tfboard\_ex.ipynb를 클릭합니다.
 * Shifter+Enter로 코드 실행합니다. (약1분 소요)
 
-<figure><img src="../.gitbook/assets/4.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../assets/4.png" alt=""><figcaption></figcaption></figure>
 
 * Tensorboard 실행합니다.&#x20;
 
 ※ logs 폴더에 로그 데이터가 저장됩니다.
 
-<figure><img src="../.gitbook/assets/5.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../assets/5.png" alt=""><figcaption></figcaption></figure>
 
 * TensorBoard -> Scalars
 
-![](../.gitbook/assets/nNt6sLANd0iPvq2.png)
+![](../../assets/nNt6sLANd0iPvq2.png)
 
 * TensorBoard -> Graphs
 
-![](../.gitbook/assets/E7Q3W0udQjkzOXy.png)
+![](../../assets/E7Q3W0udQjkzOXy.png)
 
 * TensorBoard -> Distributions
 
-![](../.gitbook/assets/YhCiSqGRPGn79il.png)
+![](../../assets/YhCiSqGRPGn79il.png)
 
 * TensorBoard -> Histograms
 
-![](../.gitbook/assets/idcwepwUTPBQ8v8.png)
+![](../../assets/idcwepwUTPBQ8v8.png)
 
 ### **4. 새로운 Launcher 만들기 및 Python 코드 작성**
 
 * 아래와 같이 New -> Python 3 메뉴를 클릭하여 새로운 Python 코드의 작성이 가능합니다.
 
-<figure><img src="../.gitbook/assets/6.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../assets/6.png" alt=""><figcaption></figcaption></figure>
 
 * Python 3 커널을 사용할 수 있는 새로운 Jupyter Notebook Launcher가 실행됩니다.
 
-<figure><img src="../.gitbook/assets/7.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../assets/7.png" alt=""><figcaption></figcaption></figure>
 
 
 
@@ -295,7 +295,7 @@ File -> Hub Control Panel -> Stop My Server
 
 ※ 세션을 종료시키지 않고 JupyterHub 웹페이지를 종료하는 경우, 다음 Jupyter 실행 시에도 그대로 남아있게 됩니다. (과금은 진행되지 않습니다)
 
-<figure><img src="../.gitbook/assets/8.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../assets/8.png" alt=""><figcaption></figcaption></figure>
 
 ### **2. Jupyter 종료**
 
@@ -304,7 +304,7 @@ File -> Hub Control Panel -> Stop My Server
 
 &#x20;
 
-<figure><img src="../.gitbook/assets/stop_my_server.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../assets/stop_my_server.png" alt=""><figcaption></figcaption></figure>
 
 &#x20;
 

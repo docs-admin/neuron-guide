@@ -4,7 +4,7 @@
 
 Tensorflow, Pytorch와 같은 딥러닝 프레임워크와 Quantum Espresso, Lammps, Gromacs 등을 지원하는 빌드된 **컨테이너 이미지는** **/apps/applications/singularity\_images/ngc 디렉터리**에서 액세스 할 수 있습니다.
 
-![](./assets/싱귤레러티 아키텍처.png)
+![](../../assets/싱귤레러티 아키텍처.png)
 
 
 ※ 가상머신은 애플리케이션이 하이퍼바이저와 게스트 OS를 거쳐 올라가는 구조이나, 컨테이너는 물리적인 하드웨어에 더 가까우며 별도의 게스트 OS가 아닌 호스트 OS를 공유하기 때문에 오버헤드가 더 적습니다. 최근 클라우드 서비스에서 컨테이너의 활용이 증가하고 있습니다.
@@ -554,23 +554,23 @@ mpirun_wrapper python pytorch_imagenet_resnet50.py
 
 [**\[Sylabs Cloud 바로가기\]**](https://cloud.sylabs.io/)
 
-![](<./assets/Sylabs Cloud 계정 등록 및 로그인 하기.png>)
+![](<../../assets/Sylabs Cloud 계정 등록 및 로그인 하기.png>)
 
-![](<./assets/새로운 토큰 생성하기.png>)
+![](<../../assets/새로운 토큰 생성하기.png>)
 
-![](<./assets/클립보드로 토큰 복사하기.png>)
+![](<../../assets/클립보드로 토큰 복사하기.png>)
 
-![](<./assets/토큰 입력하기.png>)
+![](<../../assets/토큰 입력하기.png>)
 
 ### \[참조2] 웹 브라우저에서 리모트 빌더에 의한 싱귤레러티 컨테이너 빌드하기 <a href="#h_6582700487751647407356239" id="h_6582700487751647407356239"></a>
 
 [**\[Sylabs Cloud 바로가기\]**](https://cloud.sylabs.io/)
 
-![](<./assets/싱귤레러티 아키텍처.png>)
+![](<../../assets/싱귤레러티 아키텍처.png>)
 
-![](<./assets/웹 브라우저에서 컨테이너 이미지 빌드하기.png>)
+![](<../../assets/웹 브라우저에서 컨테이너 이미지 빌드하기.png>)
 
-![](./assets/빌드한 컨테이너 이미지 목록 보기.png)
+![](../../assets/빌드한 컨테이너 이미지 목록 보기.png)
 
 ### \[참조3] 병렬 학습 프로그램 실행 예제 <a href="#h_9146219267821647408138749" id="h_9146219267821647408138749"></a>
 
@@ -614,7 +614,7 @@ mpirun_wrapper python pytorch_imagenet_resnet50.py
 [a1234b5@glogin01]$ sinfo
 ```
 
-![](./assets/MsH42Y1SsRiobwT.png)
+![](../../assets/MsH42Y1SsRiobwT.png)
 
 ***
 
@@ -673,7 +673,7 @@ Submitted batch job 99982
 [a1234b5@glogin01]$ tail –f pytorch_99982.err  
 ```
 
-![](./assets/NYgTM0g5oP6nCvM.png)
+![](../../assets/NYgTM0g5oP6nCvM.png)
 
 ***
 
@@ -685,7 +685,7 @@ Submitted batch job 99982
 [a1234b5@gpu41]$ nvtop
 ```
 
-![](./assets/0AuZDKKItzLxPGz.png)
+![](../../assets/0AuZDKKItzLxPGz.png)
 
 ***
 
