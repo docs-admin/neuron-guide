@@ -1,8 +1,8 @@
 # Table of contents
 
-* [뉴론 지침서](README.md)
+<div class="custom-toc">
 
-## 1️⃣ 시스템 <a href="#system" id="system"></a>
+### 1️⃣ 시스템 <a href="#system" id="system"></a>
 
 * [시스템 개요 및 구성](system/neuron-system-overview-and-configuration.md)
 * [사용자 환경](system/user-environment.md)
@@ -10,11 +10,12 @@
 * [스케줄러(SLURM)를 통한 작업 실행](system/running-jobs-through-scheduler-slurm.md)
 * [사용자 지원](system/user-support.md)
 
-## 2️⃣ 소프트웨어 <a href="#software" id="software"></a>
+</div>
+### 2️⃣ 소프트웨어 <a href="#software" id="software"></a>
 
 * [가우시안16(Gaussian16) on GPU](software/gaussian16-gpu-sw-userguide.md)
 
-## 3️⃣ 부록 <a href="#appendix" id="appendix"></a>
+### 3️⃣ 부록 <a href="#appendix" id="appendix"></a>
 
 * [작업 스크립트 주요 키워드](appendix/appendix-1-main-keywords-for-job-scripts.md)
 * [Conda](appendix/appendix-2-how-to-use-conda.md)
@@ -29,7 +30,7 @@
 * [NVIDIA GPU Profiling](appendix/nvidia-gpu-profiling.md)
 * [컨테이너 활용 가이드(작성 중 초안)](appendix/undefined.md)
 
-## External Link
+### External Link
 
 * [Nurion Guide(Eng)](https://docs-ksc.gitbook.io/nurion-user-guide-eng/)
 * [Neuron Guide(Eng)](https://docs-ksc.gitbook.io/neuron-user-guide-eng/)
