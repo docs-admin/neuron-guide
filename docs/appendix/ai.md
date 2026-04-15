@@ -315,7 +315,7 @@ $ source activate my_ray
 
 Ray는 멀티노드 실행 시 하나의 head 노드와 다수의 worker 노드로 실행되며, 테스크를 할당된 자원에 효율적으로 스케줄링 해 줍니다. 3 
 
-![https://docs.ray.io/en/latest/cluster/index.html](./assets/Zc4DVCsuWDTjPfS2.png)
+![https://docs.ray.io/en/latest/cluster/index.html](../../assets/Zc4DVCsuWDTjPfS2.png)
 
 NERSC에서 작성한 예제는 GITHUB(https://github.com/NERSC/slurm-ray-cluster.git)를 통해 다운로드 할 수 있고, 다음과 같이 실행할 수 있습니다.
 
@@ -684,7 +684,7 @@ $ ./add.py
 12
 ```
 
-![(Submit multiple jobs in parallel, resource scan (ngpus, ntasks, etc) and capture output for postprocessing)](./assets/H746lt00AV5yGsv.png)
+![(Submit multiple jobs in parallel, resource scan (ngpus, ntasks, etc) and capture output for postprocessing)](../../assets/H746lt00AV5yGsv.png)
 
 ### **3. Submit: Multitask Job 예제**
 
@@ -1101,7 +1101,7 @@ gpu36 rank:0 gpu3 0 0 0 0 0 0 0 0
 [MPI Rank 0] Success
 ```
 
-![](./assets/3iL4KlEig5blzQ9.png)
+![](../../assets/3iL4KlEig5blzQ9.png)
 
 ## **바. Tensorflow Distribute**
 
