@@ -5,6 +5,8 @@
 
 
 :root {
+/* 사이드바(메뉴)의 너비를 결정하는 변수 */
+  --md-sidebar-width: 15rem; /* 기본값은 보통 12.1rem 정도입니다. */
 
   /* Default color shades */
   --md-default-fg-color:               rgb(11,33,57);
@@ -58,4 +60,18 @@
 
 .md-content a {
     text-decoration:underline;
+}
+
+@media screen and (min-width: 76.25em) {
+  .md-main__inner {
+    max-width: 85rem; /* 전체 사이트 폭 (기본값 61rem) */
+  }
+  
+  .md-sidebar--primary {
+    width: 20rem; /* 메뉴 영역의 실제 폭 */
+  }
+  
+  .md-content {
+    margin-left: 20rem; /* 본문이 메뉴와 겹치지 않게 왼쪽 여백 조절 */
+  }
 }
