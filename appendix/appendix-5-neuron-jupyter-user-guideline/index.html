@@ -1,0 +1,2040 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs-admin.github.io/neuron-guide/appendix/appendix-5-neuron-jupyter-user-guideline/">
+      
+      
+        <link rel="prev" href="../appendix-4-how-to-use-lustre-striping/">
+      
+      
+        <link rel="next" href="../appendix-6-how-to-use-keras-based-multi-gpu/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>뉴론 Jupyter - 뉴론 지침처</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:300,300i,400,400i,700,700i%7CNanum+Gothic+Coding:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans KR";--md-code-font:"Nanum Gothic Coding"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-TDN19Y17TR"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-TDN19Y17TR",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-TDN19Y17TR",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+  
+  <style>
+    /* 메뉴가 들어갈 컨테이너 스타일 */
+    .custom-header-nav {
+      display: flex;
+      gap: 1.5rem;
+      margin-left: 1rem;
+      margin-right: 2rem;
+      align-items: center;
+    }
+    /* 개별 링크 스타일 */
+    .custom-nav-link {
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: var(--md-header-fg-color);
+      text-decoration: none;      
+      transition: opacity 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+    .custom-nav-link:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+    /* 화면이 좁아지면 메뉴 숨기기 (모바일 대응) */
+    @media screen and (max-width: 60em) {
+      .custom-header-nav { display: none; }
+    }
+    /* 요약 페이지 전용 카드 스타일 */
+    .summary-container-external ul {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 15px;
+      list-style: none;
+      padding: 0;
+    }
+
+     .summary-container-external ul li a {
+      display: block;
+      padding: 8px 0px 8px 30px;
+      border: 1px solid var(--md-typeset-table-color);
+      background-color: var(--md-code-bg-color);
+      border-radius: 8px;            
+      font-size: medium;
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+    }
+
+    .summary-container ul {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 15px;
+      list-style: none;
+      padding: 0;
+    }
+
+    .summary-container ul li a {
+      display: block;
+      padding: 8px 0px 8px 30px;
+      border: 1px solid var(--md-typeset-table-color);
+      border-radius: 8px;            
+      font-size: medium;
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+    }
+
+    .summary-container ul li a:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      background-color: var(--md-code-bg-color);      
+      opacity: 0.7;
+      text-decoration: none;
+    }
+
+  </style>
+
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#jupyter" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+  
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="뉴론 지침처" class="md-header__button md-logo" aria-label="뉴론 지침처" data-md-component="logo">
+      
+  <img src="../../assets/images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            뉴론 지침처
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              뉴론 Jupyter
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // 1. 타이틀 영역을 찾습니다.
+      var titleElement = document.querySelector(".md-header__title");
+      
+      if (titleElement && !document.querySelector(".custom-header-nav")) {
+        // 2. 메뉴 컨테이너 생성
+        var navContainer = document.createElement("div");
+        navContainer.className = "custom-header-nav";
+        navContainer.innerHTML = `
+          <a href="https://site-a.com" class="custom-nav-link">초보 사용자 가이드</a>
+          <a href="https://site-a.com" class="custom-nav-link">누리온 지침서</a>
+          <a href="https://site-a.com" class="custom-nav-link">뉴론 지침서</a>
+          <a href="https://site-a.com" class="custom-nav-link">활용 정보 </a>
+          <a href="https://site-a.com" class="custom-nav-link">MyKSC 지침서 </a>
+        `;
+        
+        // 3. 타이틀 영역 바로 뒤에 삽입
+        titleElement.after(navContainer);
+      }
+    });
+  </script>
+
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="뉴론 지침처" class="md-nav__button md-logo" aria-label="뉴론 지침처" data-md-component="logo">
+      
+  <img src="../../assets/images/logo.png" alt="logo">
+
+    </a>
+    뉴론 지침처
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    System
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/neuron-system-overview-and-configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    시스템 개요 및 구성
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/user-environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    사용자 환경
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/user-programming-environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    사용자 프로그래밍 환경
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/running-jobs-through-scheduler-slurm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    스케줄러(SLURM)를 통한 작업 실행
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/user-support/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    사용자 지원
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Software
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/gaussian16-gpu-sw-userguide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    가우시안16(Gaussian16) on GPU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Appendix
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Appendix
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-1-main-keywords-for-job-scripts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    작업 스크립트 주요 키워드
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-2-how-to-use-conda/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conda
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-3-how-to-use-singularity-container/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Singularity 컨테이너
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-4-how-to-use-lustre-striping/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lustre striping
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    뉴론 Jupyter
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    뉴론 Jupyter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#jupyter_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        가. Jupyter 개요
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="가. Jupyter 개요">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-jupyterhub" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. JupyterHub
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-jupyter-notebook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Jupyter Notebook
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-jupyterlab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. JupyterLab
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jupyter_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        나. 스크립트를 통한 Jupyter 실행
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="나. 스크립트를 통한 Jupyter 실행">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 개요&#x20;
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 개요 ">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-tensorflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        &#x20; 1) tensorflow 작업 환경&#x20;
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-pytorch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        &#x20; 2) pytorch 작업 환경
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 스크립트 실행
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-jupyterhub" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. JupyterHub 웹 페이지 접속
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-queue-jupyter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 큐 (Queue) 선택 및 Jupyter 실행
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jupyterlab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        다. JupyterLab 사용 방법
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="다. JupyterLab 사용 방법">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-jupyter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) Jupyter 작업 환경
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 실행중인 세션 종료
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-jupyter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3) Jupyter 종료
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        라. 머신러닝/딥러닝 예제 코드 실행하기
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="라. 머신러닝/딥러닝 예제 코드 실행하기">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 예제 코드 실행에 필요한 라이브러리 설치
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 예제 코드 작성 및 실행
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-tensorboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Tensorboard 실행
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-launcher-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 새로운 Launcher 만들기 및 Python 코드 작성
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jupyter_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        마. Jupyter 종료 방법
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="마. Jupyter 종료 방법">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 실행중인 세션 종료
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-jupyter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Jupyter 종료
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jupyter_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        바. Jupyter 환경 초기화 방법
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-6-how-to-use-keras-based-multi-gpu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Keras 기반 Multi GPU 사용법
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-7-conda-environment-based-horovod-tensorflow-installation-method/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conda 기반 Horovod 설치 방법
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-8-how-to-use-deep-learning-framework-parallelization-horovod/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    딥러닝 프레임워크 병렬화 (Horovod)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI 멀티노드 활용
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ssh-port-forwarding-jupyter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SSH Port Forwarding 을 통한 Jupyter 작업 실행
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nvidia-gpu-profiling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    NVIDIA GPU Profiling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../undefined/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    컨테이너 활용 가이드(작성 중 초안)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#jupyter_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        가. Jupyter 개요
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="가. Jupyter 개요">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-jupyterhub" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. JupyterHub
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-jupyter-notebook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Jupyter Notebook
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-jupyterlab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. JupyterLab
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jupyter_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        나. 스크립트를 통한 Jupyter 실행
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="나. 스크립트를 통한 Jupyter 실행">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 개요&#x20;
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 개요 ">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-tensorflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        &#x20; 1) tensorflow 작업 환경&#x20;
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-pytorch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        &#x20; 2) pytorch 작업 환경
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 스크립트 실행
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-jupyterhub" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. JupyterHub 웹 페이지 접속
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-queue-jupyter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 큐 (Queue) 선택 및 Jupyter 실행
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jupyterlab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        다. JupyterLab 사용 방법
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="다. JupyterLab 사용 방법">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-jupyter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) Jupyter 작업 환경
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 실행중인 세션 종료
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-jupyter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3) Jupyter 종료
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        라. 머신러닝/딥러닝 예제 코드 실행하기
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="라. 머신러닝/딥러닝 예제 코드 실행하기">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 예제 코드 실행에 필요한 라이브러리 설치
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 예제 코드 작성 및 실행
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-tensorboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Tensorboard 실행
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-launcher-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 새로운 Launcher 만들기 및 Python 코드 작성
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jupyter_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        마. Jupyter 종료 방법
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="마. Jupyter 종료 방법">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 실행중인 세션 종료
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-jupyter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Jupyter 종료
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jupyter_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        바. Jupyter 환경 초기화 방법
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="jupyter">뉴론 Jupyter<a class="headerlink" href="#jupyter" title="Permanent link">&para;</a></h1>
+<h2 id="jupyter_1">가. Jupyter 개요<a class="headerlink" href="#jupyter_1" title="Permanent link">&para;</a></h2>
+<h3 id="1-jupyterhub"><strong>1. JupyterHub</strong><a class="headerlink" href="#1-jupyterhub" title="Permanent link">&para;</a></h3>
+<ul>
+<li>JupyterHub 란 멀티 사용자 환경에서 주피터 랩/노트북을 사용할 수 있는 오픈소스 소프트웨어를 뜻합니다.</li>
+<li>JupyterHub는 다양한 환경 (JupyterLab, Notebook, RStudio, Nteract 등)을 지원할 뿐만 아니라 인증 서버 (OAuth, LDAP, GitHub 등) 및 배치 스케줄러와도 (PBSPro, Slurm, LSF 등) 유연하게 연동 가능합니다.</li>
+<li>JupyterHub는 컨테이너 관리 플랫폼인 Kubernetes와도 연동이 쉬워 컨테이너 기반의 클라우드 환경에 쉽게 연동 가능합니다.</li>
+</ul>
+<p>※ Neuron 기반 JupyterHub는 5호기 Bright LDAP, OTP 인증기능을 추가하였고 Slurm 배치 스케줄러와 연동하여 자원을 할당하여 Jupyter 실행하고 현재 default로 Jupyter Notebook을 제공하고 추가로 JupyterLab 제공합니다.</p>
+<h3 id="2-jupyter-notebook"><strong>2. Jupyter Notebook</strong><a class="headerlink" href="#2-jupyter-notebook" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Jupyter Notebook은 웹 기반의 오픈소스 어플리케이션으로 프로그래머들에게 문서 생성, 코드 생성 및 실행, 수학적 라이브러리를 사용한 데이터 시각화, 통계 모델링, 머신러닝/딥러닝 프로그래밍에 사용합니다.</li>
+<li>40 여개의 프로그래밍 언어 즉 Python, R, Julia, Scala등을 지원합니다.</li>
+<li>프로그래밍 언어로 작성한 코드는 HTML, 이미지, 동영상 파일, LaTeX 등 다양한 타입으로 변환 가능합니다.</li>
+<li>Apache Spark, Pandas, Scikit-learn, ggplot2, Tensorflow 등 다양한 툴/라이브러리들과 연동 가능합니다.</li>
+</ul>
+<p><img alt="" src="../../assets/Jupyter Notebook.png" /></p>
+<h3 id="3-jupyterlab"><strong>3. JupyterLab</strong><a class="headerlink" href="#3-jupyterlab" title="Permanent link">&para;</a></h3>
+<ul>
+<li>JupyterLab은 Jupyter Notebook 인터페이스에 사용자 편의를 위한 기능들을 추가하여 확장 가능한 모듈로 구성됩니다.</li>
+<li>Jupyter Notebook과 달리 하나의 작업 화면에 Tabs 와 Splitters를 사용하여 여러 개의 도큐먼트 또는 다른 기능을 제공합니다.</li>
+</ul>
+<p><img alt="" src="../../assets/jupyterlab.png" /></p>
+<h2 id="jupyter_2">나. 스크립트를 통한 Jupyter 실행<a class="headerlink" href="#jupyter_2" title="Permanent link">&para;</a></h2>
+<h3 id="1"><strong>1. 개요</strong>&#x20;<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>로그인 노드 접속</strong>&#x20;</li>
+</ul>
+<p>&#x20;<code>$ ssh [사용자ID]@neuron.ksc.re.kr</code>&#x20;</p>
+<ul>
+<li><strong>(필수) Jupyter 관련 패키지 설치 스크립트 실행</strong>&#x20;</li>
+</ul>
+<p>&#x20; <code>$ sh /apps/jupyter/kisti_conda_jupyter.sh</code>&#x20;</p>
+<p>&#x20; ※ notebook conda env 생성 및 jupyter notebook, jupyterlab, cudatoolkit 11.6, cudnn 패키지 설치</p>
+<ul>
+<li><strong>(옵션) 필요에 따라 기타 패키지 자동 설치 스크립트 실행 혹은 직접 실행</strong></li>
+</ul>
+<p>&#x20; ※ notebook conda env 활성화 : <strong>$ conda activate notebook</strong></p>
+<h4 id="1-tensorflow">&#x20;   <strong>1) tensorflow 작업 환경</strong>&#x20;<a class="headerlink" href="#1-tensorflow" title="Permanent link">&para;</a></h4>
+<p>&#x20;   <code>(notebook) $ sh  /apps/jupyter/kisti_conda_tensorflow.sh</code> &#x20;</p>
+<h4 id="2-pytorch">&#x20;  <strong>2) pytorch 작업 환경</strong><a class="headerlink" href="#2-pytorch" title="Permanent link">&para;</a></h4>
+<p>&#x20;    <code>(notebook) $ sh  /apps/jupyter/kisti_conda_pytorch.sh</code></p>
+<p><mark style="color:red;"><strong>※ 최초 한번만 실행하며 환경설정이 완료되면 즉시 웹 페이지 접속하여 (다. JupyterLab 사용방법) JupyterLab/Notebook을 사용 가능합니다.</strong></mark></p>
+<h3 id="2"><strong>2. 스크립트 실행</strong><a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
+<ul>
+<li>터미널로 로그인 노드 (<mark style="color:red;"><strong>neuron.ksc.re.kr</strong></mark>) 에 접속하여 다음 스크립트 /apps/jupyter/kisti_conda_jupyter.sh 를 실행합니다.</li>
+<li>스크립트를 실행하면 <mark style="color:red;"><strong>/scratch/[사용자ID]/.conda/envs</strong></mark> 디렉터리에 notebook Conda 환경이 만들어지고 jupyterhub, jupyterLab, notebook 패키지들이 자동으로 설치되고 멀티 GPU 환경에 필요한 cudatoolkit=11.6 과 cudnn이 설치됩니다.&#x20;</li>
+</ul>
+<p><strong>※ 이 파일은 한번만 실행하면 되고 그 다음부터는 바로 웹 페이지 접속하여 사용 가능합니다.</strong>\
+※ 실행파일은 공유 디렉터리에서 /apps/jupyter/kisti_conda_jupyter.sh 로 바로 실행 가능합니다.\
+※ 아래 테스트는 사용자ID <em><mark style="color:red;"><strong>a1113a01</strong></mark></em> 로 진행하였습니다.</p>
+<div class="codehilite"><pre><span></span><code><span class="gp">[a1113a01@glogin02 ~]$ </span>sh<span class="w"> </span>/apps/jupyter/kisti_conda_jupyter.sh
+<span class="go">... ...</span>
+<span class="go">modified /home01/a1113a01/.bashrc</span>
+<span class="go">...prepare conda environment for jupyter user.</span>
+<span class="go">Exporting CONDA ENVS and PKGS PATH to bash File.</span>
+<span class="go">Downloading and Extracting Packages</span>
+<span class="gp">#</span><span class="c1">################################################################### | 100%</span>
+<span class="gp">#</span><span class="c1">################################################################### | 100%</span>
+<span class="gp">#</span><span class="c1">################################################################### | 100%</span>
+<span class="gp">#</span><span class="c1">################################################################### | 100%</span>
+<span class="go">Preparing transaction: done</span>
+<span class="go">Verifying transaction: done</span>
+<span class="go">Executing transaction: / WARNING conda.core.prefix_data:_load_single_record(167):</span>
+<span class="go">done</span>
+</code></pre></div>
+
+<ul>
+<li>shell을 다시 시작하고 base 환경 자동 활성화 기능을 꺼야 합니다. (한번만 실행)</li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="gp">[a1113a01@glogin01 ~]$ </span><span class="nb">source</span><span class="w"> </span>~/.bashrc
+<span class="gp gp-VirtualEnv">(base)</span> <span class="gp">[a1113a01@glogin01 ~]$ </span>conda<span class="w"> </span>config<span class="w"> </span>--set<span class="w"> </span>auto_activate_base<span class="w"> </span><span class="nb">false</span>
+<span class="gp gp-VirtualEnv">(base)</span> <span class="gp">[a1113a01@glogin01 ~]$ </span>conda<span class="w"> </span>deactivate
+</code></pre></div>
+
+<p>※ base 환경 자동 활성화 기능을 false 로 설정함으로 다음에 base 환경으로 자동 활성화 되는 것을 방지합니다. (만약 base 환경으로 활성화 되지 않았으면 source ~/.bashrc 이후 바로 conda activate notebook 명령어를 실행)</p>
+<ul>
+<li>conda notebook 환경을 다음 명령어로 활성화 합니다.</li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="gp">[a1113a01@glogin01 ~]$ </span>conda<span class="w"> </span>activate<span class="w"> </span>notebook
+<span class="gp gp-VirtualEnv">(notebook)</span> <span class="gp">[a1113a01@glogin01 ~]$</span>
+</code></pre></div>
+
+<ul>
+<li>Tensorflow(tensorboard 포함) 혹은 Pytorch 등의 사용을 원하는 사용자는 KISTI에서 제공하는 자동 설치 스크립트를 실행하여 설치할 수 있습니다.&#x20;</li>
+</ul>
+<p>※ 주의: 반드시 notebook 사용자 환경에서 실행해야 합니다.</p>
+<div class="codehilite"><pre><span></span><code><span class="gp">#</span><span class="c1"># tensorflow-gpu, tensorboard 패키지와 jupyter_notebook 및 jupyter_lab을 위한 tensorboard extenstion 설치</span>
+<span class="gp gp-VirtualEnv">(notebook)</span> <span class="go">757% [a1113a01@glogin01 ~]$ sh /apps/jupyter/kisti_conda_tensorflow.sh (약 10분 소요)</span>
+
+<span class="gp">#</span><span class="c1"># pytorch, torchvision, torchaudio 패키지 설치</span>
+<span class="gp gp-VirtualEnv">(notebook)</span> <span class="go">757% [a1113a01@glogin01 ~]$ sh /apps/jupyter/kisti_conda_pytorch.sh (약 5분 소요)</span>
+</code></pre></div>
+
+<p>※ 이제부터 사용자는 직접 웹에 접속하여 Jupyter 노트북을 사용할 수 있습니다. (여기까지 작업들은 한번만 실행하면 됨)</p>
+<h3 id="3-jupyterhub"><strong>3. JupyterHub 웹 페이지 접속</strong><a class="headerlink" href="#3-jupyterhub" title="Permanent link">&para;</a></h3>
+<ul>
+<li><mark style="color:red;"><a href="https://jupyter.ksc.re.kr">https://jupyter.ksc.re.kr</a></mark> 에 접속하여 신청 받은 뉴론 계정, OTP, 비밀번호를 입력합니다.</li>
+</ul>
+<p><img alt="" src="../../assets/JupyterHub 웹 페이지 접속.png" /></p>
+<ul>
+<li>메인 화면에서 자원 사용현황 확인 및 Refresh 버튼을 클릭하여 자원 사용 현황을 업데이트 할 수 있습니다.</li>
+</ul>
+<figure><img src="../../assets/jupyter_queue_selection.png" alt=""><figcaption></figcaption></figure>
+
+<h3 id="4-queue-jupyter"><strong>4. 큐 (Queue) 선택 및 Jupyter 실행</strong><a class="headerlink" href="#4-queue-jupyter" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Jupyter를 실행하기 전에 <mark style="color:red;"><strong>Refresh</strong></mark> 버튼을 클릭하여 자원 현황을 확인</li>
+<li>Total CPUs: 전체 CPU 코어 개수</li>
+<li>Alloc CPUs: 사용중인 CPU 코어 개수</li>
+<li>Total GPUs: 전체 GPU 개수</li>
+<li>Alloc GPUs: 사용중인 GPU 개수 &#x20;</li>
+<li>Node Usage: 노드 활용률</li>
+<li>Queue 정보 확인</li>
+<li>jupyter queue (무료): 환경 설치, 전처리, 디버깅 용도&#x20;</li>
+<li>other queues (유료): 딥러닝/머신러닝 등 모델 실행 및 시각화 용도</li>
+</ul>
+<p>※ jupyter queue는 현재 2개 노드로 최대 20개(노드 당 10개) Jupyter Lab/Notebook 실행 가능합니다. (여러 사용자가 노드의 CPU+GPU[v100] 공유)&#x20;</p>
+<p>※ jupyter queue의 GPU는 공유자원이기 때문에 할당 정보(Alloc GPUs)는 0으로 표시됩니다.</p>
+<p>※ 큐 선택 시 대기중 작업 존재 여부를 확인하시고 노트북 실행하시기 바랍니다.</p>
+<p><mark style="color:red;"><strong>※ jupyter 큐 외 기타 큐 선택 시 가급적 *:gpu=1 을 선택하여 주피터를 실행하시기 바랍니다.</strong></mark></p>
+<p>※ 유료 과금 정책은 기존 Neuron 시스템 과금 정책을 따르고 정보는 국가슈퍼컴퓨팅 홈페이지 요금 안내 페이지 (<a href="https://www.ksc.re.kr/jwjg/gjbg/ygan">https://www.ksc.re.kr/jwjg/gjbg/ygan</a>) 에서 확인 가능합니다.</p>
+<ul>
+<li>Job queue 에서 해당 queue를 선택하고 Submit버튼을 클릭하여 Jupyter Notebook 실행 (other queues로도 실행 가능하나, 다만 과금 발생함, 과금 정보는 KSC 홈페이지 Neuron 과금 정보 참고 바랍니다.)</li>
+</ul>
+<figure><img src="../../assets/jupyter_queue_selection_v2.png" alt=""><figcaption></figcaption></figure>
+
+<ul>
+<li>다음과 같은 화면이 몇 초간 진행 되면서 자원 할당이 진행됩니다.</li>
+</ul>
+<figure><img src="../../assets/processing (1).png" alt=""><figcaption></figcaption></figure>
+
+<ul>
+<li>Default로 <a href="https://jupyter.ksc.re.kr/user/a1113a01/lab">https://jupyter.ksc.re.kr/user/a1113a01/lab</a> JupyterLab 화면이 실행됩니다.</li>
+</ul>
+<figure><img src="../../assets/jupyterlab.png" alt=""><figcaption></figcaption></figure>
+
+<p>{% embed url="<a href="https://youtu.be/HN-Uw3NYmmA">https://youtu.be/HN-Uw3NYmmA</a>" %}</p>
+<h2 id="jupyterlab">다. JupyterLab 사용 방법<a class="headerlink" href="#jupyterlab" title="Permanent link">&para;</a></h2>
+<h4 id="1-jupyter"><strong>1) Jupyter 작업 환경</strong><a class="headerlink" href="#1-jupyter" title="Permanent link">&para;</a></h4>
+<ul>
+<li><mark style="color:red;"><strong>Jupyter 환경 디렉터리: /scratch/[사용자ID]/.conda/envs/notebook</strong></mark></li>
+<li><mark style="color:red;"><strong>로그 저장 디렉터리: /scratch/[사용자ID]/log/작업ID.log</strong></mark></li>
+<li><mark style="color:red;"><strong>작업 파일 저장 디렉터리: /scratch/[사용자ID]/workspace/</strong></mark></li>
+</ul>
+<p>※ 사용자는 본인이 필요로 하는 머신러닝/딥러닝 라이브러리들을 .../notebook conda 환경에 설치하기 때문에 기본 쿼터가 큰 /scratch/사용자ID/ 에 설치됩니다. (Jupyter 실행 후 발생하는 로그파일도 /scratch/사용자ID 에 저장)</p>
+<p>※ 사용자가 작성한 코드는 /scratch/사용자ID/에 저장됩니다.</p>
+<p>※ conda 환경 백업을 위한 conda 환경 내보내기 및 가져오기 관련 정보는 KISTI 홈페이지 소프트웨어 지침서에서 확인할 수 있습니다.</p>
+<ul>
+<li>Terminal 실행, Launcher 탭에서 Terminal 아이콘을 클릭합니다.</li>
+<li>Launcher 탭이 보이지 않을 경우 Menu Bars에서 + 아이콘을 클릭합니다.</li>
+</ul>
+<p><img alt="" src="../../assets/eDtreex0IDwyL3d.png" /></p>
+<p><img alt="" src="../../assets/1pQTEGKnXpoCpqm.png" /></p>
+<ul>
+<li>Tensorboard 실행, Menu Bars-&gt;+아이콘-&gt;Launcher-&gt;Tensorboard를 클릭합니다.</li>
+</ul>
+<p><img alt="" src="../../assets/zoYS0S9gCXUvx4R.png" /></p>
+<p><img alt="" src="../../assets/t8EJplkhAqtCUtR.png" /></p>
+<h4 id="2_1"><strong>2) 실행중인 세션 종료</strong><a class="headerlink" href="#2_1" title="Permanent link">&para;</a></h4>
+<ul>
+<li>다음과 같이, Left Side Bar에서 Session 탭을 클릭하여 실행중인 Terminal Sessions 이나 Kernel Sessions들을 Shut Down 버튼을 클릭하여 종료합니다.</li>
+</ul>
+<p>※ 세션을 종료시키지 않고 JupyterHub 웹페이지를 종료하는 경우, 다음 Jupyter 실행 시에도 그대로 남아있게 됩니다. (과금은 진행되지 않습니다)</p>
+<figure><img src="../../assets/shutdown.png" alt=""><figcaption></figcaption></figure>
+
+<h4 id="3-jupyter"><strong>3) Jupyter 종료</strong><a class="headerlink" href="#3-jupyter" title="Permanent link">&para;</a></h4>
+<p>File -&gt; Hub Control Panel -&gt; Stop My Server</p>
+<figure><img src="../../assets/stopserver.png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../../assets/stop.png" alt=""><figcaption></figcaption></figure>
+
+<p><mark style="color:red;"><strong>※ 홈페이지 Logout 시 실행중인 Jupyter 및 세션들은 모두 자동으로 종료됩니다.</strong></mark></p>
+<h2 id="_1">라. 머신러닝/딥러닝 예제 코드 실행하기<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h3 id="1_1"><strong>1. 예제 코드 실행에 필요한 라이브러리 설치</strong><a class="headerlink" href="#1_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Launcher에서 Terminal 클릭하여 머신러닝/딥러닝에 필요한 라이브러리 설치합니다.</li>
+</ul>
+<figure><img src="../../assets/1.png" alt=""><figcaption></figcaption></figure>
+
+<ul>
+<li>터미널 환경에서 conda activate notebook 명령어로 notebook 환경을 활성화하고 notebook 환경에 필요한 라이브러리를 설치합니다.</li>
+</ul>
+<p>※ 반드시 notebook conda 환경에 설치해야 Jupyter 웹 화면에 적용됩니다.</p>
+<figure><img src="../../assets/2.png" alt=""><figcaption></figcaption></figure>
+
+<ul>
+<li>notebook 환경에 사용자가 원하는 머신러닝/딥러닝 관련 라이브러리 설치 예시</li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="go">772% [a1113a01@gpu06 workspace]$ conda activate notebook</span>
+<span class="gp gp-VirtualEnv">(notebook)</span> <span class="go">773% [a1113a01@gpu06 workspace]$ conda install -c conda-forge [conda 패키지 명]-y</span>
+</code></pre></div>
+
+<h3 id="2_2"><strong>2. 예제 코드 작성 및 실행</strong><a class="headerlink" href="#2_2" title="Permanent link">&para;</a></h3>
+<ul>
+<li>사용자 작업 디렉터리에서 예제 파일 iris_ex.ipynb를 클릭합니다.</li>
+<li>프로그램 편집/실행 창에서 Shift+Enter로 예제 코드를 실행합니다.</li>
+</ul>
+<p>※ 실행 과정에 나오는 warning 들은 무시 가능하며, 동일 코드 재실행 시 warning 메시지 출력되지 않습니다. (warning 내용은 코딩 시 버전에 따른 문법적 제시 안내)</p>
+<figure><img src="../../assets/3.png" alt=""><figcaption></figcaption></figure>
+
+<ul>
+<li>matplotlib 라이브러리를 사용한 그래프 출력</li>
+</ul>
+<p><img alt="" src="../../assets/SX6ZxYNxMoZSub3.png" /></p>
+<p><img alt="" src="../../assets/g1MZ0fOQKvwUBWy.png" /></p>
+<h3 id="3-tensorboard"><strong>3. Tensorboard 실행</strong><a class="headerlink" href="#3-tensorboard" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Menu Bar -&gt; Files 에서 tfboard_ex.ipynb를 클릭합니다.</li>
+<li>Shifter+Enter로 코드 실행합니다. (약1분 소요)</li>
+</ul>
+<figure><img src="../../assets/4.png" alt=""><figcaption></figcaption></figure>
+
+<ul>
+<li>Tensorboard 실행합니다.&#x20;</li>
+</ul>
+<p>※ logs 폴더에 로그 데이터가 저장됩니다.</p>
+<figure><img src="../../assets/5.png" alt=""><figcaption></figcaption></figure>
+
+<ul>
+<li>TensorBoard -&gt; Scalars</li>
+</ul>
+<p><img alt="" src="../../assets/nNt6sLANd0iPvq2.png" /></p>
+<ul>
+<li>TensorBoard -&gt; Graphs</li>
+</ul>
+<p><img alt="" src="../../assets/E7Q3W0udQjkzOXy.png" /></p>
+<ul>
+<li>TensorBoard -&gt; Distributions</li>
+</ul>
+<p><img alt="" src="../../assets/YhCiSqGRPGn79il.png" /></p>
+<ul>
+<li>TensorBoard -&gt; Histograms</li>
+</ul>
+<p><img alt="" src="../../assets/idcwepwUTPBQ8v8.png" /></p>
+<h3 id="4-launcher-python"><strong>4. 새로운 Launcher 만들기 및 Python 코드 작성</strong><a class="headerlink" href="#4-launcher-python" title="Permanent link">&para;</a></h3>
+<ul>
+<li>아래와 같이 New -&gt; Python 3 메뉴를 클릭하여 새로운 Python 코드의 작성이 가능합니다.</li>
+</ul>
+<figure><img src="../../assets/6.png" alt=""><figcaption></figcaption></figure>
+
+<ul>
+<li>Python 3 커널을 사용할 수 있는 새로운 Jupyter Notebook Launcher가 실행됩니다.</li>
+</ul>
+<figure><img src="../../assets/7.png" alt=""><figcaption></figcaption></figure>
+
+<h2 id="jupyter_3">마. Jupyter 종료 방법<a class="headerlink" href="#jupyter_3" title="Permanent link">&para;</a></h2>
+<h3 id="1_2"><strong>1. 실행중인 세션 종료</strong><a class="headerlink" href="#1_2" title="Permanent link">&para;</a></h3>
+<ul>
+<li>다음과 같이, Left Side Bar에서 Session 탭을 클릭하여 실행중인 Terminal Sessions 이나 Kernel Sessions들을 Shut Down 버튼을 클릭하여 종료합니다.</li>
+</ul>
+<p>※ 세션을 종료시키지 않고 JupyterHub 웹페이지를 종료하는 경우, 다음 Jupyter 실행 시에도 그대로 남아있게 됩니다. (과금은 진행되지 않습니다)</p>
+<figure><img src="../../assets/8.png" alt=""><figcaption></figcaption></figure>
+
+<h3 id="2-jupyter"><strong>2. Jupyter 종료</strong><a class="headerlink" href="#2-jupyter" title="Permanent link">&para;</a></h3>
+<ul>
+<li>(JupyterLab) Jupyter 사용이 끝나면 반드시 Jupyter를 종료시켜 자원을 반납해야 합니다.</li>
+<li>File 메뉴에서 Hub Control Panel 클릭하여 Home 페이지로 와서 Stop My Server 클릭하여 자원을 반납할 수 있습니다.</li>
+</ul>
+<p>&#x20;</p>
+<figure><img src="../../assets/stop_my_server.png" alt=""><figcaption></figcaption></figure>
+
+<p>&#x20;</p>
+<h2 id="jupyter_4">바. Jupyter 환경 초기화 방법<a class="headerlink" href="#jupyter_4" title="Permanent link">&para;</a></h2>
+<ul>
+<li>conda 가상 환경 notebook 에 pip 으로 설치 할 경우 기존 conda install 로 설치한 패키지들과 버전 충돌이 발생하여 Jupyter 노크북이 실행이 안될 경우 다음과 같은 명령어로 환경 초기화를 해줄 수 있습니다.</li>
+<li>터미널로 로그인 노드에서 /apps/jupyter/reset_env.sh 를 실행합니다.</li>
+<li>해당 스크립트를 실행하면 /scratch/[사용자ID]/.conda/envs 디렉터리에 만들어졌던 notebook 가상환경에 설치되었던 모든 패키지들이 삭제되고 처음 jupyter 실행을 위한 기본 패키지들이 다시 설치 됩니다.</li>
+<li>/sratch/[사용자ID]/workspace/에 데이터는 보존됩니다.</li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="gp">[a1113a01@glogin02 ~]$ </span>sh<span class="w"> </span>/apps/jupyter/reset_env.sh
+
+<span class="go">Remove all packages in environment /scratch/a1113a01/.conda/envs/notebook:</span>
+
+<span class="go">Preparing transaction: done</span>
+
+<span class="go">Verifying transaction: done</span>
+
+<span class="go">If you need another packages, you can run the installation scripts for some packages such as below ! </span>
+<span class="go">1.(mandatary) conda activate notebook</span>
+<span class="go">2.(option)</span>
+<span class="go">  a. [tensorfow] sh /apps/jupyter/kisti_conda_tensorflow.sh</span>
+<span class="go">  b. [pytorch] sh /apps/jupyter/kisti_conda_pytorch.sh</span>
+<span class="go">  c. [etc] sh /apps/jupyter/kisti_conda_etc.sh</span>
+
+<span class="gp">[a1113a01@glogin02 ~]$ </span>conda<span class="w"> </span>activate<span class="w"> </span>notebook
+
+<span class="gp">#</span><span class="c1"># 필요에 따라 기타 패키지에 대한 자동 설치 스크립트 실행</span>
+
+<span class="gp gp-VirtualEnv">(notebook)</span><span class="gp">[a1113a01@glogin02 ~]$ </span>/apps/jupyter/kisti_conda_tensorflow.sh<span class="w">  </span>
+<span class="gp gp-VirtualEnv">(notebook)</span><span class="gp">[a1113a01@glogin02 ~]$ </span>/apps/jupyter/kisti_conda_pytorch.sh
+</code></pre></div>
+
+<p>{% embed url="<a href="https://youtu.be/bMvwXXJvwq4">https://youtu.be/bMvwXXJvwq4</a>" %}</p>
+<p _="%" endhint="endhint">{% hint style="info" %}
+2023년 6월 30일에 마지막으로 업데이트 되었습니다.</p>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "navigation.path"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

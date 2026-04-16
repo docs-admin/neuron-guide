@@ -1,0 +1,1884 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs-admin.github.io/neuron-guide/system/user-programming-environment/">
+      
+      
+        <link rel="prev" href="../user-environment/">
+      
+      
+        <link rel="next" href="../running-jobs-through-scheduler-slurm/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>사용자 프로그래밍 환경 - 뉴론 지침처</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:300,300i,400,400i,700,700i%7CNanum+Gothic+Coding:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans KR";--md-code-font:"Nanum Gothic Coding"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-TDN19Y17TR"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-TDN19Y17TR",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-TDN19Y17TR",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+  
+  <style>
+    /* 메뉴가 들어갈 컨테이너 스타일 */
+    .custom-header-nav {
+      display: flex;
+      gap: 1.5rem;
+      margin-left: 1rem;
+      margin-right: 2rem;
+      align-items: center;
+    }
+    /* 개별 링크 스타일 */
+    .custom-nav-link {
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: var(--md-header-fg-color);
+      text-decoration: none;      
+      transition: opacity 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+    .custom-nav-link:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+    /* 화면이 좁아지면 메뉴 숨기기 (모바일 대응) */
+    @media screen and (max-width: 60em) {
+      .custom-header-nav { display: none; }
+    }
+    /* 요약 페이지 전용 카드 스타일 */
+    .summary-container-external ul {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 15px;
+      list-style: none;
+      padding: 0;
+    }
+
+     .summary-container-external ul li a {
+      display: block;
+      padding: 8px 0px 8px 30px;
+      border: 1px solid var(--md-typeset-table-color);
+      background-color: var(--md-code-bg-color);
+      border-radius: 8px;            
+      font-size: medium;
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+    }
+
+    .summary-container ul {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 15px;
+      list-style: none;
+      padding: 0;
+    }
+
+    .summary-container ul li a {
+      display: block;
+      padding: 8px 0px 8px 30px;
+      border: 1px solid var(--md-typeset-table-color);
+      border-radius: 8px;            
+      font-size: medium;
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+    }
+
+    .summary-container ul li a:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      background-color: var(--md-code-bg-color);      
+      opacity: 0.7;
+      text-decoration: none;
+    }
+
+  </style>
+
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+  
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="뉴론 지침처" class="md-header__button md-logo" aria-label="뉴론 지침처" data-md-component="logo">
+      
+  <img src="../../assets/images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            뉴론 지침처
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              사용자 프로그래밍 환경
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // 1. 타이틀 영역을 찾습니다.
+      var titleElement = document.querySelector(".md-header__title");
+      
+      if (titleElement && !document.querySelector(".custom-header-nav")) {
+        // 2. 메뉴 컨테이너 생성
+        var navContainer = document.createElement("div");
+        navContainer.className = "custom-header-nav";
+        navContainer.innerHTML = `
+          <a href="https://site-a.com" class="custom-nav-link">초보 사용자 가이드</a>
+          <a href="https://site-a.com" class="custom-nav-link">누리온 지침서</a>
+          <a href="https://site-a.com" class="custom-nav-link">뉴론 지침서</a>
+          <a href="https://site-a.com" class="custom-nav-link">활용 정보 </a>
+          <a href="https://site-a.com" class="custom-nav-link">MyKSC 지침서 </a>
+        `;
+        
+        // 3. 타이틀 영역 바로 뒤에 삽입
+        titleElement.after(navContainer);
+      }
+    });
+  </script>
+
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="뉴론 지침처" class="md-nav__button md-logo" aria-label="뉴론 지침처" data-md-component="logo">
+      
+  <img src="../../assets/images/logo.png" alt="logo">
+
+    </a>
+    뉴론 지침처
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    System
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../neuron-system-overview-and-configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    시스템 개요 및 구성
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    사용자 환경
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    사용자 프로그래밍 환경
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    사용자 프로그래밍 환경
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        가. 프로그래밍 도구 설치 현황
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        나. 컴파일러 사용법
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="나. 컴파일러 사용법">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-mpi-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 컴파일러 및 MPI 환경설정(modules)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 컴파일러 및 MPI 환경설정(modules)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 모듈 관련 기본 명령어
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 순차 프로그램 컴파일
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 순차 프로그램 컴파일">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-intel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) Intel 컴파일러
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-gnu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) GNU 컴파일러
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-pgi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3) PGI 컴파일러
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 병렬 프로그램 컴파일
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 병렬 프로그램 컴파일">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-openmp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) OpenMP 컴파일
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-mpi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) MPI 컴파일
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../running-jobs-through-scheduler-slurm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    스케줄러(SLURM)를 통한 작업 실행
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-support/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    사용자 지원
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Software
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/gaussian16-gpu-sw-userguide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    가우시안16(Gaussian16) on GPU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Appendix
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Appendix
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/appendix-1-main-keywords-for-job-scripts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    작업 스크립트 주요 키워드
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/appendix-2-how-to-use-conda/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conda
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/appendix-3-how-to-use-singularity-container/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Singularity 컨테이너
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/appendix-4-how-to-use-lustre-striping/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lustre striping
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/appendix-5-neuron-jupyter-user-guideline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    뉴론 Jupyter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/appendix-6-how-to-use-keras-based-multi-gpu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Keras 기반 Multi GPU 사용법
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/appendix-7-conda-environment-based-horovod-tensorflow-installation-method/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conda 기반 Horovod 설치 방법
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/appendix-8-how-to-use-deep-learning-framework-parallelization-horovod/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    딥러닝 프레임워크 병렬화 (Horovod)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/ai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI 멀티노드 활용
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/ssh-port-forwarding-jupyter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SSH Port Forwarding 을 통한 Jupyter 작업 실행
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/nvidia-gpu-profiling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    NVIDIA GPU Profiling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/undefined/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    컨테이너 활용 가이드(작성 중 초안)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        가. 프로그래밍 도구 설치 현황
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        나. 컴파일러 사용법
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="나. 컴파일러 사용법">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-mpi-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 컴파일러 및 MPI 환경설정(modules)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 컴파일러 및 MPI 환경설정(modules)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 모듈 관련 기본 명령어
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 순차 프로그램 컴파일
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 순차 프로그램 컴파일">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-intel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) Intel 컴파일러
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-gnu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) GNU 컴파일러
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-pgi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3) PGI 컴파일러
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 병렬 프로그램 컴파일
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 병렬 프로그램 컴파일">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-openmp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) OpenMP 컴파일
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-mpi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) MPI 컴파일
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="_1">사용자 프로그래밍 환경<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h2 id="_2">가. 프로그래밍 도구 설치 현황<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">구분</th>
+<th style="text-align: center;">항목</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">컴파일러</td>
+<td style="text-align: center;"><ul><li>gcc/11.5.0</li><li>gcc/15.2.0</li><li>intel/25.3.0</li><li>nvhpc/25.11_cuda12</li><li>nvhpc/25.11_cuda13</li></ul></td>
+</tr>
+<tr>
+<td style="text-align: center;">MPI 라이브러리</td>
+<td style="text-align: center;"><ul><li>mpi/openmpi-4.1.8</li><li>mpi/impi-21.17</li><li>cudampi/openmpi-4.1.8</li></ul></td>
+</tr>
+<tr>
+<td style="text-align: center;">라이브러리</td>
+<td style="text-align: center;"><ul><li>mkl/2025.3</li><li>lapack/3.12.1</li><li>netcdf/4.9.3</li><li>hdf5/2.0.0</li><li>fftw3/3.3.10</li><li>cudss/0.7.1</li><li>aocl/5.2</li></ul></td>
+</tr>
+<tr>
+<td style="text-align: center;">CUDA 라이브러리</td>
+<td style="text-align: center;"><ul><li>cuda/12.4.1</li><li>cuda/12.9.1</li><li>cuda/13.0.2</li></ul></td>
+</tr>
+<tr>
+<td style="text-align: center;">소프트웨어</td>
+<td style="text-align: center;"><ul><li>R/4.5.2</li><li>cmake/4.2.1</li><li>gaussian/g16</li><li>gaussian/g16.b01</li><li>gaussian/g16.c01</li><li>gaussian/g16.c02</li><li>git-lfs/3.6.1</li><li>git/2.52.0</li><li>htop/3.4.1</li><li>nvtop/3.2.0</li><li>java/openjdk-25.0.1</li><li>python/3.14.2</li><li>singularity/4.1.0</li><li>singularity/4.3.4</li></ul></td>
+</tr>
+<tr>
+<td style="text-align: center;">ngc</td>
+<td style="text-align: center;"><ul><li>ngc/caffe:20.03-py3</li><li>ngc/gromacs:2020.2</li><li>ngc/lammps:29Oct2020</li><li>ngc/paraview:5.9.0-py3</li><li>ngc/pytorch:20.09-py3</li><li>ngc/pytorch:20.12-py3</li><li>ngc/pytorch:22.03-py3</li><li>ngc/pytorch:23.12-py3</li><li>ngc/qe:6.7</li><li>ngc/tensorflow:22.03-tf1-py3</li><li>ngc/tensorflow:22.03-tf2-py3</li></ul></td>
+</tr>
+<tr>
+<td style="text-align: center;">conda 패키지 환경</td>
+<td style="text-align: center;"><ul><li>conda/pytorch_2.5.0</li><li>conda/pytorch_2.9.1_cuda12</li><li>conda/pytorch_2.9.1_cuda13</li><li>conda/tensorflow_2.16.1</li><li>conda/tensorflow_2.20.0</li></ul></td>
+</tr>
+<tr>
+<td style="text-align: center;"><p>AArch64 아키텍처 <br><mark style="color:red;">(gh200_1 파티션 전용)</mark></p></td>
+<td style="text-align: center;"><ul><li>ARM_acfl/24.10.1</li><li>ARM_armpl/24.10.1</li><li>ARM_cmake/3.26.2</li><li>ARM_cuda/12.3</li><li>ARM_cudampi/mvapich2-2.3.6</li><li>ARM_cudampi/openmpi-4.1.1</li><li>ARM_fftw_mpi/3.3.7</li><li>ARM_gcc/11.4.1</li><li>ARM_go/1.24.1</li><li>ARM_gromacs/2023.3</li><li>ARM_gromacs/2024.4</li><li>ARM_htop/3.0.5</li><li>ARM_lammps/2Aug2023</li><li>ARM_lammps/23Jun2022</li><li>ARM_nvidia_hpc_sdk/23.11</li><li>ARM_nvidia_hpc_sdk/24.1</li><li>ARM_nvidia_hpc_sdk/24.5</li><li>ARM_nvtop/1.1.0</li><li>ARM_python/3.12.4</li><li>ARM_qe/7.3</li><li>ARM_qe/7.3.1</li></ul></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>conda module은 pytorch/tensorflow 사용을 위한 라이브러리가 환경설정되는 module 입니다.</li>
+<li>Neuron시스템에서의 인공지능 프레임워크는 conda 환경을 사용하는 것을 권장합니다. (라이선스 조건 확인, conda-forge 채널활용)</li>
+<li>사용자 요구 기반의 Singularity 컨테이너 이미지를 빌드 및 구동하여 사용자 프로그램을 실행할 수 있습니다.&#x20;</li>
+<li>[별첨3] Singularity 컨테이너 사용법’을 참조 바랍니다.</li>
+<li>MATLAB은 <strong>사용자(소속기관)가 라이선스를 보유해야 합니다</strong>. 사용법은 <a href="https://docs-ksc.gitbook.io/myksc/app/matlab">MATLAB 가이드</a> 참조 바랍니다.</li>
+</ul>
+<p><mark style="color:red;"><strong>※ GPU가 장착되지 않은 CPU 노드에서는 None CUDA MPI 라이브러리(예 :  mpi/openmpi-4.1.1) 모듈을 사용해야 합니다.</strong></mark></p>
+<p><mark style="color:red;"><strong>※ gh200_1 파티션은 AArch64 아키텍처로 ARM_ 접두어가 붙은 전용 module을 활용해야 합니다.</strong></mark> &#x20;</p>
+<ul>
+<li><mark style="color:red;"><strong>gh200_1 계산노드에서는</strong></mark><strong>&#x20;</strong><mark style="color:red;"><strong>x86_64용 바이너리 실행 시 오류 발생합니다.</strong></mark></li>
+<li><mark style="color:red;"><strong>x86_64 아키텍처(뉴론 로그인 노드, gh200_1 파티션을 제외한 모든 계산노드)에서</strong></mark><strong>&#x20;</strong><mark style="color:red;"><strong>AArch64용 바이너리 실행 시 오류 발생합니다.</strong></mark></li>
+</ul>
+<h2 id="_3">나. 컴파일러 사용법<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h3 id="1-mpi-modules">1. 컴파일러 및 MPI 환경설정(modules)<a class="headerlink" href="#1-mpi-modules" title="Permanent link">&para;</a></h3>
+<h4 id="1">1) 모듈 관련 기본 명령어<a class="headerlink" href="#1" title="Permanent link">&para;</a></h4>
+<p><mark style="color:blue;"><strong>※ 사용자 편의를 위해 "module" 명령어는 "ml" 명령어로 축약하여 사용할 수 있습니다.</strong></mark></p>
+<ul>
+<li>사용 가능한 모듈 목록 출력\
+  사용할 수 있는 컴파일러, 라이브러리 등의 모듈 목록을 확인할 수 있습니다.</li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>module<span class="w"> </span>avail
+<span class="go">혹은</span>
+<span class="gp">$ </span>module<span class="w"> </span>av
+</code></pre></div>
+
+<ul>
+<li>사용할 모듈 추가\
+  사용하고자 하는 컴파일러, 라이브러리 등의 모듈을 추가할 수 있습니다.\
+  사용할 모듈들을 한번에 추가할 수 있습니다.</li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>module<span class="w"> </span>load<span class="w"> </span><span class="o">[</span>module<span class="w"> </span>name<span class="o">]</span><span class="w"> </span><span class="o">[</span>module<span class="w"> </span>name<span class="o">]</span><span class="w"> </span><span class="o">[</span>module<span class="w"> </span>name<span class="o">]</span><span class="w"> </span>...
+<span class="go">혹은</span>
+<span class="gp">$ </span>module<span class="w"> </span>add<span class="w"> </span><span class="o">[</span>module<span class="w"> </span>name<span class="o">]</span><span class="w"> </span><span class="o">[</span>module<span class="w"> </span>name<span class="o">]</span><span class="w"> </span><span class="o">[</span>module<span class="w"> </span>name<span class="o">]</span><span class="w"> </span>...
+<span class="go">혹은</span>
+<span class="gp">$ </span>ml<span class="w"> </span><span class="o">[</span>module<span class="w"> </span>name<span class="o">]</span><span class="w"> </span><span class="o">[</span>module<span class="w"> </span>name<span class="o">]</span><span class="w"> </span><span class="o">[</span>module<span class="w"> </span>name<span class="o">]</span><span class="w"> </span>...<span class="w">  </span>
+<span class="go">ex) ml gcc/4.8.5 singularity/3.9.7 </span>
+</code></pre></div>
+
+<ul>
+<li>사용 모듈 삭제\
+  필요 없는 모듈을 제거합니다. 이 때 한번에 여러 개의 모듈을 삭제할 수 있습니다.</li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>module<span class="w"> </span>unload<span class="w"> </span><span class="o">[</span>module<span class="w"> </span>name<span class="o">]</span><span class="w"> </span><span class="o">[</span>module<span class="w"> </span>name<span class="o">]</span><span class="w"> </span><span class="o">[</span>module<span class="w"> </span>name<span class="o">]</span><span class="w"> </span>...
+<span class="go">혹은</span>
+<span class="gp">$ </span>module<span class="w"> </span>rm<span class="w"> </span><span class="o">[</span>module<span class="w"> </span>name<span class="o">]</span><span class="w"> </span><span class="o">[</span>module<span class="w"> </span>name<span class="o">]</span><span class="w"> </span><span class="o">[</span>module<span class="w"> </span>name<span class="o">]</span><span class="w"> </span>...
+<span class="go">혹은</span>
+<span class="gp">$ </span>ml<span class="w"> </span>-<span class="o">[</span>module<span class="w"> </span>name<span class="o">]</span><span class="w"> </span>-<span class="o">[</span>module<span class="w"> </span>name<span class="o">]</span><span class="w"> </span>-<span class="o">[</span>module<span class="w"> </span>name<span class="o">]</span><span class="w"> </span>...<span class="w">     </span>
+<span class="go">ex) ml -gcc/15.2.0 -singularity/4.3.4</span>
+</code></pre></div>
+
+<ul>
+<li>사용 모듈 목록 출력\
+  현재 설정된 모듈 목록을 확인할 수 있습니다.</li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>module<span class="w"> </span>list
+<span class="go">혹은</span>
+<span class="gp">$ </span>module<span class="w"> </span>li
+<span class="go">혹은</span>
+<span class="gp">$ </span>ml
+</code></pre></div>
+
+<ul>
+<li>전체 사용 모듈 일괄 삭제</li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>module<span class="w"> </span>purge
+</code></pre></div>
+
+<ul>
+<li>모듈 설치 경로 확인</li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>module<span class="w"> </span>show<span class="w"> </span><span class="o">[</span>module<span class="w"> </span>name<span class="o">]</span>
+</code></pre></div>
+
+<ul>
+<li>모듈 찾기</li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>module<span class="w"> </span>spider<span class="w">  </span><span class="o">[</span>module<span class="w"> </span><span class="p">|</span><span class="w"> </span>string<span class="w"> </span><span class="p">|</span><span class="w"> </span>name/version<span class="w"> </span><span class="o">]</span>
+</code></pre></div>
+
+<ul>
+<li>사용자 모듈 모음(collection) 저장 관리</li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="gp"># </span>현재<span class="w"> </span>로드된<span class="w"> </span>모듈들을<span class="w"> </span>default<span class="w"> </span>모듈<span class="w"> </span>모음에<span class="w"> </span>저장하며,<span class="w"> </span>다음<span class="w"> </span>로그인<span class="w"> </span>시<span class="w"> </span>자동<span class="w"> </span>로드
+<span class="gp">$ </span>module<span class="w"> </span>save<span class="w">  </span>
+<span class="gp"># </span>현재<span class="w"> </span>로드된<span class="w"> </span>모듈들을<span class="w"> </span>지정된<span class="w"> </span>이름을<span class="w"> </span>가진<span class="w"> </span>사용자<span class="w"> </span>모듈<span class="w"> </span>모음으로<span class="w"> </span>저장함<span class="w">                  </span>
+<span class="gp">$ </span>module<span class="w"> </span>save<span class="w"> </span><span class="o">[</span>name<span class="o">]</span><span class="w">  </span>
+<span class="gp"># </span>사용자<span class="w"> </span>모듈<span class="w"> </span>모음을<span class="w"> </span>로드함<span class="w">        </span>
+<span class="gp">$ </span>module<span class="w"> </span>restore<span class="w"> </span><span class="o">[</span>name<span class="o">]</span><span class="w">    </span>
+<span class="gp"># </span>사용자<span class="w"> </span>모듈<span class="w"> </span>모음의<span class="w"> </span>내용을<span class="w"> </span>출력함<span class="w">  </span>
+<span class="gp">$ </span>module<span class="w"> </span>describe<span class="w"> </span><span class="o">[</span>name<span class="o">]</span><span class="w">    </span>
+<span class="gp"># </span>사용자<span class="w"> </span>모듈<span class="w"> </span>모음<span class="w"> </span>리스트를<span class="w"> </span>출력함<span class="w">  </span>
+<span class="gp">$ </span>module<span class="w"> </span>savelist<span class="w">  </span>
+<span class="gp"># </span>사용자<span class="w"> </span>모듈<span class="w"> </span>모음을<span class="w"> </span>삭제함<span class="w">             </span>
+<span class="gp">$ </span>module<span class="w"> </span>disable<span class="w"> </span><span class="o">[</span>name<span class="o">]</span><span class="w">     </span>
+</code></pre></div>
+
+<h3 id="2">2. 순차 프로그램 컴파일<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
+<p>순차 프로그램은 병렬 프로그램 환경을 고려하지 않은 프로그램을 말합니다. 즉, OpenMP, MPI와 같은 병렬 프로그램 인터페이스를 사용하지 않는 프로그램으로써, 하나의 노드에서 하나의 프로세서만 사용해 실행되는 프로그램입니다. 순차 프로그램 컴파일 시 사용되는 컴파일러별 옵션은 병렬 프로그램을 컴파일 할 때도 그대로 사용되므로, 순차 프로그램에 관심이 없다 하더라도 참조하는 것이 좋습니다.</p>
+<h4 id="1-intel">1) Intel 컴파일러<a class="headerlink" href="#1-intel" title="Permanent link">&para;</a></h4>
+<p>Intel 컴파일러를 사용하기 위해서 필요한 버전의 Intel 컴파일러 모듈을 추가하여 사용합니다. 사용 가능한 모듈은 module avail로 확인할 수 있습니다.</p>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>module<span class="w"> </span>load<span class="w"> </span>intel/25.3.0
+</code></pre></div>
+
+<p>※ 프로그래밍 도구 설치 현황 표를 참고하여 사용 가능 버전 확인하시기 바랍니다.</p>
+<ul>
+<li>컴파일러 종류</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>컴파일러</th>
+<th>프로그램</th>
+<th>소스 확장자</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>icc / icpc</td>
+<td>C / C++</td>
+<td>.C, .cc, .cpp, .cxx,.c++</td>
+</tr>
+<tr>
+<td>ifort</td>
+<td>F77/F90</td>
+<td>.f, .for, .ftn, .f90, .fpp, .F, .FOR, .FTN, .FPP, .F90</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Intel 컴파일러 사용 예제\
+  다음은 test 예제파일을 intel 컴파일러로 컴파일하여 실행파일 test.exe를 만드는 예시입니다.</li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>module<span class="w"> </span>load<span class="w"> </span>intel/25.3.0
+<span class="gp">$ </span>icc<span class="w"> </span>-o<span class="w"> </span>test.exe<span class="w"> </span>test.c
+<span class="go">혹은</span>
+<span class="gp">$ </span>ifort<span class="w"> </span>-o<span class="w"> </span>test.exe<span class="w"> </span>test.f90
+<span class="gp">$ </span>./test.exe
+</code></pre></div>
+
+<p>※ /apps/shell/job_examples 에서 작업제출 test 예제파일을 복사하여 사용 가능합니다.</p>
+<h4 id="2-gnu"><strong>2) GNU 컴파일러</strong><a class="headerlink" href="#2-gnu" title="Permanent link">&para;</a></h4>
+<p>GNU 컴파일러를 사용하기 위해서 필요한 버전의 GNU 컴파일러 모듈을 추가하여 사용합니다. 사용 가능한 모듈은 module avail로 확인할 수 있습니다.</p>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>module<span class="w"> </span>load<span class="w"> </span>gcc/15.2.0
+</code></pre></div>
+
+<p>※ 프로그래밍 도구 설치 현황 표를 참고하여 사용가능 버전 확인하시기 바랍니다.</p>
+<ul>
+<li>컴파일러 종류</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>컴파일러</th>
+<th>프로그램</th>
+<th>소스 확장자</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>gcc / g++</td>
+<td>C / C++</td>
+<td>.C, .cc, .cpp, .cxx,.c++</td>
+</tr>
+<tr>
+<td>gfortran</td>
+<td>F77/F90</td>
+<td>.f, .for, .ftn, .f90, .fpp, .F, .FOR, .FTN, .FPP, .F90</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>GNU 컴파일러 사용 예제</li>
+</ul>
+<p>다음은 test 예제파일을 GNU 컴파일러로 컴파일하여 실행파일 test.exe를 만드는 예시입니다.</p>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>module<span class="w"> </span>load<span class="w"> </span>gcc/15.2.0
+<span class="gp">$ </span>gcc<span class="w"> </span>-o<span class="w"> </span>test.exe<span class="w"> </span>test.c
+<span class="go">혹은</span>
+<span class="gp">$ </span>gfortran<span class="w"> </span>-o<span class="w"> </span>test.exe<span class="w"> </span>test.f90
+<span class="gp">$ </span>./test.exe
+</code></pre></div>
+
+<p>※ /apps/shell/job_examples 에서 작업제출 test 예제파일을 복사하여 사용 가능합니다.</p>
+<h4 id="3-pgi">3) PGI 컴파일러<a class="headerlink" href="#3-pgi" title="Permanent link">&para;</a></h4>
+<p>PGI 컴파일러를 사용하기 위해서 필요한 버전의 PGI 컴파일러 모듈을 추가하여 사용합니다. 사용 가능한 모듈은 module avail로 확인할 수 있습니다.</p>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>module<span class="w"> </span>load<span class="w"> </span>nvhpc/25.11_cuda12
+</code></pre></div>
+
+<p>※ 프로그래밍 도구 설치 현황 표를 참고하여 사용가능 버전 확인하시기 바랍니다.</p>
+<ul>
+<li><strong>컴파일러 종류</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>컴파일러</th>
+<th>프로그램</th>
+<th>소스 확장자</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pgcc / pgc++</td>
+<td>C / C++</td>
+<td>.C, .cc, .cpp, .cxx,.c++</td>
+</tr>
+<tr>
+<td>pgfortran</td>
+<td>F77/F90</td>
+<td>.f, .for, .ftn, .f90, .fpp, .F, .FOR, .FTN, .FPP, .F90</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>PGI 컴파일러 사용 예제</strong></li>
+</ul>
+<p>다음은 test 예제파일을 PGI 컴파일러로 컴파일하여 실행파일 test.exe를 만드는 예시입니다.</p>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>module<span class="w"> </span>load<span class="w"> </span>nvhpc/25.11_cuda12
+<span class="gp">$ </span>pgcc<span class="w"> </span>-o<span class="w"> </span>test.exe<span class="w"> </span>test.c
+<span class="go">혹은</span>
+<span class="gp">$ </span>pgfortran<span class="w"> </span>-o<span class="w"> </span>test.exe<span class="w"> </span>test.f90
+<span class="gp">$ </span>./test.exe
+</code></pre></div>
+
+<p>※ /apps/shell/job_examples 에서 작업제출 test 예제파일을 복사하여 사용 가능합니다.</p>
+<h4 id="_4"><a class="headerlink" href="#_4" title="Permanent link">&para;</a></h4>
+<h3 id="3">3. 병렬 프로그램 컴파일<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
+<h4 id="1-openmp">1) OpenMP 컴파일<a class="headerlink" href="#1-openmp" title="Permanent link">&para;</a></h4>
+<p>OpenMP는 컴파일러 지시자만으로 멀티 스레드를 활용할 수 있도록 간단하게 개발된 기법으로 OpenMP를 사용한 병렬 프로그램 컴파일 시 사용되는 컴파일러는 순차프로그램과 동일하며, 컴파일러 옵션을 추가하여 병렬 컴파일을 할 수 있는데, 현재 대부분의 컴파일러가 OpenMP 지시자를 지원합니다.</p>
+<table>
+<thead>
+<tr>
+<th>컴파일러 옵션</th>
+<th>프로그램</th>
+<th>옵션</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>icc / icpc / ifort</td>
+<td>C / C++ / F77/F90</td>
+<td>-qopenmp</td>
+</tr>
+<tr>
+<td>gcc / g++ / gfortran</td>
+<td>C / C++ / F77/F90</td>
+<td>-fopenmp</td>
+</tr>
+<tr>
+<td>pgcc / pgc++ / pgfortran</td>
+<td>C / C++ / F77/F90</td>
+<td>-mp</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>OpenMP 프로그램 컴파일 예시 (Intel 컴파일러)</strong></li>
+</ul>
+<p>다음은 **openMP**를 사용하는 test_omp 예제파일을 intel 컴파일러로 컴파일하여 실행파일 test_omp.exe를 만드는 예시입니다.</p>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>module<span class="w"> </span>load<span class="w"> </span>intel/25.3.0
+<span class="gp">$ </span>icc<span class="w"> </span>-o<span class="w"> </span>test_omp.exe<span class="w"> </span>-qopenmp<span class="w"> </span>test_omp.c
+<span class="go">혹은</span>
+<span class="gp">$ </span>ifort<span class="w"> </span>-o<span class="w"> </span>test_omp.exe<span class="w"> </span>-qopenmp<span class="w"> </span>test_omp.f90
+<span class="gp">$ </span>./test_omp.exe
+</code></pre></div>
+
+<ul>
+<li><strong>OpenMP 프로그램 컴파일 예시 (GNU 컴파일러)</strong></li>
+</ul>
+<p>다음은 **openMP**를 사용하는 test_omp 예제파일을 GNU 컴파일러로 컴파일하여 실행파일 test_omp.exe를 만드는 예시입니다.</p>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>module<span class="w"> </span>load<span class="w"> </span>gcc/15.2.0
+<span class="gp">$ </span>gcc<span class="w"> </span>-o<span class="w"> </span>test_omp.exe<span class="w"> </span>-fopenmp<span class="w"> </span>test_omp.c
+<span class="go">혹은</span>
+<span class="gp">$ </span>gfortran<span class="w"> </span>-o<span class="w"> </span>test_omp.exe<span class="w"> </span>-fopenmp<span class="w"> </span>test_omp.f90
+<span class="gp">$ </span>./test_omp.exe
+</code></pre></div>
+
+<ul>
+<li><strong>OpenMP 프로그램 컴파일 예시 (PGI 컴파일러)</strong></li>
+</ul>
+<p>다음은 **openMP**를 사용하는 test_omp 예제파일을 PGI 컴파일러로 컴파일하여 실행파일 test_omp.exe를 만드는 예시입니다.</p>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>module<span class="w"> </span>load<span class="w"> </span>nvhpc/25.11_cuda12
+<span class="gp">$ </span>pgcc<span class="w"> </span>-o<span class="w"> </span>test_omp.exe<span class="w"> </span>-mp<span class="w"> </span>test_omp.c
+<span class="go">혹은</span>
+<span class="gp">$ </span>pgfortran<span class="w"> </span>-o<span class="w"> </span>test_omp.exe<span class="w"> </span>-mp<span class="w"> </span>test_omp.f90
+<span class="gp">$ </span>./test_omp.exe
+</code></pre></div>
+
+<h4 id="2-mpi">2) MPI 컴파일<a class="headerlink" href="#2-mpi" title="Permanent link">&para;</a></h4>
+<p>사용자는 다음 표의 MPI 명령을 실행할 수 있는데, 이 명령은 일종의 wrapper로써 .bashrc를 통해 지정된 컴파일러가 소스를 컴파일하게 됩니다.</p>
+<table>
+<thead>
+<tr>
+<th><strong>구분</strong></th>
+<th><strong>Intel</strong></th>
+<th><strong>GNU</strong></th>
+<th><strong>PGI</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fortran</td>
+<td>ifort</td>
+<td>gfortran</td>
+<td>pgfortran</td>
+</tr>
+<tr>
+<td>Fortran + MPI</td>
+<td>mpiifort</td>
+<td>mpif90</td>
+<td>mpif90</td>
+</tr>
+<tr>
+<td>C</td>
+<td>icc</td>
+<td>gcc</td>
+<td>pgcc</td>
+</tr>
+<tr>
+<td>C + MPI</td>
+<td>mpiicc</td>
+<td>mpicc</td>
+<td>mpicc</td>
+</tr>
+<tr>
+<td>C++</td>
+<td>icpc</td>
+<td>g++</td>
+<td>pgc++</td>
+</tr>
+<tr>
+<td>C++ + MPI</td>
+<td>mpiicpc</td>
+<td>mpicxx</td>
+<td>mpicxx</td>
+</tr>
+</tbody>
+</table>
+<p>mpicc로 컴파일을 하더라도, 옵션은 wrapping되는 본래의 컴파일러에 해당하는 옵션을 사용해야 합니다.</p>
+<ul>
+<li>&#x20;<strong>MPI 프로그램 컴파일 예시 (Intel 컴파일러)</strong></li>
+</ul>
+<p>다음은 **MPI**를 사용하는 test_mpi 예제파일을 intel 컴파일러로 컴파일하여 실행파일 test_mpi.exe를 만드는 예시입니다.</p>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>module<span class="w"> </span>load<span class="w"> </span>intel/25.3.0<span class="w"> </span>mpi/impi-21.17
+<span class="gp">$ </span>mpiicc<span class="w"> </span>-o<span class="w"> </span>test_mpi.exe<span class="w"> </span>test_mpi.c
+<span class="go">혹은</span>
+<span class="gp">$ </span>mpiifort<span class="w"> </span>-o<span class="w"> </span>test_mpi.exe<span class="w"> </span>test_mpi.f90
+<span class="gp">$ </span>srun<span class="w"> </span>./test_mpi.exe
+</code></pre></div>
+
+<ul>
+<li><strong>MPI 프로그램 컴파일 예시 (GNU 컴파일러)</strong></li>
+</ul>
+<p>다음은 **MPI**를 사용하는 test_mpi 예제파일을 GNU 컴파일러로 컴파일하여 실행파일 test_mpi.exe를 만드는 예시입니다.</p>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>module<span class="w"> </span>load<span class="w"> </span>gcc/15.2.0<span class="w"> </span>mpi/openmpi-4.1.8
+<span class="gp">$ </span>mpicc<span class="w"> </span>-o<span class="w"> </span>test_mpi.exe<span class="w"> </span>test_mpi.c
+<span class="go">혹은</span>
+<span class="gp">$ </span>mpif90<span class="w"> </span>-o<span class="w"> </span>test_mpi.exe<span class="w"> </span>test_mpi.f90
+<span class="gp">$ </span>srun<span class="w"> </span>./test_mpi.exe
+</code></pre></div>
+
+<ul>
+<li><strong>MPI 프로그램 컴파일 예시 (PGI 컴파일러)</strong></li>
+</ul>
+<p>다음은 **MPI**를 사용하는 test_mpi 예제파일을 PGI 컴파일러로 컴파일하여 실행파일 test_mpi.exe를 만드는 예시입니다.</p>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>module<span class="w"> </span>load<span class="w"> </span>nvhpc/25.11_cuda12
+<span class="gp">$ </span>mpicc<span class="w"> </span>-o<span class="w"> </span>test_mpi.exe<span class="w"> </span>test_mpi.c
+<span class="go">혹은</span>
+<span class="gp">$ </span>mpifort<span class="w"> </span>-o<span class="w"> </span>test_mpi.exe<span class="w"> </span>test_mpi.f90
+<span class="gp">$ </span>srun<span class="w"> </span>./test_mpi.exe
+</code></pre></div>
+
+<ul>
+<li><strong>CUDA + MPI 프로그램 컴파일 예시</strong>&#x20;</li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>module<span class="w"> </span>load<span class="w"> </span>gcc/15.2.0<span class="w"> </span>cuda/12.4.1<span class="w"> </span>cudampi/openmpi-4.1.8
+<span class="gp">$ </span>mpicc<span class="w"> </span>-c<span class="w"> </span>mpi-cuda.c<span class="w"> </span>-o<span class="w"> </span>mpi-cuda.o
+<span class="gp">$ </span>mpicc<span class="w"> </span>mpi-cuda.o<span class="w"> </span>-lcudart<span class="w"> </span>-L/apps/cuda/11.4/lib64
+<span class="gp">$ </span>srun<span class="w"> </span>./a.out
+</code></pre></div>
+
+<p>※ intel 컴파일러 사용 시, gcc/15.2.0 대신 intel/25.3.0 module을 load을 적용합니다.<br></p>
+<p _="%" endhint="endhint">{% hint style="info" %}
+2026년 2월 23일에 마지막으로 업데이트 되었습니다.</p>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "navigation.path"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

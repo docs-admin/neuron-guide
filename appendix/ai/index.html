@@ -1,0 +1,4027 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs-admin.github.io/neuron-guide/appendix/ai/">
+      
+      
+        <link rel="prev" href="../appendix-8-how-to-use-deep-learning-framework-parallelization-horovod/">
+      
+      
+        <link rel="next" href="../ssh-port-forwarding-jupyter/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>AI 멀티노드 활용 - 뉴론 지침처</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:300,300i,400,400i,700,700i%7CNanum+Gothic+Coding:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans KR";--md-code-font:"Nanum Gothic Coding"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-TDN19Y17TR"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-TDN19Y17TR",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-TDN19Y17TR",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+  
+  <style>
+    /* 메뉴가 들어갈 컨테이너 스타일 */
+    .custom-header-nav {
+      display: flex;
+      gap: 1.5rem;
+      margin-left: 1rem;
+      margin-right: 2rem;
+      align-items: center;
+    }
+    /* 개별 링크 스타일 */
+    .custom-nav-link {
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: var(--md-header-fg-color);
+      text-decoration: none;      
+      transition: opacity 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+    .custom-nav-link:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+    /* 화면이 좁아지면 메뉴 숨기기 (모바일 대응) */
+    @media screen and (max-width: 60em) {
+      .custom-header-nav { display: none; }
+    }
+    /* 요약 페이지 전용 카드 스타일 */
+    .summary-container-external ul {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 15px;
+      list-style: none;
+      padding: 0;
+    }
+
+     .summary-container-external ul li a {
+      display: block;
+      padding: 8px 0px 8px 30px;
+      border: 1px solid var(--md-typeset-table-color);
+      background-color: var(--md-code-bg-color);
+      border-radius: 8px;            
+      font-size: medium;
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+    }
+
+    .summary-container ul {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 15px;
+      list-style: none;
+      padding: 0;
+    }
+
+    .summary-container ul li a {
+      display: block;
+      padding: 8px 0px 8px 30px;
+      border: 1px solid var(--md-typeset-table-color);
+      border-radius: 8px;            
+      font-size: medium;
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+    }
+
+    .summary-container ul li a:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      background-color: var(--md-code-bg-color);      
+      opacity: 0.7;
+      text-decoration: none;
+    }
+
+  </style>
+
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ai" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+  
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="뉴론 지침처" class="md-header__button md-logo" aria-label="뉴론 지침처" data-md-component="logo">
+      
+  <img src="../../assets/images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            뉴론 지침처
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              AI 멀티노드 활용
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // 1. 타이틀 영역을 찾습니다.
+      var titleElement = document.querySelector(".md-header__title");
+      
+      if (titleElement && !document.querySelector(".custom-header-nav")) {
+        // 2. 메뉴 컨테이너 생성
+        var navContainer = document.createElement("div");
+        navContainer.className = "custom-header-nav";
+        navContainer.innerHTML = `
+          <a href="https://site-a.com" class="custom-nav-link">초보 사용자 가이드</a>
+          <a href="https://site-a.com" class="custom-nav-link">누리온 지침서</a>
+          <a href="https://site-a.com" class="custom-nav-link">뉴론 지침서</a>
+          <a href="https://site-a.com" class="custom-nav-link">활용 정보 </a>
+          <a href="https://site-a.com" class="custom-nav-link">MyKSC 지침서 </a>
+        `;
+        
+        // 3. 타이틀 영역 바로 뒤에 삽입
+        titleElement.after(navContainer);
+      }
+    });
+  </script>
+
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="뉴론 지침처" class="md-nav__button md-logo" aria-label="뉴론 지침처" data-md-component="logo">
+      
+  <img src="../../assets/images/logo.png" alt="logo">
+
+    </a>
+    뉴론 지침처
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    System
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/neuron-system-overview-and-configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    시스템 개요 및 구성
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/user-environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    사용자 환경
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/user-programming-environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    사용자 프로그래밍 환경
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/running-jobs-through-scheduler-slurm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    스케줄러(SLURM)를 통한 작업 실행
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../system/user-support/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    사용자 지원
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Software
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../software/gaussian16-gpu-sw-userguide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    가우시안16(Gaussian16) on GPU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Appendix
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Appendix
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-1-main-keywords-for-job-scripts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    작업 스크립트 주요 키워드
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-2-how-to-use-conda/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conda
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-3-how-to-use-singularity-container/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Singularity 컨테이너
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-4-how-to-use-lustre-striping/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lustre striping
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-5-neuron-jupyter-user-guideline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    뉴론 Jupyter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-6-how-to-use-keras-based-multi-gpu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Keras 기반 Multi GPU 사용법
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-7-conda-environment-based-horovod-tensorflow-installation-method/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conda 기반 Horovod 설치 방법
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-8-how-to-use-deep-learning-framework-parallelization-horovod/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    딥러닝 프레임워크 병렬화 (Horovod)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI 멀티노드 활용
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI 멀티노드 활용
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#horovod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        가. HOROVOD
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="가. HOROVOD">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-horovod-tensorflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. HOROVOD (Tensorflow) 설치 및 확인
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. HOROVOD (Tensorflow) 설치 및 확인">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 설치 방법
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 설치 확인
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-horovod-tensorflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. HOROVOD (Tensorflow) 실행 예제
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. HOROVOD (Tensorflow) 실행 예제">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 작업제출 스크립트를 이용한 실행
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 인터렉티브 작업제출을 이용한 실행
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-horovod-pytorch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. HOROVOD (Pytorch) 설치 및 확인
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. HOROVOD (Pytorch) 설치 및 확인">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 설치 방법
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 설치 확인
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-horovod-pytorch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. HOROVOD (Pytorch) 실행 예제
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. HOROVOD (Pytorch) 실행 예제">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 작업제출 스크립트 예제
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 인터렉티브 작업제출을 이용한 실행
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gloo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        나. GLOO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="나. GLOO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-gloo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. GLOO 실행 예제
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. GLOO 실행 예제">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 작업제출 스크립트 예제
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 인터렉티브 작업제출을 이용한 실행
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ray" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        다. Ray
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="다. Ray">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-ray" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Ray 설치 및 단일 노드 실행 예제
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Ray 설치 및 단일 노드 실행 예제">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 설치 방법
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 작업제출 스크립트 예제
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3) 인터렉티브 작업제출을 이용한 실행
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-ray-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Ray Cluster 설치 및 멀티 노드 실행 예제
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Ray Cluster 설치 및 멀티 노드 실행 예제">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 설치 방법
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 작업제출 스크립트 예제
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3) output
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-ray-cluster-pytorch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Ray Cluster (pytorch) 설치 및 멀티 노드 실행 예제
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Ray Cluster (pytorch) 설치 및 멀티 노드 실행 예제">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 설치 방법
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 작업제출 스크립트 예제
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-output_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3) output
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#submit-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        라. Submit it
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="라. Submit it">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 예제 (1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 예제 (2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-submit-multitask-job" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Submit: Multitask Job 예제
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nccl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        마. NCCL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="마. NCCL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-nccl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. NCCL설치 및 확인
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. NCCL설치 및 확인">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 설치 방법
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 설치 확인
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-nccl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. NCCL실행 예제
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. NCCL실행 예제">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 실행 예제 다운로드
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 실행 예제 컴파일
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3) 실행 결과 확인
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-example-3-2-8gpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4) 위의 Example 3을 이용한 2노드 8GPU 실행 예제
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4-1) 작업스크립트
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4-2) 예제 코드
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4-3) 실행 결과
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tensorflow-distribute" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        바. Tensorflow Distribute
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="바. Tensorflow Distribute">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-conda-tensorflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Conda 환경에서 tensorflow 설치 및 확인
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Conda 환경에서 tensorflow 설치 및 확인">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 설치 방법
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 설치 확인
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-gpu-tfdistributemirroredstrategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 단일 노드, 멀티 GPU 활용(tf.distribute.MirroredStrategy() 사용)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 단일 노드, 멀티 GPU 활용(tf.distribute.MirroredStrategy() 사용)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-tf_multi_keraspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 코드 예제(tf_multi_keras.py)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-1-4-gpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 인터렉티브 작업 제출(1노드 4개 GPU)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-1-4gputf_dist_runsh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3) 배치 작업 제출 스크립트(1노드 4GPU)(tf_dist_run.sh)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-gpu-tfdistributemultiworkermirroedstrategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 멀티 노드, 멀티 GPU 활용(tf.distribute.MultiWorkerMirroedStrategy() 사용)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 멀티 노드, 멀티 GPU 활용(tf.distribute.MultiWorkerMirroedStrategy() 사용)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 코드 예제 수정
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-2-4-gpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 인터렉티브 작업 제출(2노드 각 4 GPU)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-2-4gpu-tf_multi_runsh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3) 배치 작업 제출 스크립트(2노드 각4GPU) (tf_multi_run.sh)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 참조
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pytorchddp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        사. PytorchDDP
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="사. PytorchDDP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 작업제출 스크립트 예제
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 작업제출 스크립트 예제">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-2gpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 단일노드 예제(단일노드 2GPU)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-2-2gpus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 멀티노드 예제(2노드 2GPUs)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ssh-port-forwarding-jupyter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SSH Port Forwarding 을 통한 Jupyter 작업 실행
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nvidia-gpu-profiling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    NVIDIA GPU Profiling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../undefined/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    컨테이너 활용 가이드(작성 중 초안)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#horovod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        가. HOROVOD
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="가. HOROVOD">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-horovod-tensorflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. HOROVOD (Tensorflow) 설치 및 확인
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. HOROVOD (Tensorflow) 설치 및 확인">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 설치 방법
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 설치 확인
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-horovod-tensorflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. HOROVOD (Tensorflow) 실행 예제
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. HOROVOD (Tensorflow) 실행 예제">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 작업제출 스크립트를 이용한 실행
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 인터렉티브 작업제출을 이용한 실행
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-horovod-pytorch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. HOROVOD (Pytorch) 설치 및 확인
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. HOROVOD (Pytorch) 설치 및 확인">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 설치 방법
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 설치 확인
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-horovod-pytorch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. HOROVOD (Pytorch) 실행 예제
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. HOROVOD (Pytorch) 실행 예제">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 작업제출 스크립트 예제
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 인터렉티브 작업제출을 이용한 실행
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gloo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        나. GLOO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="나. GLOO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-gloo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. GLOO 실행 예제
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. GLOO 실행 예제">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 작업제출 스크립트 예제
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 인터렉티브 작업제출을 이용한 실행
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ray" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        다. Ray
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="다. Ray">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-ray" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Ray 설치 및 단일 노드 실행 예제
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Ray 설치 및 단일 노드 실행 예제">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 설치 방법
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 작업제출 스크립트 예제
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3) 인터렉티브 작업제출을 이용한 실행
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-ray-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Ray Cluster 설치 및 멀티 노드 실행 예제
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Ray Cluster 설치 및 멀티 노드 실행 예제">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 설치 방법
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 작업제출 스크립트 예제
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3) output
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-ray-cluster-pytorch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Ray Cluster (pytorch) 설치 및 멀티 노드 실행 예제
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Ray Cluster (pytorch) 설치 및 멀티 노드 실행 예제">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 설치 방법
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 작업제출 스크립트 예제
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-output_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3) output
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#submit-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        라. Submit it
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="라. Submit it">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 예제 (1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 예제 (2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-submit-multitask-job" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Submit: Multitask Job 예제
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nccl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        마. NCCL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="마. NCCL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-nccl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. NCCL설치 및 확인
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. NCCL설치 및 확인">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 설치 방법
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 설치 확인
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-nccl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. NCCL실행 예제
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. NCCL실행 예제">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 실행 예제 다운로드
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 실행 예제 컴파일
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3) 실행 결과 확인
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-example-3-2-8gpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4) 위의 Example 3을 이용한 2노드 8GPU 실행 예제
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4-1) 작업스크립트
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4-2) 예제 코드
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4-3) 실행 결과
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tensorflow-distribute" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        바. Tensorflow Distribute
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="바. Tensorflow Distribute">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-conda-tensorflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Conda 환경에서 tensorflow 설치 및 확인
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Conda 환경에서 tensorflow 설치 및 확인">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 설치 방법
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 설치 확인
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-gpu-tfdistributemirroredstrategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 단일 노드, 멀티 GPU 활용(tf.distribute.MirroredStrategy() 사용)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 단일 노드, 멀티 GPU 활용(tf.distribute.MirroredStrategy() 사용)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-tf_multi_keraspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 코드 예제(tf_multi_keras.py)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-1-4-gpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 인터렉티브 작업 제출(1노드 4개 GPU)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-1-4gputf_dist_runsh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3) 배치 작업 제출 스크립트(1노드 4GPU)(tf_dist_run.sh)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-gpu-tfdistributemultiworkermirroedstrategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 멀티 노드, 멀티 GPU 활용(tf.distribute.MultiWorkerMirroedStrategy() 사용)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 멀티 노드, 멀티 GPU 활용(tf.distribute.MultiWorkerMirroedStrategy() 사용)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 코드 예제 수정
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-2-4-gpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 인터렉티브 작업 제출(2노드 각 4 GPU)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-2-4gpu-tf_multi_runsh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3) 배치 작업 제출 스크립트(2노드 각4GPU) (tf_multi_run.sh)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 참조
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pytorchddp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        사. PytorchDDP
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="사. PytorchDDP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 작업제출 스크립트 예제
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 작업제출 스크립트 예제">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-2gpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 단일노드 예제(단일노드 2GPU)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-2-2gpus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 멀티노드 예제(2노드 2GPUs)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="ai">AI 멀티노드 활용<a class="headerlink" href="#ai" title="Permanent link">&para;</a></h1>
+<p>뉴론 시스템에서 딥러닝 학습에 필요한 계산을 멀티 노드를 이용하여 수십 개의 GPU에 나누어 동시에 처리하고, 고속 네트워크를 통한 결과를 합산하는 분산 학습을 위한 여러 방법을 소개합니다.</p>
+<h2 id="horovod">가. HOROVOD<a class="headerlink" href="#horovod" title="Permanent link">&para;</a></h2>
+<p>Horovod는 고성능 분산 컴퓨팅 환경에서 노드간 메시지 전달 및 통신관리를 위해 일반적인 표준 MPI 모델을 사용하며, Horovod의 MPI구현은 표준 Tensorflow 분산 훈련 모델보다 간소화된 프로그래밍 모델을 제공합니다.</p>
+<h3 id="1-horovod-tensorflow"><strong>1. HOROVOD (Tensorflow) 설치 및 확인</strong><a class="headerlink" href="#1-horovod-tensorflow" title="Permanent link">&para;</a></h3>
+<h4 id="1">1) 설치 방법<a class="headerlink" href="#1" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>module<span class="w"> </span>load<span class="w"> </span>gcc/10.2.0<span class="w"> </span>cuda/11.4<span class="w"> </span>cudampi/openmpi-4.1.1<span class="w"> </span>python/3.7.1<span class="w"> </span>cmake/3.16.9
+
+<span class="gp">$ </span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>my_tensorflow
+<span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>activate<span class="w"> </span>my_tensorflow
+
+<span class="gp gp-VirtualEnv">(my_tensorflow)</span> <span class="gp">$ </span>conda<span class="w"> </span>install<span class="w"> </span>tensorflow-gpu<span class="o">=</span><span class="m">2</span>.0.0<span class="w"> </span><span class="nv">tensorboard</span><span class="o">=</span><span class="m">2</span>.0.0<span class="w"> </span>tensorflow-estimator<span class="o">=</span><span class="m">2</span>.0.0<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.7<span class="w"> </span>cudnn<span class="w"> </span><span class="nv">cudatoolkit</span><span class="o">=</span><span class="m">10</span><span class="w"> </span><span class="nv">nccl</span><span class="o">=</span><span class="m">2</span>.8.3
+
+<span class="gp gp-VirtualEnv">(my_tensorflow)</span> <span class="gp">$ </span><span class="nv">HOROVOD_WITH_MPI</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">HOROVOD_GPU_OPERATIONS</span><span class="o">=</span>NCCL<span class="w"> </span><span class="se">\</span>
+<span class="nv">HOROVOD_NCCL_LINK</span><span class="o">=</span>SHARED<span class="w"> </span><span class="nv">HOROVOD_WITH_TENSORFLOW</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+pip<span class="w"> </span>install<span class="w"> </span>--no-cache-dir<span class="w"> </span><span class="nv">horovod</span><span class="o">==</span><span class="m">0</span>.23.0
+</code></pre></div>
+
+<h4 id="2">2) 설치 확인<a class="headerlink" href="#2" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="gp gp-VirtualEnv">(my_tensorflow)</span> <span class="gp">$ </span>pip<span class="w"> </span>list<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>horovod<span class="w"> </span>
+<span class="go">horovod 0.23.0</span>
+
+<span class="gp gp-VirtualEnv">(my_tensorflow)</span> <span class="gp">$ </span>python<span class="w"> </span>
+<span class="go">&gt;&gt;&gt; import horovod </span>
+<span class="go">&gt;&gt;&gt; horovod.__version__ &#39;0.23.0‘ </span>
+
+<span class="gp gp-VirtualEnv">(my_tensorflow)</span> <span class="gp">$ </span>horovodrun<span class="w"> </span>-cb
+<span class="go">Horovod v0.23.0: </span>
+
+<span class="go"> Available Frameworks: </span>
+<span class="go">    [X] TensorFlow </span>
+<span class="go">    [X] PyTorch </span>
+<span class="go">    [ ] MXNet </span>
+
+<span class="go"> Available Controllers: </span>
+<span class="go">    [X] MPI </span>
+<span class="go">    [X] Gloo </span>
+
+<span class="go"> Available Tensor Operations: </span>
+<span class="go">    [X] NCCL </span>
+<span class="go">    [ ] DDL </span>
+<span class="go">    [ ] CCL </span>
+<span class="go">    [X] MPI </span>
+<span class="go">    [X] Gloo</span>
+</code></pre></div>
+
+<h3 id="2-horovod-tensorflow"><strong>2. HOROVOD (Tensorflow) 실행 예제</strong><a class="headerlink" href="#2-horovod-tensorflow" title="Permanent link">&para;</a></h3>
+<h4 id="1_1">1) 작업제출 스크립트를 이용한 실행<a class="headerlink" href="#1_1" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="c1">#SBATCH -J test_job</span>
+<span class="c1">#SBATCH -p cas_v100_4</span>
+<span class="c1">#SBATCH -N 2</span>
+<span class="c1">#SBATCH -n 4</span>
+<span class="c1">#SBATCH -o %x.o%j</span>
+<span class="c1">#SBATCH -e %x.e%j</span>
+<span class="c1">#SBATCH --time 00:30:00</span>
+<span class="c1">#SBATCH --gres=gpu:2</span>
+<span class="c1">#SBATCH --comment tensorflow</span>
+
+module<span class="w"> </span>purge
+module<span class="w"> </span>load<span class="w"> </span>gcc/10.2.0<span class="w"> </span>cuda/11.4<span class="w"> </span>cudampi/openmpi-4.1.1<span class="w"> </span>python/3.7.1
+
+<span class="nb">source</span><span class="w"> </span>activate<span class="w"> </span>my_tensorflow
+
+horovodrun<span class="w"> </span>-np<span class="w"> </span><span class="m">2</span><span class="w"> </span>python<span class="w"> </span>tensorflow2_mnist.py
+</code></pre></div>
+
+<h4 id="2_1">2) 인터렉티브 작업제출을 이용한 실행<a class="headerlink" href="#2_1" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>salloc<span class="w"> </span>--partition<span class="o">=</span>cas_v100_4<span class="w"> </span>-J<span class="w"> </span>debug<span class="w"> </span>--nodes<span class="o">=</span><span class="m">2</span><span class="w"> </span>-n<span class="w"> </span><span class="m">4</span><span class="w"> </span>--time<span class="o">=</span><span class="m">08</span>:00:00<span class="w"> </span>--gres<span class="o">=</span>gpu:2<span class="w"> </span>--comment<span class="o">=</span>tensorflow
+
+<span class="gp">$ </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$SLURM_NODELIST</span>
+<span class="go">gpu[12-13]</span>
+
+<span class="gp">$ </span>module<span class="w"> </span>load<span class="w"> </span>gcc/10.2.0<span class="w"> </span>cuda/11.4<span class="w"> </span>cudampi/openmpi-4.1.1<span class="w"> </span>python/3.7.1
+<span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>activate<span class="w"> </span>my_tensorflow
+
+<span class="gp gp-VirtualEnv">(my_tensorflow)</span> <span class="gp">$ </span>horovodrun<span class="w"> </span>-np<span class="w"> </span><span class="m">4</span><span class="w"> </span>-H<span class="w"> </span>gpu12:2,gpu13:2<span class="w"> </span>python<span class="w"> </span>tensorflow2_mnist.py
+</code></pre></div>
+
+<h3 id="3-horovod-pytorch"><strong>3. HOROVOD (Pytorch) 설치 및 확인</strong><a class="headerlink" href="#3-horovod-pytorch" title="Permanent link">&para;</a></h3>
+<h4 id="1_2">1) 설치 방법<a class="headerlink" href="#1_2" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>module<span class="w"> </span>load<span class="w"> </span>gcc/10.2.0<span class="w"> </span>cuda/11.4<span class="w"> </span>cudampi/openmpi-4.1.1<span class="w"> </span>python/3.7.1<span class="w"> </span>cmake/3.16.9
+
+<span class="gp">$ </span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>my_pytorch
+<span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>activate<span class="w"> </span>my_pytorch
+
+<span class="gp gp-VirtualEnv">(my_pytorch)</span> <span class="gp">$ </span>conda<span class="w"> </span>install<span class="w"> </span><span class="nv">pytorch</span><span class="o">=</span><span class="m">1</span>.11.0<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.9<span class="w"> </span><span class="nv">torchvision</span><span class="o">=</span><span class="m">0</span>.12.0<span class="w"> </span><span class="nv">torchaudio</span><span class="o">=</span><span class="m">0</span>.11.0<span class="w"> </span><span class="nv">cudatoolkit</span><span class="o">=</span><span class="m">10</span>.2<span class="w"> </span>-c<span class="w"> </span>pytorch
+<span class="gp gp-VirtualEnv">(my_pytorch)</span> <span class="gp">$ </span><span class="nv">HOROVOD_WITH_MPI</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">HOROVOD_NCCL_LINK</span><span class="o">=</span>SHARED<span class="w"> </span><span class="nv">HOROVOD_GPU_OPERATIONS</span><span class="o">=</span>NCCL<span class="w"> </span><span class="nv">HOROVOD_WITH_PYTORCH</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+pip<span class="w"> </span>install<span class="w"> </span>--no-cache-dir<span class="w"> </span><span class="nv">horovod</span><span class="o">==</span><span class="m">0</span>.24.0
+</code></pre></div>
+
+<h4 id="2_2">2) 설치 확인<a class="headerlink" href="#2_2" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="gp gp-VirtualEnv">(my_pytorch)</span> <span class="gp">$ </span>pip<span class="w"> </span>list<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>horovod
+<span class="go">horovod 0.24.0</span>
+
+<span class="gp gp-VirtualEnv">(my_pytorch)</span> <span class="gp">$ </span>python
+<span class="go">&gt;&gt;&gt; import horovod</span>
+<span class="go">&gt;&gt;&gt; horovod.__version__</span>
+<span class="go">&#39;0.24.0&#39;</span>
+
+<span class="gp gp-VirtualEnv">(my_pytorch)</span> <span class="gp">$ </span>horovodrun<span class="w"> </span>-cb
+<span class="go">Horovod v0.24.0:</span>
+
+<span class="go">Available Frameworks:</span>
+<span class="go">    [ ] TensorFlow</span>
+<span class="go">    [X] PyTorch</span>
+<span class="go">    [ ] MXNet</span>
+
+
+<span class="go">Available Controllers:</span>
+<span class="go">    [X] MPI</span>
+<span class="go">    [X] Gloo</span>
+
+<span class="go">Available Tensor Operations:</span>
+<span class="go">    [X] NCCL</span>
+<span class="go">    [ ] DDL</span>
+<span class="go">    [ ] CCL</span>
+<span class="go">    [X] MPI</span>
+<span class="go">    [X] Gloo</span>
+</code></pre></div>
+
+<h3 id="4-horovod-pytorch"><strong>4. HOROVOD (Pytorch) 실행 예제</strong><a class="headerlink" href="#4-horovod-pytorch" title="Permanent link">&para;</a></h3>
+<h4 id="1_3">1) 작업제출 스크립트 예제<a class="headerlink" href="#1_3" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="c1">#SBATCH -J test_job</span>
+<span class="c1">#SBATCH -p cas_v100_4</span>
+<span class="c1">#SBATCH -N 2</span>
+<span class="c1">#SBATCH -n 4</span>
+<span class="c1">#SBATCH -o %x.o%j</span>
+<span class="c1">#SBATCH -e %x.e%j</span>
+<span class="c1">#SBATCH --time 00:30:00</span>
+<span class="c1">#SBATCH --gres=gpu:2</span>
+<span class="c1">#SBATCH --comment pytorch</span>
+
+module<span class="w"> </span>purge
+module<span class="w"> </span>load<span class="w"> </span>gcc/10.2.0<span class="w"> </span>cuda/11.4<span class="w"> </span>cudampi/openmpi-4.1.1<span class="w"> </span>python/3.7.1
+
+<span class="nb">source</span><span class="w"> </span>activate<span class="w"> </span>my_pytorch
+
+horovodrun<span class="w"> </span>-np<span class="w"> </span><span class="m">2</span><span class="w"> </span>python<span class="w"> </span>pytorch_ex.py
+</code></pre></div>
+
+<h4 id="2_3">2) 인터렉티브 작업제출을 이용한 실행<a class="headerlink" href="#2_3" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>salloc<span class="w"> </span>--partition<span class="o">=</span>cas_v100_4<span class="w"> </span>-J<span class="w"> </span>debug<span class="w"> </span>--nodes<span class="o">=</span><span class="m">2</span><span class="w"> </span>-n<span class="w"> </span><span class="m">4</span><span class="w"> </span>--time<span class="o">=</span><span class="m">08</span>:00:00<span class="w"> </span>--gres<span class="o">=</span>gpu:2<span class="w"> </span>--comment<span class="o">=</span>pytorch
+
+<span class="gp">$ </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$SLURM_NODELIST</span><span class="w"> </span>gpu<span class="o">[</span><span class="m">22</span>-23<span class="o">]</span><span class="w"> </span>
+
+<span class="gp">$ </span>module<span class="w"> </span>load<span class="w"> </span>gcc/10.2.0<span class="w"> </span>cuda/11.4<span class="w"> </span>cudampi/openmpi-4.1.1<span class="w"> </span>python/3.7.1<span class="w"> </span>
+<span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>activate<span class="w"> </span>my_pytorch<span class="w"> </span>
+
+<span class="gp gp-VirtualEnv">(my_pytorch)</span> <span class="gp">$ </span>horovodrun<span class="w"> </span>-np<span class="w"> </span><span class="m">4</span><span class="w"> </span>-H<span class="w"> </span>gpu22:2,gpu23:2<span class="w"> </span>python<span class="w"> </span>pytorch_ex.py
+</code></pre></div>
+
+<h2 id="gloo">나. GLOO<a class="headerlink" href="#gloo" title="Permanent link">&para;</a></h2>
+<ul>
+<li>GLOO는 Facebook 에서 개발한 오픈 소스 집단 커뮤니케이션 라이브러리로, horovod 에 포함되어 있으며 사용자가 MPI 를 설치하지 않고도 horovod 를 이용한 멀티노드 작업 수행을 지원합니다.</li>
+<li>GLOO의 설치는 horovod에 종속성을 가지며, horovod를 설치하는 과정에서 같이 설치됩니다.</li>
+</ul>
+<p>※ horovod 의 설치방법은 상단의 horovod 설치 및 확인을 참고 바랍니다.</p>
+<h3 id="1-gloo"><strong>1. GLOO 실행 예제</strong><a class="headerlink" href="#1-gloo" title="Permanent link">&para;</a></h3>
+<h4 id="1_4">1) 작업제출 스크립트 예제<a class="headerlink" href="#1_4" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="c1">#SBATCH -J test_job</span>
+<span class="c1">#SBATCH -p cas_v100_4</span>
+<span class="c1">#SBATCH -N 2</span>
+<span class="c1">#SBATCH -n 4</span>
+<span class="c1">#SBATCH -o %x.o%j</span>
+<span class="c1">#SBATCH -e %x.e%j</span>
+<span class="c1">#SBATCH --time 00:30:00</span>
+<span class="c1">#SBATCH --gres=gpu:2</span>
+<span class="c1">#SBATCH --comment tensorflow</span>
+
+module<span class="w"> </span>purge
+module<span class="w"> </span>load<span class="w"> </span>gcc/10.2.0<span class="w"> </span>cuda/11.4<span class="w"> </span>cudampi/openmpi-4.1.1<span class="w"> </span>python/3.7.1
+<span class="nb">source</span><span class="w"> </span>activate<span class="w"> </span>my_tensorflow
+
+horovodrun<span class="w"> </span>--gloo<span class="w"> </span>-np<span class="w"> </span><span class="m">4</span><span class="w"> </span>python<span class="w"> </span>tensorflow2_mnist.py
+</code></pre></div>
+
+<h4 id="2_4">2) 인터렉티브 작업제출을 이용한 실행<a class="headerlink" href="#2_4" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>salloc<span class="w"> </span>--partition<span class="o">=</span>cas_v100_4<span class="w"> </span>-J<span class="w"> </span>debug<span class="w"> </span>--nodes<span class="o">=</span><span class="m">2</span><span class="w"> </span>-n<span class="w"> </span><span class="m">4</span><span class="w"> </span>--time<span class="o">=</span><span class="m">08</span>:00:00<span class="w"> </span>--gres<span class="o">=</span>gpu:2<span class="w"> </span>--comment<span class="o">=</span>tensorflow
+
+<span class="gp">$ </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$SLURM_NODELIST</span>
+<span class="go">  gpu[12-13]</span>
+
+<span class="gp">$ </span>module<span class="w"> </span>load<span class="w"> </span>gcc/10.2.0<span class="w"> </span>cuda/11.4<span class="w"> </span>cudampi/openmpi-4.1.1<span class="w"> </span>python/3.7.1
+<span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>activate<span class="w"> </span>my_tensorflow
+
+<span class="gp gp-VirtualEnv">(my_tensorflow)</span> <span class="gp">$ </span>horovodrun<span class="w"> </span>–np<span class="w"> </span><span class="m">4</span><span class="w"> </span>--gloo<span class="w"> </span>--network-interface<span class="w"> </span>ib0<span class="w"> </span>-H<span class="w"> </span>gpu12:2,gpu13:2<span class="w"> </span>python<span class="w"> </span>tensorflow2_mnist.py
+</code></pre></div>
+
+<h2 id="ray">다. Ray<a class="headerlink" href="#ray" title="Permanent link">&para;</a></h2>
+<p>Ray는 멀티노드 환경에서 병렬 실행을 위한 python 기반의 워크로드를 제공합니다. 다양한 라이브러리를 사용하여 pytorch와 같은 딥러닝 모델에서 사용할 수 있습니다. 자세한 내용은 다음 홈페이지에서 확인할 수 있습니다.</p>
+<p><mark style="color:blue;"><strong><a href="https://docs.ray.io/en/latest/cluster/index.html">https://docs.ray.io/en/latest/cluster/index.html</a></strong></mark></p>
+<h3 id="1-ray"><strong>1. Ray 설치 및 단일 노드 실행 예제</strong><a class="headerlink" href="#1-ray" title="Permanent link">&para;</a></h3>
+<h4 id="1_5">1) 설치 방법<a class="headerlink" href="#1_5" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>module<span class="w"> </span>load<span class="w"> </span>gcc/10.2.0<span class="w"> </span>cuda/11.4<span class="w"> </span>cudampi/openmpi-4.1.1<span class="w"> </span>python/3.7.1
+<span class="gp">$ </span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>my_ray
+<span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>activate<span class="w"> </span>my_ray
+
+<span class="gp gp-VirtualEnv">(my_ray)</span> <span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>--no-cache-dir<span class="w"> </span>ray
+
+<span class="gp">$ </span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span>/home01/<span class="si">${</span><span class="nv">USER</span><span class="si">}</span>/.local/bin:<span class="nv">$PATH</span>
+</code></pre></div>
+
+<h4 id="2_5">2) 작업제출 스크립트 예제<a class="headerlink" href="#2_5" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="c1">#SBATCH -J test_job</span>
+<span class="c1">#SBATCH -p cas_v100_4</span>
+<span class="c1">#SBATCH -N 1</span>
+<span class="c1">#SBATCH -n 4</span>
+<span class="c1">#SBATCH -o %x.o%j</span>
+<span class="c1">#SBATCH -e %x.e%j</span>
+<span class="c1">#SBATCH --time 00:30:00</span>
+<span class="c1">#SBATCH --gres=gpu:2</span>
+<span class="c1">#SBATCH --comment xxx</span>
+
+module<span class="w"> </span>purge
+module<span class="w"> </span>load<span class="w"> </span>gcc/10.2.0<span class="w"> </span>cuda/11.4<span class="w"> </span>cudampi/openmpi-4.1.1<span class="w"> </span>python/3.7.1
+<span class="nb">source</span><span class="w"> </span>activate<span class="w"> </span>my_ray
+
+python<span class="w"> </span>test.py
+</code></pre></div>
+
+<p>{% code title="- test.py" %}</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">ray</span> 
+
+<span class="n">ray</span><span class="o">.</span><span class="n">init</span><span class="p">()</span> 
+
+<span class="nd">@ray</span><span class="o">.</span><span class="n">remote</span> 
+<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+     <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span> 
+
+ <span class="n">futures</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">remote</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span> 
+
+ <span class="nb">print</span><span class="p">(</span><span class="n">ray</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">futures</span><span class="p">))</span> <span class="c1"># [0, 1, 4, 9] </span>
+
+ <span class="nd">@ray</span><span class="o">.</span><span class="n">remote</span>
+ <span class="k">class</span><span class="w"> </span><span class="nc">Counter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span> 
+     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="mi">0</span> 
+
+     <span class="k">def</span><span class="w"> </span><span class="nf">increment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span> 
+
+     <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span> 
+
+<span class="n">counters</span> <span class="o">=</span> <span class="p">[</span><span class="n">Counter</span><span class="o">.</span><span class="n">remote</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span> 
+<span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">increment</span><span class="o">.</span><span class="n">remote</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">counters</span><span class="p">]</span> 
+<span class="n">futures</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">remote</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">counters</span><span class="p">]</span> 
+<span class="nb">print</span><span class="p">(</span><span class="n">ray</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">futures</span><span class="p">))</span> <span class="c1"># [1, 1, 1, 1]</span>
+</code></pre></div>
+
+<p>{% endcode %}</p>
+<h4 id="3">3) 인터렉티브 작업제출을 이용한 실행<a class="headerlink" href="#3" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>salloc<span class="w"> </span>--partition<span class="o">=</span>cas_v100_4<span class="w"> </span>-J<span class="w"> </span>debug<span class="w"> </span>--nodes<span class="o">=</span><span class="m">1</span><span class="w"> </span>-n<span class="w"> </span><span class="m">4</span><span class="w"> </span>--time<span class="o">=</span><span class="m">08</span>:00:00<span class="w"> </span>--gres<span class="o">=</span>gpu:2<span class="w"> </span>--comment<span class="o">=</span>xxx
+<span class="gp">$ </span>module<span class="w"> </span>load<span class="w"> </span>gcc/10.2.0<span class="w"> </span>cuda/11.4<span class="w"> </span>cudampi/openmpi-4.1.1<span class="w"> </span>python/3.7.1
+
+<span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>activate<span class="w"> </span>my_ray
+
+<span class="gp gp-VirtualEnv">(my_tensorflow)</span> <span class="gp">$ </span>python<span class="w"> </span>test.py
+<span class="go">[0, 1, 4, 9]</span>
+<span class="go">[1, 1, 1, 1]</span>
+</code></pre></div>
+
+<h3 id="2-ray-cluster"><strong>2. Ray Cluster 설치 및 멀티 노드 실행 예제</strong><a class="headerlink" href="#2-ray-cluster" title="Permanent link">&para;</a></h3>
+<p>Ray는 멀티노드 실행 시 하나의 head 노드와 다수의 worker 노드로 실행되며, 테스크를 할당된 자원에 효율적으로 스케줄링 해 줍니다. 3 </p>
+<p><img alt="https://docs.ray.io/en/latest/cluster/index.html" src="../../assets/Zc4DVCsuWDTjPfS2.png" /></p>
+<p>NERSC에서 작성한 예제는 GITHUB(<a href="https://github.com/NERSC/slurm-ray-cluster.git)를">https://github.com/NERSC/slurm-ray-cluster.git)를</a> 통해 다운로드 할 수 있고, 다음과 같이 실행할 수 있습니다.</p>
+<h4 id="1_6">1) 설치 방법<a class="headerlink" href="#1_6" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/NERSC/slurm-ray-cluster.git
+<span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>slurm-ray-cluster
+
+<span class="go">[edit submit-ray-cluster.sbatch, start-head.sh, start-worker.sh]</span>
+
+<span class="gp">$ </span>sbatch<span class="w"> </span>submit-ray-cluster.sbatch
+</code></pre></div>
+
+<h4 id="2_6">2) 작업제출 스크립트 예제<a class="headerlink" href="#2_6" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+
+<span class="c1">#SBATCH -J ray_test</span>
+<span class="c1">#SBATCH -p cas_v100_4</span>
+<span class="c1">#SBATCH --time=00:10:00</span>
+
+<span class="c1">### This script works for any number of nodes, Ray will find and manage all resources</span>
+<span class="c1">#SBATCH --nodes=2</span>
+
+<span class="c1">### Give all resources to a single Ray task, ray can manage the resources internally</span>
+<span class="c1">#SBATCH --ntasks-per-node=4</span>
+<span class="c1">#SBATCH --comment etc</span>
+<span class="c1">#SBATCH --gres=gpu:2</span>
+
+<span class="c1"># Load modules or your own conda environment here</span>
+module<span class="w"> </span>load<span class="w"> </span>gcc/8.3.0<span class="w"> </span>cuda/10.0<span class="w"> </span>cudampi/openmpi-3.1.0<span class="w"> </span>python/3.7.1
+<span class="nb">source</span><span class="w"> </span>activate<span class="w"> </span>my_ray
+<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span>/home01/<span class="si">${</span><span class="nv">USER</span><span class="si">}</span><span class="w"> </span>/.local/bin:<span class="nv">$PATH</span>
+
+
+…
+
+<span class="c1">#### call your code below</span>
+python<span class="w"> </span>test.py
+<span class="nb">exit</span><span class="w"> </span>
+</code></pre></div>
+
+<p>{% code title="- start-head.sh" %}</p>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash </span>
+
+<span class="c1">#export LC_ALL=C.UTF-8 </span>
+<span class="c1">#export LANG=C.UTF-8 </span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;starting ray head node&quot;</span><span class="w"> </span>
+<span class="c1"># Launch the head node </span>
+ray<span class="w"> </span>start<span class="w"> </span>--head<span class="w"> </span>--node-ip-address<span class="o">=</span><span class="nv">$1</span><span class="w"> </span>--port<span class="o">=</span><span class="m">12345</span><span class="w"> </span>--redis-password<span class="o">=</span><span class="nv">$2</span><span class="w"> </span>
+sleep<span class="w"> </span>infinity
+</code></pre></div>
+
+<p>{% endcode %}</p>
+<p>{% code title="- start-worker.sh" %}</p>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash </span>
+
+<span class="c1">#export LC_ALL=C.UTF-8 </span>
+<span class="c1">#export LANG=C.UTF-8 </span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;starting ray worker node&quot;</span><span class="w"> </span>
+ray<span class="w"> </span>start<span class="w"> </span>--address<span class="w"> </span><span class="nv">$1</span><span class="w"> </span>--redis-password<span class="o">=</span><span class="nv">$2</span><span class="w"> </span>
+sleep<span class="w"> </span>infinity
+</code></pre></div>
+
+<p>{% endcode %}</p>
+<h4 id="3-output">3) output<a class="headerlink" href="#3-output" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code>==========================================
+SLURM_JOB_ID = 107575
+SLURM_NODELIST = gpu[21-22]
+==========================================
+         &#39;cuda/10.0&#39; supports the {CUDA_MPI}. 
+IP Head: 10.151.0.21:12345
+STARTING HEAD at gpu21
+starting ray head node
+2022-04-27 10:57:38,976 INFO services.py:1092 -- View the Ray dashboard at http://localhost:8265
+2022-04-27 10:57:38,599 INFO scripts.py:467 -- Local node IP: 10.151.0.21
+2022-04-27 10:57:39,000 SUCC scripts.py:497 -- --------------------
+2022-04-27 10:57:39,000 SUCC scripts.py:498 -- Ray runtime started.
+2022-04-27 10:57:39,000 SUCC scripts.py:499 -- --------------------
+2022-04-27 10:57:39,000 INFO scripts.py:501 -- Next steps
+2022-04-27 10:57:39,000 INFO scripts.py:503 -- To connect to this Ray runtime from another node, run
+2022-04-27 10:57:39,000 INFO scripts.py:507 -- ray start --address=&#39;10.151.0.21:12345&#39; --redis-password=&#39;90268c54-9df9-4d98-b363-ed6ed4d61a61&#39;
+2022-04-27 10:57:39,000 INFO scripts.py:509 -- Alternatively, use the following Python code:
+2022-04-27 10:57:39,001 INFO scripts.py:512 -- import ray
+2022-04-27 10:57:39,001 INFO scripts.py:519 -- ray.init(address=&#39;auto&#39;, _redis_password=&#39;90268c54-9df9-4d98-b363-ed6ed4d61a61&#39;)
+2022-04-27 10:57:39,001 INFO scripts.py:522 -- If connection fails, check your firewall settings and network configuration.
+2022-04-27 10:57:39,001 INFO scripts.py:526 -- To terminate the Ray runtime, run
+2022-04-27 10:57:39,001 INFO scripts.py:527 -- ray stop
+STARTING WORKER 1 at gpu22
+starting ray worker node
+2022-04-27 10:58:08,922 INFO scripts.py:591 -- Local node IP: 10.151.0.22
+2022-04-27 10:58:09,069 SUCC scripts.py:606 -- --------------------
+2022-04-27 10:58:09,069 SUCC scripts.py:607 -- Ray runtime started.
+2022-04-27 10:58:09,069 SUCC scripts.py:608 -- --------------------
+2022-04-27 10:58:09,069 INFO scripts.py:610 -- To terminate the Ray runtime, run
+2022-04-27 10:58:09,069 INFO scripts.py:611 -- ray stop
+2022-04-27 10:58:13,915 INFO services.py:1092 -- View the Ray dashboard at http://127.0.0.1:8265
+[0, 1, 4, 9]
+[1, 1, 1, 1]
+</code></pre></div>
+
+<h3 id="3-ray-cluster-pytorch"><strong>3. Ray Cluster (pytorch) 설치 및 멀티 노드 실행 예제</strong><a class="headerlink" href="#3-ray-cluster-pytorch" title="Permanent link">&para;</a></h3>
+<h4 id="1_7">1) 설치 방법<a class="headerlink" href="#1_7" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>torch<span class="w"> </span>torchvision<span class="w"> </span>torchaudio<span class="w"> </span>tabulate<span class="w"> </span>tensorboardX
+
+<span class="go">[edit submit-ray-cluster.sbatch]</span>
+
+<span class="gp">$ </span>sbatch<span class="w"> </span>submit-ray-cluster.sbatch
+</code></pre></div>
+
+<h4 id="2_7">2) 작업제출 스크립트 예제<a class="headerlink" href="#2_7" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+
+<span class="c1">#SBATCH -J ray_test</span>
+<span class="c1">#SBATCH -p cas_v100_4</span>
+<span class="c1">#SBATCH --time=00:10:00</span>
+
+<span class="c1">### This script works for any number of nodes, Ray will find and manage all resources</span>
+<span class="c1">#SBATCH --nodes=2</span>
+
+<span class="c1">### Give all resources to a single Ray task, ray can manage the resources internally</span>
+<span class="c1">#SBATCH --ntasks-per-node=4</span>
+<span class="c1">#SBATCH --comment etc</span>
+<span class="c1">#SBATCH --gres=gpu:2</span>
+
+<span class="c1"># Load modules or your own conda environment here</span>
+module<span class="w"> </span>load<span class="w"> </span>gcc/8.3.0<span class="w"> </span>cuda/10.0<span class="w"> </span>cudampi/openmpi-3.1.0<span class="w"> </span>python/3.7.1
+<span class="nb">source</span><span class="w"> </span>activate<span class="w"> </span>my_ray
+<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span>/home01/<span class="si">${</span><span class="nv">USER</span><span class="si">}</span><span class="w"> </span>/.local/bin:<span class="nv">$PATH</span>
+
+…
+
+<span class="c1">#### call your code below</span>
+python<span class="w"> </span>examples/mnist_pytorch_trainable.py
+<span class="nb">exit</span>
+</code></pre></div>
+
+<p>{% code title="- mnist_pytorch_trainable.py" %}</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">print_function</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.optim</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">optim</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">ray</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ray</span><span class="w"> </span><span class="kn">import</span> <span class="n">tune</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ray.tune.schedulers</span><span class="w"> </span><span class="kn">import</span> <span class="n">ASHAScheduler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ray.tune.examples.mnist_pytorch</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">test</span><span class="p">,</span> <span class="n">get_data_loaders</span><span class="p">,</span>
+                                             <span class="n">ConvNet</span><span class="p">)</span>
+
+<span class="o">...</span>
+
+ <span class="n">ray</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">_node_ip_address</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;ip_head&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">_redis_password</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;redis_password&quot;</span><span class="p">])</span>
+      <span class="n">sched</span> <span class="o">=</span> <span class="n">ASHAScheduler</span><span class="p">(</span><span class="n">metric</span><span class="o">=</span><span class="s2">&quot;mean_accuracy&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="p">)</span>
+      <span class="n">analysis</span> <span class="o">=</span> <span class="n">tune</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">TrainMNIST</span><span class="p">,</span>
+                         <span class="n">scheduler</span><span class="o">=</span><span class="n">sched</span><span class="p">,</span>
+                         <span class="n">stop</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;mean_accuracy&quot;</span><span class="p">:</span> <span class="mf">0.99</span><span class="p">,</span>
+                               <span class="s2">&quot;training_iteration&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">},</span>
+                         <span class="n">resources_per_trial</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;cpu&quot;</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;gpu&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+                         <span class="n">num_samples</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+                         <span class="n">checkpoint_at_end</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                         <span class="n">config</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="n">tune</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+                                 <span class="s2">&quot;momentum&quot;</span><span class="p">:</span> <span class="n">tune</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">),</span>
+                                 <span class="s2">&quot;use_gpu&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+ <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Best config is:&quot;</span><span class="p">,</span> <span class="n">analysis</span><span class="o">.</span><span class="n">get_best_config</span><span class="p">(</span><span class="n">metric</span><span class="o">=</span><span class="s2">&quot;mean_accuracy&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="p">))</span>
+</code></pre></div>
+
+<p>{% endcode %}</p>
+<h4 id="3-output_1">3) output<a class="headerlink" href="#3-output_1" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code>...
+
+== Status == 
+Memory usage on this node: 57.4/377.4 GiB 
+Using AsyncHyperBand: num_stopped=11 
+Bracket: Iter 64.000: None | Iter 16.000: 0.9390625000000001 | Iter 4.000: 0.85625 | Iter 1.000: 0.534375 
+Resources requested: 80/80 CPUs, 8/8 GPUs, 0.0/454.88 GiB heap, 0.0/137.26 GiB objects 
+Result logdir: /home01/${USER}/ray_results/TrainMNIST_2022-04-27_11-24-20 
+Number of trials: 20/128 (1 PENDING, 8 RUNNING, 11 TERMINATED) 
++------------------------+------------+------------------+-----------+------------+----------+--------+------------------+ 
+| Trial name             | status     | loc              |        lr |   momentum |      acc |   iter |   total time (s) | 
+|------------------------+------------+------------------+-----------+------------+----------+--------+------------------| 
+| TrainMNIST_25518_00000 | RUNNING    | 10.151.0.22:4128 | 0.0831396 |   0.691582 | 0.953125 |     26 |         4.98667  | 
+| TrainMNIST_25518_00001 | RUNNING    | 10.151.0.22:4127 | 0.0581841 |   0.685648 | 0.94375  |     25 |         5.08798  | 
+| TrainMNIST_25518_00013 | RUNNING    |                  | 0.0114732 |   0.386122 |          |        |                  | 
+| TrainMNIST_25518_00014 | RUNNING    |                  | 0.686305  |   0.546706 |          |        |                  | 
+| TrainMNIST_25518_00015 | RUNNING    |                  | 0.442195  |   0.525069 |          |        |                  | 
+| TrainMNIST_25518_00016 | RUNNING    |                  | 0.647866  |   0.397167 |          |        |                  | 
+| TrainMNIST_25518_00017 | RUNNING    |                  | 0.479493  |   0.429876 |          |        |                  | 
+| TrainMNIST_25518_00018 | RUNNING    |                  | 0.341561  |   0.42485  |          |        |                  | 
+| TrainMNIST_25518_00019 | PENDING    |                  | 0.205629  |   0.551851 |          |        |                  | 
+| TrainMNIST_25518_00002 | TERMINATED |                  | 0.740295  |   0.209155 | 0.078125 |      1 |         0.206633 | 
+| TrainMNIST_25518_00003 | TERMINATED |                  | 0.202496  |   0.102844 | 0.853125 |      4 |         1.17559  | 
+| TrainMNIST_25518_00004 | TERMINATED |                  | 0.431773  |   0.449912 | 0.85625  |      4 |         0.811173 | 
+| TrainMNIST_25518_00005 | TERMINATED |                  | 0.595764  |   0.643525 | 0.121875 |      1 |         0.214556 | 
+| TrainMNIST_25518_00006 | TERMINATED |                  | 0.480667  |   0.412854 | 0.728125 |      4 |         0.885571 | 
+| TrainMNIST_25518_00007 | TERMINATED |                  | 0.544958  |   0.280743 | 0.15625  |      1 |         0.185517 | 
+| TrainMNIST_25518_00008 | TERMINATED |                  | 0.277231  |   0.258283 | 0.48125  |      1 |         0.186344 | 
+| TrainMNIST_25518_00009 | TERMINATED |                  | 0.87852   |   0.28864  | 0.10625  |      1 |         0.203304 | 
+| TrainMNIST_25518_00010 | TERMINATED |                  | 0.691046  |   0.351471 | 0.103125 |      1 |         0.23274  | 
+| TrainMNIST_25518_00011 | TERMINATED |                  | 0.926629  |   0.17118  | 0.121875 |      1 |         0.267205 | 
+| TrainMNIST_25518_00012 | TERMINATED |                  | 0.618234  |   0.881444 | 0.046875 |      1 |         0.226228 | 
++------------------------+------------+------------------+-----------+------------+----------+--------+------------------+
+...
+</code></pre></div>
+
+<h2 id="submit-it">라. Submit it<a class="headerlink" href="#submit-it" title="Permanent link">&para;</a></h2>
+<p>Submitit은 Slurm 클러스터 내에서 계산을 위해 Python 함수를 제출하기 위한 경량 도구입니다. 기본적으로 스케줄러에 제출된 내용을 정리하여 결과, 로그 등에 대한 액세스를 제공합니다.</p>
+<h3 id="1-1"><strong>1. 예제 (1)</strong><a class="headerlink" href="#1-1" title="Permanent link">&para;</a></h3>
+<p>{% code title="- add.py" %}</p>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/usr/bin/env python3 </span>
+
+ <span class="kn">import</span><span class="w"> </span><span class="nn">submitit</span> 
+
+ <span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span> 
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> 
+
+ <span class="c1"># create slurm wrapper object </span>
+<span class="n">executor</span> <span class="o">=</span> <span class="n">submitit</span><span class="o">.</span><span class="n">AutoExecutor</span><span class="p">(</span><span class="n">folder</span><span class="o">=</span><span class="s2">&quot;log_test&quot;</span><span class="p">)</span> 
+
+ <span class="c1"># update slurm parameters </span>
+<span class="n">executor</span><span class="o">.</span><span class="n">update_parameters</span><span class="p">(</span> 
+    <span class="n">partition</span><span class="o">=</span><span class="err">‘</span><span class="n">cas_V100_2</span><span class="err">’</span><span class="p">,</span> 
+    <span class="n">comment</span><span class="o">=</span><span class="err">‘</span><span class="n">python</span><span class="err">’</span> <span class="p">)</span> 
+
+ <span class="c1"># submit job </span>
+<span class="n">job</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span> 
+
+ <span class="c1"># print job ID </span>
+<span class="nb">print</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">job_id</span><span class="p">)</span> 
+
+ <span class="c1"># print result </span>
+<span class="nb">print</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">())</span>
+</code></pre></div>
+
+<p>{% endcode %}</p>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>./add.py<span class="w"> </span>
+<span class="go">110651 </span>
+<span class="go">12</span>
+</code></pre></div>
+
+<p>{% code title="- 110651_submission.sh" %}</p>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash </span>
+
+<span class="c1"># Parameters</span>
+<span class="c1">#SBATCH --comment=&quot;python&quot;</span>
+<span class="c1">#SBATCH --error=/scratch/${USER}/2022/02-submitit/test/log_test/%j_0_log.err</span>
+<span class="c1">#SBATCH --job-name=submitit</span>
+<span class="c1">#SBATCH --nodes=1</span>
+<span class="c1">#SBATCH --ntasks-per-node=1</span>
+<span class="c1">#SBATCH --open-mode=append</span>
+<span class="c1">#SBATCH --output=/scratch/${USER}/2022/02-submitit/test/log_test/%j_0_log.out</span>
+<span class="c1">#SBATCH --partition=cas_v100_2</span>
+<span class="c1">#SBATCH --signal=USR1@90</span>
+<span class="c1">#SBATCH --wckey=submitit</span>
+
+<span class="c1"># command</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">SUBMITIT_EXECUTOR</span><span class="o">=</span>slurm
+srun<span class="w"> </span>
+<span class="w">    </span>--output<span class="w"> </span>/scratch/<span class="si">${</span><span class="nv">USER</span><span class="si">}</span>/2022/02-submitit/test/log_test/%j_%t_log.out<span class="w"> </span>
+<span class="w">    </span>--error<span class="w"> </span>/scratch/<span class="si">${</span><span class="nv">USER</span><span class="si">}</span>/2022/02-submitit/test/log_test/%j_%t_log.err<span class="w"> </span>
+<span class="w">    </span>--unbuffered<span class="w"> </span>
+<span class="w">    </span>/scratch/<span class="si">${</span><span class="nv">USER</span><span class="si">}</span>/.conda/submitit/bin/python3<span class="w"> </span>
+<span class="w">    </span>-u<span class="w"> </span>
+<span class="w">    </span>-m<span class="w"> </span>submitit.core._submit<span class="w"> </span>
+<span class="w">    </span>/scratch/<span class="si">${</span><span class="nv">USER</span><span class="si">}</span>/2022/02-submitit/test/log_test
+</code></pre></div>
+
+<p>{% endcode %}</p>
+<ul>
+<li>Python function stored as pickle file</li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="go">-rw-r--r-- 1 testuser01 tu0000   0 May  4 21:28 log_test/110651_0_log.err</span>
+<span class="go">-rw-r--r-- 1 testuser01 tu0000 476 May  4 21:28 log_test/110651_0_log.out</span>
+<span class="go">-rw-r--r-- 1 testuser01 tu0000  26 May  4 21:28 log_test/110651_0_result.pkl</span>
+<span class="go">-rw-r--r-- 1 testuser01 tu0000 634 May  4 21:28 log_test/110651_submitted.pkl</span>
+<span class="go">-rw-r--r-- 1 testuser01 tu0000 735 May  4 21:28 log_test/110651_submission.sh</span>
+</code></pre></div>
+
+<h3 id="2-2"><strong>2. 예제 (2)</strong><a class="headerlink" href="#2-2" title="Permanent link">&para;</a></h3>
+<p>{% code title="- add.py" %}</p>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/usr/bin/env python3 </span>
+
+ <span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span> 
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> 
+
+ <span class="nb">print</span><span class="p">(</span><span class="n">add</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span> 
+</code></pre></div>
+
+<p>{% endcode %}</p>
+<p>{% code title="- run.sh" %}</p>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+
+<span class="c1">#SBATCH --comment=&quot;python&quot; </span>
+<span class="c1">#SBATCH --job-name=submitit </span>
+<span class="c1">#SBATCH --nodes=1 </span>
+<span class="c1">#SBATCH --ntasks-per-node=1 </span>
+<span class="c1">#SBATCH --partition=cas_v100_2 </span>
+
+./add.py
+</code></pre></div>
+
+<p>{% endcode %}</p>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>sbatch<span class="w"> </span>run.sh<span class="w"> </span>
+<span class="go">110650</span>
+</code></pre></div>
+
+<p>{% code title="- add.py" %}</p>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/usr/bin/env python3 </span>
+
+ <span class="kn">import</span><span class="w"> </span><span class="nn">submitit</span> 
+
+ <span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span> 
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> 
+
+ <span class="c1"># create slurm wrapper object </span>
+<span class="n">executor</span> <span class="o">=</span> <span class="n">submitit</span><span class="o">.</span><span class="n">AutoExecutor</span><span class="p">(</span><span class="n">folder</span><span class="o">=</span><span class="s2">&quot;log_test&quot;</span><span class="p">)</span> 
+
+ <span class="c1"># update slurm parameters </span>
+<span class="n">executor</span><span class="o">.</span><span class="n">update_parameters</span><span class="p">(</span> 
+    <span class="n">partition</span><span class="o">=</span><span class="err">‘</span><span class="n">cas_V100_2</span><span class="err">’</span><span class="p">,</span> 
+    <span class="n">comment</span><span class="o">=</span><span class="err">‘</span><span class="n">python</span><span class="err">’</span> 
+<span class="p">)</span> 
+
+ <span class="c1"># submit job </span>
+<span class="n">job</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span> 
+
+ <span class="c1"># print job ID </span>
+<span class="nb">print</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">job_id</span><span class="p">)</span> 
+
+ <span class="c1"># print result </span>
+<span class="nb">print</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">())</span>
+</code></pre></div>
+
+<p>{% endcode %}</p>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>./add.py<span class="w"> </span>
+<span class="go">110651 </span>
+<span class="go">12</span>
+</code></pre></div>
+
+<p><img alt="(Submit multiple jobs in parallel, resource scan (ngpus, ntasks, etc) and capture output for postprocessing)" src="../../assets/H746lt00AV5yGsv.png" /></p>
+<h3 id="3-submit-multitask-job"><strong>3. Submit: Multitask Job 예제</strong><a class="headerlink" href="#3-submit-multitask-job" title="Permanent link">&para;</a></h3>
+<p>{% code title="- add_para.py" %}</p>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/usr/bin/env python3 </span>
+
+ <span class="kn">import</span><span class="w"> </span><span class="nn">submitit</span> 
+
+ <span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span> 
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> 
+
+ <span class="c1"># create slurm object </span>
+<span class="n">executor</span> <span class="o">=</span> <span class="n">submitit</span><span class="o">.</span><span class="n">AutoExecutor</span><span class="p">(</span><span class="n">folder</span><span class="o">=</span><span class="s2">&quot;log_test&quot;</span><span class="p">)</span> 
+
+ <span class="c1"># slurm parameters </span>
+<span class="n">executor</span><span class="o">.</span><span class="n">update_parameters</span><span class="p">(</span> 
+    <span class="n">partition</span><span class="o">=</span><span class="err">‘</span><span class="n">cas_V100_2</span><span class="err">’</span><span class="p">,</span> 
+    <span class="n">comment</span><span class="o">=</span><span class="err">‘</span><span class="n">python</span><span class="err">’</span><span class="p">,</span> 
+    <span class="n">ntasks_per_node</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span> 
+<span class="p">)</span> 
+
+ <span class="c1"># submit job </span>
+<span class="n">job</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span> 
+
+ <span class="c1"># print job ID </span>
+<span class="nb">print</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">job_id</span><span class="p">)</span> 
+
+ <span class="c1"># print results </span>
+<span class="nb">print</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">results</span><span class="p">())</span>
+</code></pre></div>
+
+<p>{% endcode %}</p>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>./add_para.py<span class="w"> </span>
+<span class="go">110658 </span>
+<span class="go">[12, 12, 12]</span>
+</code></pre></div>
+
+<p>{% code title="- submitit/submitit/slurm/slurm.py" %}</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">_make_sbatch_string</span><span class="p">(</span> 
+    <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> 
+    <span class="n">folder</span><span class="p">:</span> <span class="n">tp</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span> 
+    <span class="n">job_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;submitit&quot;</span><span class="p">,</span> 
+    <span class="n">partition</span><span class="p">:</span> <span class="n">tp</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
+    <span class="n">time</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> 
+    <span class="n">nodes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> 
+    <span class="n">ntasks_per_node</span><span class="p">:</span> <span class="n">tp</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
+    <span class="n">cpus_per_task</span><span class="p">:</span> <span class="n">tp</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
+    <span class="n">cpus_per_gpu</span><span class="p">:</span> <span class="n">tp</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
+    <span class="n">num_gpus</span><span class="p">:</span> <span class="n">tp</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># legacy </span>
+    <span class="n">gpus_per_node</span><span class="p">:</span> <span class="n">tp</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
+    <span class="n">gpus_per_task</span><span class="p">:</span> <span class="n">tp</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
+    <span class="n">qos</span><span class="p">:</span> <span class="n">tp</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># quality of service </span>
+    <span class="n">setup</span><span class="p">:</span> <span class="n">tp</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">tp</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
+    <span class="n">mem</span><span class="p">:</span> <span class="n">tp</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
+    <span class="n">mem_per_gpu</span><span class="p">:</span> <span class="n">tp</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
+    <span class="n">mem_per_cpu</span><span class="p">:</span> <span class="n">tp</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
+    <span class="n">signal_delay_s</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">90</span><span class="p">,</span> 
+    <span class="n">comment</span><span class="p">:</span> <span class="n">tp</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
+    <span class="n">constraint</span><span class="p">:</span> <span class="n">tp</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
+    <span class="n">exclude</span><span class="p">:</span> <span class="n">tp</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
+    <span class="n">account</span><span class="p">:</span> <span class="n">tp</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
+    <span class="n">gres</span><span class="p">:</span> <span class="n">tp</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
+    <span class="n">exclusive</span><span class="p">:</span> <span class="n">tp</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">tp</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
+    <span class="n">array_parallelism</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">256</span><span class="p">,</span> 
+    <span class="n">wckey</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;submitit&quot;</span><span class="p">,</span> 
+    <span class="n">stderr_to_stdout</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> 
+    <span class="n">map_count</span><span class="p">:</span> <span class="n">tp</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># used internally </span>
+    <span class="n">additional_parameters</span><span class="p">:</span> <span class="n">tp</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">tp</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">tp</span><span class="o">.</span><span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
+    <span class="n">srun_args</span><span class="p">:</span> <span class="n">tp</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">tp</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</code></pre></div>
+
+<p>{% endcode %}</p>
+<div class="codehilite"><pre><span></span><code><span class="go"> - 110658_0_log.out </span>
+<span class="go">submitit INFO (2022-04-08 12:32:19,583) </span>
+<span class="go">- Starting with JobEnvironment(job_id=110658, hostname=gpu25, local_rank=0(3), node=0(1), </span>
+<span class="go">global_rank=0(3)) submitit INFO (2022-04-08 12:32:19,584) </span>
+<span class="go">- Loading pickle: /scratch/${USER}/2022/02-submitit/test/log_test/110658_submitted.pkl </span>
+<span class="go">submitit INFO (2022-04-08 12:32:19,612) - Job completed successfully </span>
+
+<span class="go"> - 110658_1_log.out submitit </span>
+<span class="go">INFO (2022-04-08 12:32:19,584) </span>
+<span class="go">- Starting with JobEnvironment(job_id=110658, hostname=gpu25, local_rank=1(3), node=0(1), global_rank=1(3)) </span>
+<span class="go">submitit INFO (2022-04-08 12:32:19,620) </span>
+<span class="go">- Loading pickle: /scratch/${USER}/2022/02-submitit/test/log_test/110658_submitted.pkl </span>
+<span class="go">submitit INFO (2022-04-08 12:32:19,624) - Job completed successfully </span>
+
+<span class="go"> - 110658_2_log.out </span>
+<span class="go">submitit INFO (2022-04-08 12:32:19,583) </span>
+<span class="go">- Starting with JobEnvironment(job_id=110658, hostname=gpu25, local_rank=2(3), node=0(1), global_rank=2(3)) </span>
+<span class="go">submitit INFO (2022-04-08 12:32:19,676) </span>
+<span class="go">- Loading pickle: /scratch/${USER}/2022/02-submitit/test/log_test/110658_submitted.pkl </span>
+<span class="go">submitit INFO (2022-04-08 12:32:19,681) - Job completed successfully</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span> 
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.multiprocessing</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mp</span> 
+<span class="kn">import</span><span class="w"> </span><span class="nn">torchvision</span> 
+
+ <span class="k">class</span><span class="w"> </span><span class="nc">NeuralNet</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">layer1</span> <span class="o">=</span> <span class="err">…</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">layer2</span> <span class="o">=</span> <span class="err">…</span> 
+
+
+<span class="c1">#Allow passing an NN object to submit()</span>
+      <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+         <span class="n">job_env</span> <span class="o">=</span> <span class="n">submitit</span><span class="o">.</span><span class="n">JobEnvironment</span><span class="p">()</span> <span class="c1"># local rank, global rank </span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">MNIST</span><span class="p">(</span><span class="err">…</span><span class="p">)</span> 
+        <span class="n">loader</span>  <span class="o">=</span>  <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="err">…</span><span class="p">)</span> 
+
+        <span class="n">mp</span><span class="o">.</span><span class="n">spawn</span><span class="p">(</span><span class="err">…</span><span class="p">)</span> <span class="c1"># data distributed training</span>
+
+<span class="n">mnist</span> <span class="o">=</span> <span class="n">NeuralNet</span><span class="p">()</span> <span class="err">…</span> <span class="n">job</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">mnist</span><span class="p">)</span>
+<span class="o">...</span>
+<span class="n">job</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">mnist</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="nccl">마. NCCL<a class="headerlink" href="#nccl" title="Permanent link">&para;</a></h2>
+<p>뉴론 시스템에서 NVIDIA GPU에 최적화된 다중 GPU 및 다중 노드 집단 통신 라이브러리인 NCCL의 설치방법 및 예제 실행 방법을 소개합니다.</p>
+<h3 id="1-nccl"><strong>1. NCCL설치 및 확인</strong><a class="headerlink" href="#1-nccl" title="Permanent link">&para;</a></h3>
+<h4 id="1_8">1) 설치 방법<a class="headerlink" href="#1_8" title="Permanent link">&para;</a></h4>
+<p><a href="https://developer.nvidia.com/nccl/nccl-legacy-downloads에서">https://developer.nvidia.com/nccl/nccl-legacy-downloads에서</a> 설치를 원하는 버전 다운로드</p>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>tar<span class="w"> </span>Jxvf<span class="w"> </span>nccl_2.11.4-1+cuda11.4_x86_64.txz
+</code></pre></div>
+
+<h4 id="2_8">2) 설치 확인<a class="headerlink" href="#2_8" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>ls<span class="w"> </span>–al<span class="w"> </span>nccl_2.11.4-1+cuda11.4_x86_64/
+<span class="go">include/  lib/    LICENSE.txt</span>
+</code></pre></div>
+
+<h3 id="2-nccl"><strong>2. NCCL실행 예제</strong><a class="headerlink" href="#2-nccl" title="Permanent link">&para;</a></h3>
+<h4 id="1_9">1) 실행 예제 다운로드<a class="headerlink" href="#1_9" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/1duo/nccl-examples
+</code></pre></div>
+
+<h4 id="2_9">2) 실행 예제 컴파일<a class="headerlink" href="#2_9" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>module<span class="w"> </span>load<span class="w"> </span>gcc/10.2.0<span class="w"> </span>cuda/11.4<span class="w"> </span>cudampi/openmpi-4.1.1
+
+<span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>nccl-example​
+<span class="gp">$ </span>mkdir<span class="w"> </span>build
+<span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>build
+<span class="gp">$ </span>cmake<span class="w"> </span>-DNCCL_INCLUDE_DIR<span class="o">=</span><span class="nv">$NCCL_HOME</span>/include
+<span class="go">                -DNCCL_LIBRARY=$NCCL_HOME/lib/libnccl.so ..</span>
+<span class="gp">$ </span>make
+</code></pre></div>
+
+<h4 id="3_1">3) 실행 결과 확인<a class="headerlink" href="#3_1" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>./run.sh
+<span class="go">Example 1: Single Process, Single Thread, Multiple Devices</span>
+<span class="go">Success</span>
+<span class="go">Example 2: One Device Per Process Or Thread</span>
+<span class="go">[MPI Rank 1] Success</span>
+<span class="go">[MPI Rank 0] Success</span>
+<span class="go">Example 3: Multiple Devices Per Thread</span>
+<span class="go">[MPI Rank 1] Success</span>
+<span class="go">[MPI Rank 0] Success</span>
+</code></pre></div>
+
+<h4 id="4-example-3-2-8gpu">4) 위의 Example 3을 이용한 2노드 8GPU 실행 예제<a class="headerlink" href="#4-example-3-2-8gpu" title="Permanent link">&para;</a></h4>
+<h4 id="4-1">4-1) 작업스크립트<a class="headerlink" href="#4-1" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/sh</span>
+<span class="c1">#SBATCH -J STREAM</span>
+<span class="c1">#SBATCH --time=10:00:00 # walltime</span>
+<span class="c1">#SBATCH --nodes=2</span>
+<span class="c1">#SBATCH --ntasks-per-node=1</span>
+<span class="c1">#SBATCH --cpus-per-task=1</span>
+<span class="c1">#SBATCH --gres=gpu:4</span>
+<span class="c1">#SBATCH -o %N_%j.out</span>
+<span class="c1">#SBATCH -e %N_%j.err</span>
+<span class="c1">#SBATCH -p amd_a100_4</span>
+
+srun<span class="w"> </span>build/examples/example-3
+</code></pre></div>
+
+<h4 id="4-2">4-2) 예제 코드<a class="headerlink" href="#4-2" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="c1">//</span>
+<span class="c1">// Example 3: Multiple Devices Per Thread</span>
+<span class="c1">//</span>
+
+<span class="cp">#include</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;cuda_runtime.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;nccl.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mpi.h&quot;</span>
+<span class="cp">#include</span>
+<span class="cp">#include</span>
+<span class="cp">#include</span>
+
+<span class="cp">#define MPICHECK(cmd) do {                          \</span>
+<span class="cp">  int e = cmd;                                      \</span>
+<span class="cp">  if( e != MPI_SUCCESS ) {                          \</span>
+<span class="cp">    printf(&quot;Failed: MPI error %s:%d &#39;%d&#39;\n&quot;,        \</span>
+<span class="cp">        __FILE__,__LINE__, e);                      \</span>
+<span class="cp">    exit(EXIT_FAILURE);                             \</span>
+<span class="cp">  }                                                 \</span>
+<span class="cp">} while(0)</span>
+
+<span class="cp">#define CUDACHECK(cmd) do {                         \</span>
+<span class="cp">  cudaError_t e = cmd;                              \</span>
+<span class="cp">  if( e != cudaSuccess ) {                          \</span>
+<span class="cp">    printf(&quot;Failed: Cuda error %s:%d &#39;%s&#39;\n&quot;,       \</span>
+<span class="cp">        __FILE__,__LINE__,cudaGetErrorString(e));   \</span>
+<span class="cp">    exit(EXIT_FAILURE);                             \</span>
+<span class="cp">  }                                                 \</span>
+<span class="cp">} while(0)</span>
+
+
+<span class="cp">#define NCCLCHECK(cmd) do {                         \</span>
+<span class="cp">  ncclResult_t r = cmd;                             \</span>
+<span class="cp">  if (r!= ncclSuccess) {                            \</span>
+<span class="cp">    printf(&quot;Failed, NCCL error %s:%d &#39;%s&#39;\n&quot;,       \</span>
+<span class="cp">        __FILE__,__LINE__,ncclGetErrorString(r));   \</span>
+<span class="cp">    exit(EXIT_FAILURE);                             \</span>
+<span class="cp">  }                                                 \</span>
+<span class="cp">} while(0)</span>
+
+<span class="k">static</span><span class="w"> </span><span class="kt">uint64_t</span><span class="w"> </span><span class="nf">getHostHash</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">string</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Based on DJB2, result = result * 33 + char</span>
+<span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5381</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">string</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="sc">&#39;\0&#39;</span><span class="p">;</span><span class="w"> </span><span class="n">c</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="n">result</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">result</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">string</span><span class="p">[</span><span class="n">c</span><span class="p">];</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">getHostName</span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">hostname</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">maxlen</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">gethostname</span><span class="p">(</span><span class="n">hostname</span><span class="p">,</span><span class="w"> </span><span class="n">maxlen</span><span class="p">);</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">maxlen</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">hostname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="sc">&#39;.&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">hostname</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sc">&#39;\0&#39;</span><span class="p">;</span>
+<span class="w">            </span><span class="k">return</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">argv</span><span class="p">[])</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">//int size = 32 * 1024 * 1024;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">myRank</span><span class="p">,</span><span class="w"> </span><span class="n">nRanks</span><span class="p">,</span><span class="w"> </span><span class="n">localRank</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// initializing MPI</span>
+<span class="w">    </span><span class="n">MPICHECK</span><span class="p">(</span><span class="n">MPI_Init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">argv</span><span class="p">));</span>
+<span class="w">    </span><span class="n">MPICHECK</span><span class="p">(</span><span class="n">MPI_Comm_rank</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">myRank</span><span class="p">));</span>
+<span class="w">    </span><span class="n">MPICHECK</span><span class="p">(</span><span class="n">MPI_Comm_size</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">nRanks</span><span class="p">));</span>
+
+<span class="w">    </span><span class="c1">// calculating localRank which is used in selecting a GPU</span>
+<span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">hostHashs</span><span class="p">[</span><span class="n">nRanks</span><span class="p">];</span>
+<span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">hostname</span><span class="p">[</span><span class="mi">1024</span><span class="p">];</span>
+<span class="w">    </span><span class="n">getHostName</span><span class="p">(</span><span class="n">hostname</span><span class="p">,</span><span class="w"> </span><span class="mi">1024</span><span class="p">);</span>
+<span class="w">    </span><span class="n">hostHashs</span><span class="p">[</span><span class="n">myRank</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getHostHash</span><span class="p">(</span><span class="n">hostname</span><span class="p">);</span>
+<span class="w">    </span><span class="n">MPICHECK</span><span class="p">(</span><span class="n">MPI_Allgather</span><span class="p">(</span><span class="n">MPI_IN_PLACE</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_DATATYPE_NULL</span><span class="p">,</span>
+<span class="w">                           </span><span class="n">hostHashs</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">uint64_t</span><span class="p">),</span><span class="w"> </span><span class="n">MPI_BYTE</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_COMM_WORLD</span><span class="p">));</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">nRanks</span><span class="p">;</span><span class="w"> </span><span class="n">p</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">myRank</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">hostHashs</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">hostHashs</span><span class="p">[</span><span class="n">myRank</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">localRank</span><span class="o">++</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// each process is using four GPUs</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">nDev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="o">**</span><span class="n">hostsendbuff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="o">**</span><span class="p">)</span><span class="w"> </span><span class="n">malloc</span><span class="p">(</span><span class="n">nDev</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="p">));</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="o">**</span><span class="n">hostrecvbuff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="o">**</span><span class="p">)</span><span class="w"> </span><span class="n">malloc</span><span class="p">(</span><span class="n">nDev</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="p">));</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="o">**</span><span class="n">sendbuff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="o">**</span><span class="p">)</span><span class="w"> </span><span class="n">malloc</span><span class="p">(</span><span class="n">nDev</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="p">));</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="o">**</span><span class="n">recvbuff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="o">**</span><span class="p">)</span><span class="w"> </span><span class="n">malloc</span><span class="p">(</span><span class="n">nDev</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="p">));</span>
+
+<span class="w">    </span><span class="n">cudaStream_t</span><span class="w"> </span><span class="o">*</span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">cudaStream_t</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">cudaStream_t</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">nDev</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// picking GPUs based on localRank</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">nDev</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">hostsendbuff</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">malloc</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">));</span>
+<span class="w">               </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">size</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">hostsendbuff</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">                    </span><span class="n">hostrecvbuff</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">malloc</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">));</span>
+
+<span class="w">        </span><span class="n">CUDACHECK</span><span class="p">(</span><span class="n">cudaSetDevice</span><span class="p">(</span><span class="n">localRank</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">nDev</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="p">));</span>
+<span class="w">        </span><span class="n">CUDACHECK</span><span class="p">(</span><span class="n">cudaMalloc</span><span class="p">(</span><span class="n">sendbuff</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">)));</span>
+<span class="w">        </span><span class="n">CUDACHECK</span><span class="p">(</span><span class="n">cudaMalloc</span><span class="p">(</span><span class="n">recvbuff</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">)));</span>
+<span class="w">        </span><span class="n">CUDACHECK</span><span class="p">(</span><span class="n">cudaMemcpy</span><span class="p">(</span><span class="n">sendbuff</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">hostsendbuff</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">),</span>
+<span class="w">                              </span><span class="n">cudaMemcpyHostToDevice</span><span class="p">));</span>
+<span class="w">        </span><span class="n">CUDACHECK</span><span class="p">(</span><span class="n">cudaMemset</span><span class="p">(</span><span class="n">recvbuff</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">)));</span>
+<span class="w">        </span><span class="n">CUDACHECK</span><span class="p">(</span><span class="n">cudaStreamCreate</span><span class="p">(</span><span class="n">s</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">ncclUniqueId</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ncclComm_t</span><span class="w"> </span><span class="n">comms</span><span class="p">[</span><span class="n">nDev</span><span class="p">];</span>
+
+<span class="w">    </span><span class="c1">// generating NCCL unique ID at one process and broadcasting it to all</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">myRank</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">ncclGetUniqueId</span><span class="p">(</span><span class="o">&amp;</span><span class="n">id</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">MPICHECK</span><span class="p">(</span><span class="n">MPI_Bcast</span><span class="p">((</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">id</span><span class="p">),</span><span class="w"> </span><span class="n">MPI_BYTE</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                       </span><span class="n">MPI_COMM_WORLD</span><span class="p">));</span>
+<span class="w">    </span><span class="c1">// initializing NCCL, group API is required around ncclCommInitRank</span>
+<span class="w">    </span><span class="c1">// as it is called across multiple GPUs in each thread/process</span>
+<span class="w">    </span><span class="n">NCCLCHECK</span><span class="p">(</span><span class="n">ncclGroupStart</span><span class="p">());</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">nDev</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">CUDACHECK</span><span class="p">(</span><span class="n">cudaSetDevice</span><span class="p">(</span><span class="n">localRank</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">nDev</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="p">));</span>
+<span class="w">        </span><span class="n">NCCLCHECK</span><span class="p">(</span><span class="n">ncclCommInitRank</span><span class="p">(</span><span class="n">comms</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">nRanks</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">nDev</span><span class="p">,</span><span class="w"> </span><span class="n">id</span><span class="p">,</span>
+<span class="w">                                   </span><span class="n">myRank</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">nDev</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">NCCLCHECK</span><span class="p">(</span><span class="n">ncclGroupEnd</span><span class="p">());</span>
+
+<span class="w">    </span><span class="c1">// calling NCCL communication API. Group API is required when</span>
+<span class="w">    </span><span class="c1">// using multiple devices per thread/process</span>
+<span class="w">    </span><span class="n">NCCLCHECK</span><span class="p">(</span><span class="n">ncclGroupStart</span><span class="p">());</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">nDev</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="n">NCCLCHECK</span><span class="p">(</span><span class="n">ncclAllReduce</span><span class="p">((</span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">sendbuff</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+<span class="w">                             </span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">recvbuff</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="n">ncclInt</span><span class="p">,</span><span class="w"> </span><span class="n">ncclSum</span><span class="p">,</span>
+<span class="w">                             </span><span class="n">comms</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]));</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">NCCLCHECK</span><span class="p">(</span><span class="n">ncclGroupEnd</span><span class="p">());</span>
+
+<span class="w">    </span><span class="c1">// synchronizing on CUDA stream to complete NCCL communication</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">nDev</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">CUDACHECK</span><span class="p">(</span><span class="n">cudaStreamSynchronize</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]));</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// freeing device memory</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">nDev</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">CUDACHECK</span><span class="p">(</span><span class="n">cudaMemcpy</span><span class="p">(</span><span class="n">hostrecvbuff</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">recvbuff</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">),</span>
+<span class="w">                             </span><span class="n">cudaMemcpyDeviceToHost</span><span class="p">));</span>
+<span class="w">        </span><span class="n">CUDACHECK</span><span class="p">(</span><span class="n">cudaFree</span><span class="p">(</span><span class="n">sendbuff</span><span class="p">[</span><span class="n">i</span><span class="p">]));</span>
+<span class="w">        </span><span class="n">CUDACHECK</span><span class="p">(</span><span class="n">cudaFree</span><span class="p">(</span><span class="n">recvbuff</span><span class="p">[</span><span class="n">i</span><span class="p">]));</span>
+
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot; </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">nDev</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s rank:%d gpu%d &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">hostname</span><span class="p">,</span><span class="w"> </span><span class="n">myRank</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">);</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">size</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">hostsendbuff</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot; </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">nDev</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s rank:%d gpu%d &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">hostname</span><span class="p">,</span><span class="w"> </span><span class="n">myRank</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">);</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">size</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">hostrecvbuff</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// finalizing NCCL</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">nDev</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">ncclCommDestroy</span><span class="p">(</span><span class="n">comms</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// finalizing MPI</span>
+<span class="w">    </span><span class="n">MPICHECK</span><span class="p">(</span><span class="n">MPI_Finalize</span><span class="p">());</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[MPI Rank %d] Success </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">myRank</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h4 id="4-3">4-3) 실행 결과<a class="headerlink" href="#4-3" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="go">gpu37 rank:1 gpu0 1 1 1 1 1 1 1 1</span>
+<span class="go">gpu37 rank:1 gpu1 2 2 2 2 2 2 2 2</span>
+<span class="go">gpu37 rank:1 gpu2 3 3 3 3 3 3 3 3</span>
+<span class="go">gpu37 rank:1 gpu3 4 4 4 4 4 4 4 4</span>
+
+<span class="go">gpu37 rank:1 gpu0 0 0 0 0 0 0 0 0</span>
+<span class="go">gpu37 rank:1 gpu1 0 0 0 0 0 0 0 0</span>
+<span class="go">gpu37 rank:1 gpu2 0 0 0 0 0 0 0 0</span>
+<span class="go">gpu37 rank:1 gpu3 0 0 0 0 0 0 0 0</span>
+<span class="go">[MPI Rank 1] Success</span>
+
+<span class="go">gpu36 rank:0 gpu0 1 1 1 1 1 1 1 1</span>
+<span class="go">gpu36 rank:0 gpu1 2 2 2 2 2 2 2 2</span>
+<span class="go">gpu36 rank:0 gpu2 3 3 3 3 3 3 3 3</span>
+<span class="go">gpu36 rank:0 gpu3 4 4 4 4 4 4 4 4</span>
+
+<span class="go">gpu36 rank:0 gpu0 20 20 20 20 20 20 20 20</span>
+<span class="go">gpu36 rank:0 gpu1 0 0 0 0 0 0 0 0</span>
+<span class="go">gpu36 rank:0 gpu2 0 0 0 0 0 0 0 0</span>
+<span class="go">gpu36 rank:0 gpu3 0 0 0 0 0 0 0 0</span>
+
+<span class="go">[MPI Rank 0] Success</span>
+</code></pre></div>
+
+<p><img alt="" src="../../assets/3iL4KlEig5blzQ9.png" /></p>
+<h2 id="tensorflow-distribute"><strong>바. Tensorflow Distribute</strong><a class="headerlink" href="#tensorflow-distribute" title="Permanent link">&para;</a></h2>
+<p>Tensorflow Distibute는 멀티 GPU 또는 멀티 서버를 활용하여 분산 훈련을 할 수 있는 Tensorflow API 입니다(Tensorflow 2.0 사용).</p>
+<h3 id="1-conda-tensorflow"><strong>1. Conda 환경에서 tensorflow 설치 및 확인</strong><a class="headerlink" href="#1-conda-tensorflow" title="Permanent link">&para;</a></h3>
+<h4 id="1_10">1) 설치 방법<a class="headerlink" href="#1_10" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>module<span class="w"> </span>load<span class="w"> </span>python/3.7.1
+<span class="gp">$ </span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>tf_test
+<span class="gp">$ </span>conda<span class="w"> </span>activate<span class="w"> </span>tf_test
+<span class="gp gp-VirtualEnv">(tf_test)</span> <span class="gp">$ </span>conda<span class="w"> </span>install<span class="w"> </span>tensorflow
+</code></pre></div>
+
+<h4 id="2_10">2) 설치 확인<a class="headerlink" href="#2_10" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="gp gp-VirtualEnv">(tf_test)</span> <span class="gp">$ </span>conda<span class="w"> </span>list<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>tensorflow
+<span class="go">tensorflow                2.0.0           gpu_py37h768510d_0</span>
+<span class="go">tensorflow-base           2.0.0           gpu_py37h0ec5d1f_0</span>
+<span class="go">tensorflow-estimator      2.0.0              pyh2649769_0</span>
+<span class="go">tensorflow-gpu            2.0.0                h0d30ee6_0</span>
+<span class="go">tensorflow-metadata       1.7.0                    pypi_0    pypi</span>
+</code></pre></div>
+
+<h3 id="2-gpu-tfdistributemirroredstrategy"><strong>2. 단일 노드, 멀티 GPU 활용(tf.distribute.MirroredStrategy() 사용)</strong><a class="headerlink" href="#2-gpu-tfdistributemirroredstrategy" title="Permanent link">&para;</a></h3>
+<h4 id="1-tf_multi_keraspy">1) 코드 예제(tf_multi_keras.py)<a class="headerlink" href="#1-tf_multi_keraspy" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf</span> 
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span> 
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span> 
+
+<span class="n">strategy</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">distribute</span><span class="o">.</span><span class="n">MirroredStrategy</span><span class="p">()</span> 
+
+<span class="n">BUFFER_SIZE</span> <span class="o">=</span> <span class="mi">1000</span> 
+
+<span class="n">n_workers</span> <span class="o">=</span> <span class="mi">1</span> 
+<span class="n">batch_size_per_gpu</span> <span class="o">=</span> <span class="mi">64</span> 
+<span class="n">global_batch_size</span> <span class="o">=</span> <span class="n">batch_size_per_gpu</span> <span class="o">*</span> <span class="n">n_workers</span> 
+
+ <span class="k">def</span><span class="w"> </span><span class="nf">mnist_dataset</span><span class="p">(</span><span class="n">batch_size</span><span class="p">):</span> 
+        <span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">),</span> <span class="n">_</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">mnist</span><span class="o">.</span><span class="n">load_data</span><span class="p">()</span> 
+        <span class="n">x_train</span> <span class="o">=</span> <span class="n">x_train</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> 
+        <span class="n">y_train</span> <span class="o">=</span> <span class="n">y_train</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span> 
+        <span class="n">train_dataset</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_tensor_slices</span><span class="p">((</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">))</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="mi">60000</span><span class="p">)</span><span class="o">.</span><span class="n">repeat</span><span class="p">()</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="n">batch_size</span><span class="p">)</span> 
+        <span class="k">return</span> <span class="n">train_dataset</span> 
+
+ <span class="k">def</span><span class="w"> </span><span class="nf">build_and_compile_cnn_model</span><span class="p">():</span> 
+        <span class="n">model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">([</span> 
+                <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">)),</span> 
+                <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Reshape</span><span class="p">(</span><span class="n">target_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> 
+                <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">),</span> 
+                <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Flatten</span><span class="p">(),</span> 
+                <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">),</span> 
+                <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> 
+        <span class="p">])</span> 
+
+        <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span> 
+                <span class="n">loss</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">SparseCategoricalCrossentropy</span><span class="p">(</span><span class="n">from_logits</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> 
+                <span class="n">optimizer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.001</span><span class="p">),</span> 
+                <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span> 
+        <span class="k">return</span> <span class="n">model</span> 
+
+ <span class="n">dataset</span> <span class="o">=</span> <span class="n">mnist_dataset</span><span class="p">(</span><span class="n">global_batch_size</span><span class="p">)</span> 
+
+ <span class="k">with</span> <span class="n">strategy</span><span class="o">.</span><span class="n">scope</span><span class="p">():</span> 
+        <span class="n">multi_worker_model</span> <span class="o">=</span> <span class="n">build_and_compile_cnn_model</span><span class="p">()</span> 
+
+ <span class="n">multi_worker_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">steps_per_epoch</span><span class="o">=</span><span class="n">BUFFER_SIZE</span><span class="p">)</span>
+</code></pre></div>
+
+<h4 id="2-1-4-gpu">2) 인터렉티브 작업 제출(1노드 4개 GPU)<a class="headerlink" href="#2-1-4-gpu" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>salloc<span class="w"> </span>--partition<span class="o">=</span>cas_v100_4<span class="w"> </span>--nodes<span class="o">=</span><span class="m">1</span><span class="w"> </span>--ntasks-per-node<span class="o">=</span><span class="m">4</span><span class="w"> </span>--gres<span class="o">=</span>gpu:4<span class="w"> </span>--comment<span class="o">=</span>etc
+<span class="gp">$ </span>conda<span class="w"> </span>activate<span class="w"> </span>tf_test
+<span class="gp gp-VirtualEnv">(tf_test)</span> <span class="gp">$ </span>module<span class="w"> </span>load<span class="w"> </span>python/3.7.1
+<span class="gp gp-VirtualEnv">(tf_test)</span> <span class="gp">$ </span>python<span class="w"> </span>tf_multi_keras.py
+</code></pre></div>
+
+<h4 id="3-1-4gputf_dist_runsh">3) 배치 작업 제출 스크립트(1노드 4GPU)(tf_dist_run.sh)<a class="headerlink" href="#3-1-4gputf_dist_runsh" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="c1">#SBATCH -J tf_dist_test</span>
+<span class="c1">#SBATCH -p cas_v100_4</span>
+<span class="c1">#SBATCH -N 1</span>
+<span class="c1">#SBATCH -n 4</span>
+<span class="c1">#SBATCH -o %x.o%j</span>
+<span class="c1">#SBATCH -e %s.e%j</span>
+<span class="c1">#SBATCH --time 00:30:00</span>
+<span class="c1">#SBATCH --gres=gpu:4</span>
+<span class="c1">#SBATCH –comment etc</span>
+
+module<span class="w"> </span>purge
+module<span class="w"> </span>load<span class="w"> </span>python/3.7.1
+
+<span class="nb">source</span><span class="w"> </span>activate<span class="w"> </span>tf_test
+
+python<span class="w"> </span>tf_multi_keras.py
+</code></pre></div>
+
+<h3 id="3-gpu-tfdistributemultiworkermirroedstrategy"><strong>3. 멀티 노드, 멀티 GPU 활용(tf.distribute.MultiWorkerMirroedStrategy() 사용)</strong><a class="headerlink" href="#3-gpu-tfdistributemultiworkermirroedstrategy" title="Permanent link">&para;</a></h3>
+<p>멀티 노드에서 활용하기 위해 전략을 수정하고 각 노드에 환경 변수 TF_CONFIG 설정합니다.</p>
+<h4 id="1_11">1) 코드 예제 수정<a class="headerlink" href="#1_11" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code>strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy()
+</code></pre></div>
+
+<h4 id="2-2-4-gpu">2) 인터렉티브 작업 제출(2노드 각 4 GPU)<a class="headerlink" href="#2-2-4-gpu" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span>salloc<span class="w"> </span>--partition<span class="o">=</span>cas_v100_4<span class="w"> </span>--nodes<span class="o">=</span><span class="m">2</span><span class="w"> </span>--ntasks-per-node<span class="o">=</span><span class="m">4</span><span class="w"> </span>--gres<span class="o">=</span>gpu:4<span class="w"> </span>--comment<span class="o">=</span>etc
+<span class="gp">$ </span>sconstrol<span class="w"> </span>show<span class="w"> </span>hostnames
+<span class="go">gpu01</span>
+<span class="go">gpu02</span>
+
+<span class="go">gpu01$ conda activate tf_test</span>
+<span class="gp gp-VirtualEnv">(tf_test)</span> <span class="gp">$ </span>module<span class="w"> </span>load<span class="w"> </span>python/3.7.1
+<span class="gp gp-VirtualEnv">(tf_test)</span> <span class="gp">$ </span><span class="nb">export</span><span class="w"> </span><span class="nv">TF_CONFIG</span><span class="o">=</span><span class="s1">&#39;{&quot;cluster&quot;: {&quot;worker&quot;: [&quot;gpu01:12345&quot;, &quot;gpu02:12345&quot;]}, &quot;task&quot;: {&quot;index&quot;: 0, &quot;type&quot;: &quot;worker&quot;}}&#39;</span>
+<span class="gp gp-VirtualEnv">(tf_test)</span> <span class="gp">$ </span>python<span class="w"> </span>tf_multi_keras.py
+
+<span class="go">gpu02$ conda activate tf_test</span>
+<span class="gp gp-VirtualEnv">(tf_test)</span> <span class="gp">$ </span>module<span class="w"> </span>load<span class="w"> </span>python/3.7.1
+<span class="gp gp-VirtualEnv">(tf_test)</span> <span class="gp">$ </span><span class="nb">export</span><span class="w"> </span><span class="nv">TF_CONFIG</span><span class="o">=</span><span class="s1">&#39;{&quot;cluster&quot;: {&quot;worker&quot;: [&quot;gpu01:12345&quot;, &quot;gpu02:12345&quot;]}, &quot;task&quot;: {&quot;index&quot;: 1, &quot;type&quot;: &quot;worker&quot;}}&#39;</span>
+<span class="gp gp-VirtualEnv">(tf_test)</span> <span class="gp">$ </span>python<span class="w"> </span>tf_multi_keras.py
+</code></pre></div>
+
+<h4 id="3-2-4gpu-tf_multi_runsh">3) 배치 작업 제출 스크립트(2노드 각4GPU) (tf_multi_run.sh)<a class="headerlink" href="#3-2-4gpu-tf_multi_runsh" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="c1">#SBATCH -J tf_multi_test</span>
+<span class="c1">#SBATCH -p 4gpu</span>
+<span class="c1">#SBATCH -N 2</span>
+<span class="c1">#SBATCH -n 4</span>
+<span class="c1">#SBATCH -o ./out/%x.o%j</span>
+<span class="c1">#SBATCH -e ./out/%x.e%j</span>
+<span class="c1">#SBATCH --time 01:00:00</span>
+<span class="c1">###SBATCH --gres=gpu:4</span>
+<span class="c1">#SBATCH --comment etc</span>
+
+module<span class="w"> </span>purge
+
+module<span class="w"> </span>load<span class="w"> </span>python/3.7.1
+<span class="nb">source</span><span class="w"> </span>activate<span class="w"> </span>tf_test
+
+<span class="nv">worker</span><span class="o">=(</span><span class="sb">`</span>scontrol<span class="w"> </span>show<span class="w"> </span>hostnames<span class="sb">`</span><span class="o">)</span>
+<span class="nv">num_worker</span><span class="o">=</span><span class="si">${#</span><span class="nv">worker</span><span class="p">[@]</span><span class="si">}</span>
+<span class="nv">PORT</span><span class="o">=</span><span class="m">12345</span>
+
+<span class="nb">unset</span><span class="w"> </span>TF_CONFIG
+<span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="si">${</span><span class="nv">worker</span><span class="p">[@]</span><span class="si">}</span>
+<span class="k">do</span>
+<span class="w">        </span><span class="nv">tmp_TF_CONFIG</span><span class="o">=</span><span class="se">\&quot;</span><span class="nv">$i</span><span class="s2">&quot;:&quot;</span><span class="nv">$PORT</span><span class="se">\&quot;</span>
+<span class="w">        </span><span class="nv">TF_CONFIG</span><span class="o">=</span><span class="nv">$TF_CONFIG</span><span class="s2">&quot;, &quot;</span><span class="nv">$tmp_TF_CONFIG</span>
+<span class="k">done</span>
+
+<span class="nv">TF_CONFIG</span><span class="o">=</span><span class="si">${</span><span class="nv">TF_CONFIG</span><span class="p">:</span><span class="nv">2</span><span class="si">}</span>
+<span class="nv">cluster</span><span class="o">=</span><span class="se">\&quot;</span>cluster<span class="se">\&quot;</span><span class="s2">&quot;: &quot;</span><span class="se">\{\&quot;</span>worker<span class="se">\&quot;</span><span class="s2">&quot;: &quot;</span><span class="se">\[</span><span class="nv">$TF_CONFIG</span><span class="se">\]\}</span>
+
+<span class="nv">j</span><span class="o">=</span><span class="m">0</span>
+
+<span class="k">while</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$j</span><span class="w"> </span>-lt<span class="w"> </span><span class="nv">$num_worker</span><span class="w"> </span><span class="o">]</span>
+<span class="k">do</span>
+<span class="w">        </span><span class="nv">task</span><span class="o">=</span><span class="se">\&quot;</span>task<span class="se">\&quot;</span><span class="s2">&quot;: &quot;</span><span class="se">\{\&quot;</span>index<span class="se">\&quot;</span><span class="s2">&quot;: &quot;</span><span class="nv">$j</span><span class="s2">&quot;, &quot;</span><span class="se">\&quot;</span>type<span class="se">\&quot;</span><span class="s2">&quot;: &quot;</span><span class="se">\&quot;</span>worker<span class="se">\&quot;\}</span>
+<span class="w">        </span><span class="nv">tmp</span><span class="o">=</span><span class="si">${</span><span class="nv">cluster</span><span class="si">}</span><span class="s2">&quot;, &quot;</span><span class="si">${</span><span class="nv">task</span><span class="si">}</span>
+<span class="w">        </span><span class="nv">tmp2</span><span class="o">=</span><span class="se">\&#39;\{</span><span class="si">${</span><span class="nv">tmp</span><span class="si">}</span><span class="se">\}\&#39;</span>
+<span class="w">        </span>ssh<span class="w"> </span><span class="si">${</span><span class="nv">worker</span><span class="p">[</span><span class="nv">$j</span><span class="p">]</span><span class="si">}</span><span class="w"> </span><span class="s2">&quot;conda activate tf_test; export TF_CONFIG=</span><span class="nv">$tmp2</span><span class="s2">; python tf_multi_keras.py” &amp;</span>
+<span class="s2">        j=</span><span class="k">$((</span><span class="nv">$j</span><span class="o">+</span><span class="m">1</span><span class="k">))</span>
+<span class="s2">done</span>
+</code></pre></div>
+
+<h3 id="4"><strong>4. 참조</strong><a class="headerlink" href="#4" title="Permanent link">&para;</a></h3>
+<ul>
+<li>케라스(Keras)를 활용한 분산 훈련(<a href="https://www.tensorflow.org/tutorials/distribute/keras">https://www.tensorflow.org/tutorials/distribute/keras</a>)</li>
+<li>[텐서플로2] MNIST 데이터를 훈련 데이터로 사용한 DNN 학습(<a href="http://www.gisdeveloper.co.kr/?p=8534">http://www.gisdeveloper.co.kr/?p=8534</a>)</li>
+</ul>
+<h2 id="pytorchddp"><strong>사. PytorchDDP</strong><a class="headerlink" href="#pytorchddp" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://pytorch.org/tutorials/intermediate/ddp_tutorial.html">PytorchDDP(DistributedDataParallel)</a>는 멀티 노드, 멀티GPU환경에서 실행할 수 있는 분산 데이터 병렬처리 기능을 제공합니다. PytorchDDP 기능 및 튜토리얼은 아래 웹사이트를 참고 바랍니다.</li>
+<li><a href="https://pytorch.org/tutorials/intermediate/ddp_tutorial.html">https://pytorch.org/tutorials/intermediate/ddp_tutorial.html</a></li>
+<li><a href="https://github.com/pytorch/examples/blob/main/distributed/ddp/README.md">https://github.com/pytorch/examples/blob/main/distributed/ddp/README.md</a></li>
+</ul>
+<p>아래 예제는 PytorchDDP를 slurm 스케줄러를 통한 실행 방법입니다.</p>
+<h3 id="1_12"><strong>1. 작업제출 스크립트 예제</strong><a class="headerlink" href="#1_12" title="Permanent link">&para;</a></h3>
+<h4 id="1-2gpu">1) 단일노드 예제(단일노드 2GPU)<a class="headerlink" href="#1-2gpu" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash -l</span>
+<span class="c1">#SBATCH -J PytorchDDP</span>
+<span class="c1">#SBATCH -p cas_v100_4</span>
+<span class="c1">#SBATCH --nodes=1</span>
+<span class="c1">#SBATCH --ntasks-per-node=1</span>
+<span class="c1">#SBATCH --gres=gpu:2</span>
+<span class="c1">#SBATCH --comment pytorch</span>
+<span class="c1">#SBATCH --time 1:00:00</span>
+<span class="c1">#SBATCH -o %x.o%j</span>
+<span class="c1">#SBATCH -e %x.e%j</span>
+
+<span class="c1"># Configuration</span>
+<span class="nv">traindata</span><span class="o">=</span><span class="s1">&#39;{path}&#39;</span>
+<span class="nv">master_port</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$((</span><span class="nv">RANDOM</span><span class="o">%</span><span class="m">55535</span><span class="o">+</span><span class="m">10000</span><span class="k">))</span><span class="s2">&quot;</span>
+
+<span class="c1"># Load software</span>
+conda<span class="w"> </span>activate<span class="w"> </span>pytorchDDP
+
+<span class="c1"># Launch one SLURM task, and use torch distributed launch utility</span>
+<span class="c1"># to spawn training worker processes; one per GPU</span>
+srun<span class="w"> </span>-N<span class="w"> </span><span class="m">1</span><span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span>python<span class="w"> </span>main.py<span class="w"> </span>-a<span class="w"> </span>config<span class="w"> </span><span class="se">\</span>
+<span class="w">                                </span>--dist-url<span class="w"> </span><span class="s2">&quot;tcp://127.0.0.1:</span><span class="si">${</span><span class="nv">master_port</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">                                </span>--dist-backend<span class="w"> </span><span class="s1">&#39;nccl&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">                                </span>--multiprocessing-distributed<span class="w"> </span><span class="se">\</span>
+<span class="w">                                </span>--world-size<span class="w"> </span><span class="nv">$SLURM_TASKS_PER_NODE</span><span class="w"> </span><span class="se">\</span>
+<span class="w">                                </span>--rank<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">                                </span><span class="nv">$traindata</span>
+</code></pre></div>
+
+<h4 id="2-2-2gpus">2) 멀티노드 예제(2노드 2GPUs)<a class="headerlink" href="#2-2-2gpus" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash -l</span>
+<span class="c1">#SBATCH -J PytorchDDP</span>
+<span class="c1">#SBATCH -p cas_v100_4</span>
+<span class="c1">#SBATCH --nodes=2</span>
+<span class="c1">#SBATCH --ntasks-per-node=1</span>
+<span class="c1">#SBATCH --gres=gpu:1</span>
+<span class="c1">#SBATCH --comment pytorch</span>
+<span class="c1">#SBATCH --time 10:00:0</span>
+<span class="c1">#SBATCH -o %x.o%j</span>
+<span class="c1">#SBATCH -e %x.e%j</span>
+
+<span class="c1"># Load software list</span>
+module<span class="w"> </span>load<span class="w"> </span><span class="o">{</span>module<span class="w"> </span>name<span class="o">}</span>
+conda<span class="w"> </span>activate<span class="w"> </span><span class="o">{</span>conda<span class="w"> </span>name<span class="o">}</span>
+
+<span class="c1"># Setup node list</span>
+<span class="nv">nodes</span><span class="o">=</span><span class="k">$(</span>scontrol<span class="w"> </span>show<span class="w"> </span>hostnames<span class="w"> </span><span class="nv">$SLURM_JOB_NODELIST</span><span class="k">)</span><span class="w"> </span><span class="c1"># Getting the node names</span>
+<span class="nv">nodes_array</span><span class="o">=(</span><span class="w"> </span><span class="nv">$nodes</span><span class="w"> </span><span class="o">)</span>
+<span class="nv">master_node</span><span class="o">=</span><span class="si">${</span><span class="nv">nodes_array</span><span class="p">[0]</span><span class="si">}</span>
+<span class="nv">master_addr</span><span class="o">=</span><span class="k">$(</span>srun<span class="w"> </span>--nodes<span class="o">=</span><span class="m">1</span><span class="w"> </span>--ntasks<span class="o">=</span><span class="m">1</span><span class="w"> </span>-w<span class="w"> </span><span class="nv">$master_node</span><span class="w"> </span>hostname<span class="w"> </span>--ip-address<span class="k">)</span>
+<span class="nv">master_port</span><span class="o">=</span><span class="k">$((</span><span class="nv">RANDOM</span><span class="o">%</span><span class="m">55535</span><span class="o">+</span><span class="m">10000</span><span class="k">))</span>
+<span class="nv">worker_num</span><span class="o">=</span><span class="k">$((</span><span class="nv">$SLURM_JOB_NUM_NODES</span><span class="k">))</span>
+
+<span class="c1"># Loop over nodes and submit training tasks</span>
+<span class="k">for</span><span class="w"> </span><span class="o">((</span><span class="w">  </span><span class="nv">node_rank</span><span class="o">=</span><span class="m">0</span><span class="p">;</span><span class="w"> </span>node_rank&lt;<span class="nv">$worker_num</span><span class="p">;</span><span class="w"> </span>node_rank++<span class="w"> </span><span class="o">))</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">          </span><span class="nv">node</span><span class="o">=</span><span class="si">${</span><span class="nv">nodes_array</span><span class="p">[</span><span class="nv">$node_rank</span><span class="p">]</span><span class="si">}</span>
+<span class="w">          </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Submitting node # </span><span class="nv">$node_rank</span><span class="s2">, </span><span class="nv">$node</span><span class="s2">&quot;</span>
+<span class="w">          </span><span class="c1"># Launch one SLURM task per node, and use torch distributed launch utility</span>
+<span class="w">          </span><span class="c1"># to spawn training worker processes; one per GPU</span>
+<span class="w">          </span>srun<span class="w"> </span>-N<span class="w"> </span><span class="m">1</span><span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span>-w<span class="w"> </span><span class="nv">$node</span><span class="w"> </span>python<span class="w"> </span>main.py<span class="w"> </span>-a<span class="w"> </span><span class="nv">$config</span><span class="w"> </span><span class="se">\</span>
+<span class="w">                                                             </span>--dist-url<span class="w"> </span>tcp://<span class="nv">$master_addr</span>:<span class="nv">$master_port</span><span class="w"> </span><span class="se">\</span>
+<span class="w">                                                             </span>--dist-backend<span class="w"> </span><span class="s1">&#39;nccl&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">                                                            </span>--multiprocessing-distributed<span class="w"> </span><span class="se">\</span>
+<span class="w">                                                            </span>--world-size<span class="w"> </span><span class="nv">$SLURM_JOB_NUM_NODES</span><span class="w"> </span><span class="se">\</span>
+<span class="w">                                                            </span>--rank<span class="w"> </span><span class="nv">$node_rank</span><span class="w"> </span><span class="p">&amp;</span>
+
+<span class="w">          </span>pids<span class="o">[</span><span class="si">${</span><span class="nv">node_rank</span><span class="si">}</span><span class="o">]=</span><span class="nv">$!</span>
+<span class="k">done</span>
+
+<span class="c1"># Wait for completion</span>
+<span class="k">for</span><span class="w"> </span>pid<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="si">${</span><span class="nv">pids</span><span class="p">[*]</span><span class="si">}</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">          </span><span class="nb">wait</span><span class="w"> </span><span class="nv">$pid</span>
+<span class="k">done</span>
+</code></pre></div>
+
+<p _="%" endhint="endhint">{% hint style="info" %}
+2022년 7월 7일에 마지막으로 업데이트 되었습니다.</p>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "navigation.path"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
