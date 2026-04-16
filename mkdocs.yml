@@ -54,8 +54,8 @@ nav:
 extra:
   analytics:
     provider: google
-    property: G-G3T2F096SV
-    
+    property: G-JXY0Y3GJXQ
+
 markdown_extensions:
   - md_in_html
   - meta
