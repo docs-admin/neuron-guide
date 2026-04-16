@@ -13,10 +13,6 @@ theme:
   font:
     text: Noto Sans KR  # 본문: 구글 본고딕 (가장 깔끔함)
     code: Nanum Gothic Coding
-    
-# watch:
-#   - mkdocs.yml
-#   - docs
 
 extra_javascript: []
 
@@ -27,8 +23,7 @@ plugins:
   - search
   - awesome-pages
 
-nav:
-  - Home: README.md
+nav:  
   - System:
     - 시스템 개요 및 구성 : system/neuron-system-overview-and-configuration.md
     - 사용자 환경: system/user-environment.md
@@ -50,12 +45,6 @@ nav:
     - SSH Port Forwarding 을 통한 Jupyter 작업 실행: appendix/ssh-port-forwarding-jupyter.md
     - NVIDIA GPU Profiling: appendix/nvidia-gpu-profiling.md
     - 컨테이너 활용 가이드(작성 중 초안): appendix/undefined.md
-
-extra:
-  analytics:
-    provider: google
-    property: G-TDN19Y17TR # Main G-Tag
-    # property: "G-JXY0Y3GJXQ" # data stream id 
 
 markdown_extensions:
   - md_in_html
@@ -82,3 +71,10 @@ markdown_extensions:
       custom_checkbox: true
   - pymdownx.tilde
   - pymdownx.snippets
+
+
+extra:
+  analytics:
+    provider: google
+    # property: G-G3T2F096SV # Main G-Tag
+    property: G-TDN19Y17TR # data stream id 
