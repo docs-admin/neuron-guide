@@ -54,9 +54,9 @@ nav:
 extra:
   analytics:
     provider: google
-    # property: G-G3T2F096SV # Main G-Tag
-    property: "G-JXY0Y3GJXQ" # data stream id 
-    
+    property: G-TDN19Y17TR # Main G-Tag
+    # property: "G-JXY0Y3GJXQ" # data stream id 
+
 markdown_extensions:
   - md_in_html
   - meta
